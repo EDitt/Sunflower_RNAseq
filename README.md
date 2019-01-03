@@ -21,4 +21,5 @@ Count the number of files to make sure you have the number you expect
 `ls -1 | wc -l`
 
 ## Step 3
+Use Trimmomatic to trim adapter sequence
 
