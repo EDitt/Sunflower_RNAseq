@@ -23,3 +23,9 @@ Count the number of files to make sure you have the number you expect
 ## Step 3
 Use Trimmomatic to trim adapter sequence
 
+## Step 4
+Use FASTQC to check quality of sequence data
+
+## Step 5
+Generate genome index for mapping using STAR (only needs to be done once)
+
