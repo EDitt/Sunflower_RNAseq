@@ -39,7 +39,8 @@ This strips the 001.fastq.gz from the filenames
 Use FASTQC to check quality of data and trimming
 
 ## Step 5
-Generate genome index for mapping using STAR (only needs to be done once) (see script _**Genome_Index.sh**_)
+Generate genome index for mapping using STAR (only needs to be done once) (see script _**Genome_Index.sh**_)  
+You will use the contents of the output file for the next step
 
 ## Step 6
 Map reads to your genome index using STAR
