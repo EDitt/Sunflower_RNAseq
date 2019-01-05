@@ -26,7 +26,7 @@ Count the number of files to make sure you have the number you expect
 `ls -1 | wc -l`
 
 ## Step 3
-Use Trimmomatic to trim adapter sequence (see script)
+Use Trimmomatic to trim adapter sequence (see script _**Trimm.sh**_)
 
 Move trimmed, paired reads to a new directory 
 `mv /filepath/to/RawData/*_paired.fq.gz /filepath/to/Paired`
