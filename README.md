@@ -43,5 +43,9 @@ Generate genome index for mapping using STAR (only needs to be done once) (see s
 You will use the contents of the output file for the next step
 
 ## Step 6
-Map reads to your genome index using STAR
+Map reads to your genome index using STAR (see script _**Read_Mapping.sh**__)
+  - I mapped reads from separate lanes/runs separately - this allows me to test for batch effects after this step and then combine the bam files from the same samples before proceeding
+
+## Step 7
+First, prepare the reference for RSEM (see script )
 
