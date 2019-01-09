@@ -4,7 +4,8 @@ A pipeline for analyzing sunflower expression responses to abiotic stress
 ## Programs Used:  
 Trimmomatic: http://www.usadellab.org/cms/uploads/supplementary/Trimmomatic/TrimmomaticManual_V0.32.pdf  
 FASTQC: https://dnacore.missouri.edu/PDF/FastQC_Manual.pdf  
-STAR: http://chagall.med.cornell.edu/RNASEQcourse/STARmanual.pdf
+STAR: http://chagall.med.cornell.edu/RNASEQcourse/STARmanual.pdf  
+RSEM: https://deweylab.github.io/RSEM/README.html
 
 ## Step 1
 Upload raw data into /project/jmblab/
@@ -47,5 +48,6 @@ Map reads to your genome index using STAR (see script _**Read_Mapping.sh**__)
   - I mapped reads from separate lanes/runs separately - this allows me to test for batch effects after this step and then combine the bam files from the same samples before proceeding
 
 ## Step 7
-First, prepare the reference for RSEM (see script )
+First, prepare the reference for RSEM (see script __**RSEM_prep_ref.sh**__)
+
 
