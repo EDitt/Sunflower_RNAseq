@@ -29,7 +29,7 @@ Count the number of files to make sure you have the number you expect
 ## Step 3
 Use Trimmomatic to trim adapter sequence (see script _**Trimm.sh**_)
 
-Move trimmed, paired reads to a new directory 
+Move trimmed, paired reads to a new directory
 `mv /filepath/to/RawData/*_paired.fq.gz /filepath/to/Paired`
 
 Change file extensions to simplify
@@ -50,5 +50,4 @@ Map reads to your genome index using STAR (see script _**Read_Mapping.sh**__)
 ## Step 7
 First, prepare the reference for RSEM (see script __**RSEM_prep_ref.sh**__)
 
-#test2
-
+#test45-b
