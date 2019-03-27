@@ -33,3 +33,5 @@ Map reads to your genome index using STAR (see script _**Read_Mapping.sh**__)
 
 ## Step 7
 First, prepare the reference for RSEM (see script __**RSEM_prep_ref.sh**__)
+
+t

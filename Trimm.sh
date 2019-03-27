@@ -2,7 +2,7 @@
 #PBS -q batch
 #PBS -N Trimm
 #PBS -l nodes=1:ppn=4:AMD
-#PBS -l walltime=12:00:00
+#PBS -l walltime=480:00:00
 #PBS -l mem=10gb
 
 #PBS -M dittmare@gmail.com
