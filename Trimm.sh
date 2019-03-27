@@ -12,7 +12,6 @@ cd $PBS_O_WORKDIR
 
 module load Trimmomatic/0.36-Java-1.8.0_144
 
-
 INPUTDIR="/scratch/eld72413/Salty_Nut/raw_files/Plate2/Run1" #where the raw sequence data is
 
 OUTPUTDIR="/scratch/eld72413/Salty_Nut/TrimmedReads" #where to put the trimmed sequences
