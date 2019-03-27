@@ -5,18 +5,18 @@
 #PBS -l walltime=480:00:00
 #PBS -l mem=10gb
 
-#PBS -M dittmare@gmail.com
+#PBS -M brittnein@gmail.com
 #PBS -m abe
 
 cd $PBS_O_WORKDIR
 
 module load Trimmomatic/0.36-Java-1.8.0_144
 
-INPUTDIR="/scratch/eld72413/Salty_Nut/raw_files/Plate2/Run1" #where the raw sequence data is
+INPUTDIR="/scratch/bnp34716/Sunflower/raw_files/FASTQ_Generation_2019-02-01_12_31_04Z-156244089" #where the raw sequence data is
 
-OUTPUTDIR="/scratch/eld72413/Salty_Nut/TrimmedReads" #where to put the trimmed sequences
+OUTPUTDIR="/scratch/bnp34716/Sunflower/Trimmed" #where to put the trimmed sequences
 
-ADAPTERFILE="/home/eld72413/SaltNut/illumina_adapters.txt" #path to adapter file
+ADAPTERFILE="/home/bnp34716/Scratch/Sunflower/illumina_adapters.txt" #path to adapter file
 
 for d in $INPUTDIR/*ds*; do
 if [[ -d "$d" ]]; then
