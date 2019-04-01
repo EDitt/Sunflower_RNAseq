@@ -30,6 +30,7 @@ if [[ -f "${files[${PBS_ARRAYID}]}" ]]; then
 	f1="${files[${PBS_ARRAYID}]}"
 	f2=${f1%%1_paired.fq.gz}"2_paired.fq.gz"
 	name=$(basename ${f1%%_R1_paired.fq.gz}"_")
+	echo "Mapping $name Reads"
 	/usr/local/apps/eb/STAR/2.6.1c-foss-2016b/bin/STAR \
 	--runThreadN 4 \
 	--outFileNamePrefix $OUTPUTDIR/"$name" \
