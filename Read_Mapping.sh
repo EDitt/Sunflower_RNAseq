@@ -4,7 +4,7 @@
 #PBS -l nodes=1:ppn=4
 #PBS -l walltime=480:00:00
 #PBS -l mem=50gb
-#PBS -t 0-379%20
+#PBS -t 0-383%20
 
 #PBS -M brittnein@gmail.com
 #PBS -m abe
