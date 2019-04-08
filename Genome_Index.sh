@@ -12,4 +12,11 @@ cd /scratch/eld72413/Salty_Nut
 
 module load STAR/2.6.1c-foss-2016b
 
-/usr/local/apps/eb/STAR/2.6.1c-foss-2016b/bin/STAR --runThreadN 4 --runMode genomeGenerate --genomeDir /scratch/eld72413/XRQ_GenomeDir/GenomeDirNew --genomeFastaFiles /scratch/eld72413/XRQ_GenomeDir/XRQ_June2018.fa --sjdbGTFtagExonParentTranscript Parent --sjdbGTFfile /scratch/eld72413/XRQ_GenomeDir/FixedXRQ_June2018.gff3 --sjdbOverhang 74
+/usr/local/apps/eb/STAR/2.6.1c-foss-2016b/bin/STAR \
+--runThreadN 4 \
+--runMode genomeGenerate \
+--genomeDir /scratch/eld72413/HA412_GenomeDir \
+--genomeFastaFiles /scratch/eld72413/Ha412HOv2.0/Ha412HOv2.0-20181130.fasta \
+--sjdbGTFtagExonParentTranscript Parent \
+--sjdbGTFfile /scratch/eld72413/Ha412HOv2.0/Ha412HOv2.0-20181130.gff3 \
+--sjdbOverhang 74
