@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #   Name this project
-PROJECT=Test
+PROJECT=Test2
 
 #   What email should we use for job notifications?
 EMAIL=dittmare@gmail.com
@@ -33,37 +33,63 @@ QA_TEMP="/scratch/eld72413/Tmp"
 ############################################
 
 #   What are our QSub settings for Adapter_Trimming?
-#       Below are the recommended settings
-AT_QSUB="mem=1gb,nodes=1:ppn=4,walltime=50:00:00"
+#   Below are the recommended settings
+AT_QSUB="mem=10gb,nodes=1:ppn=4,walltime=450:00:00"
 
 #   Where are the directories?
-#       Include the full file path to the raw directories
+#   Include the full file path to the raw directories
 AT_INPUTDIR="/home/eld72413/SaltNut/ScriptTest/Input"
 
 #   Where do you want the Trimmed Samples to go?
-AT_OUTPUTDIR="/home/eld72413/SaltNut/ScriptTest/Output"
+AT_OUTPUTDIR="/home/eld72413/SaltNut/ScriptTest/Trimmed"
 
 #	What is our adapter file? Include the full file path.
 ADAPTERFILE="/home/eld72413/SaltNut/illumina_adapters.txt"
 
-#	Where 
-LEADCUT=
-
-#	Where 
-TRAILCUT=
-
-#	Where 
-MINLEN=
+#	Is data paired-end? ("True" or "False")
+PE=True
 
 #   What shared suffix do the forward samples have?
 #       Example: _1_sequence.txt.gz
-FORWARD_NAMING=_R1.fastq.gz
+FORWARD_NAMING=R1_001.fastq.gz
 
 #   What shared suffix do the reverse samples have?
 #       Example: _2_sequence.txt.gz
-REVERSE_NAMING=_R2.fastq.gz
+#	(Only relevant for paired-end data)
+REVERSE_NAMING=R2_001.fastq.gz
 
-#   TO DO: Handle single-end reads
+#	The maximum mismatch count allowed for the "seed" (small section of adapter),
+#	which causes the entire alignment between the read and adapter to be scored.
+SEEDMISMATCH=2
+
+#	The minimum alignment score threshold for clipping adapter sequence
+#	A palindroma approach is used to check for adapter 'read-through'
+#	This strategy is only used in PE data, but a value must still be supplied
+PALINDROMECLIP=30
+
+#	The minimum alignment score threshold for clipping adapter sequence
+SIMPLECLIP=10
+
+#	The minimum length of adapter sequence to be removed
+#	Only relevant for Paired-end data
+MINADAPTERLEN=1
+
+#	Whether to keep the reverse read if adapter read-through has been detected by palindrome mode
+#	the default behavior is to entirely drop the reverse read
+#	Only relevant for Paired-end data
+KEEPREADS=true
+
+#	Low quality bases are removed from the beginning of the sequence.
+#	What is the minimum quality value required to keep a base at the beginning?
+LEADCUT=3
+
+#	Low quality bases are removed from the end of the sequence.
+#	What is the minimum quality value required to keep a base at the end?
+TRAILCUT=3
+
+#	Reads below a specified minimum length are removed (dropped after other processing steps)
+#	What is the minimum length required of reads to be kept?
+MINLENGTH=20
 
 ############################################
 ##########      Dependencies      ##########
