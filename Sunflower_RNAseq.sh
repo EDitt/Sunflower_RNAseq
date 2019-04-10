@@ -30,14 +30,29 @@ case "${ROUTINE}" in
         declare -a files #an array of directories to each sample
         for d in $QA_INPUTDIR/*ds*; do
             if [[ -d "$d" ]]; then
-            files=("${files[@]}" "$d")
-        else echo "Please specify a path to valid directories in the config file"
+                files=("${files[@]}" "$d")
+            else 
+                echo "Please specify a path to valid directories in the config file"
             fi
         done
         Maxarray=${#files[@]}
         echo "Max array index is ${Maxarray}">&2
         #source "${SUNFLOWER_RNA}"/FASTQC.sh
         echo "source ${CONFIG} && source ${SUNFLOWER_RNASEQ}/FASTQC.sh" | qsub -l "${QA_QSUB}" -e "${ERROR}" -o "${ERROR}" -m abe -M "${EMAIL}" -N "${PROJECT}"_Quality_Assessment -t 1-"${Maxarray}"%20
+        ;;
+    2 | Adapter_Trimming)
+        echo "$(basename $0): Trimming Adapters..." >&2
+        declare -a files #an array of directories to each sample
+        for d in $AT_INPUTDIR/*ds*; do
+            if [[ -d "$d" ]]; then
+                files=("${files[@]}" "$d")
+            else
+                echo "Please specify a path to valid directories in the config file"
+            fi
+        done
+        Maxarray=${#files[@]}
+        echo "Max array index is ${Maxarray}">&2
+        echo "source ${CONFIG} && source ${SUNFLOWER_RNASEQ}/Trimm.sh" | qsub -l "${AT_QSUB}" -e "${ERROR}" -o "${ERROR}" -m abe -M "${EMAIL}" -N "${PROJECT}"_Adapter_Trimming -t 1-"${Maxarray}"%20
         ;;
 * )
 esac

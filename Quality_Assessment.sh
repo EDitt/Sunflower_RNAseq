@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -o pipefail
+
 cd $QA_INPUTDIR
 
 dir=$(find $(pwd -P) -maxdepth 1 -name "*ds*" | sed -n ${PBS_ARRAYID}p)

@@ -17,7 +17,7 @@ Raw data is uploaded/stored in a project folder in the /project/jmblab/ director
 (only accessible through the xfer node)
 
 To analyze this raw data, simply copy this data into your working scratch directory. Do not manipulate the directory structure or names of directories, as this pipeline is designed to be used on the raw data in the format it comes from BaseSpace. 
-The raw data comes in directories (of the format "SampleID_PlateWell_LaneNum-ds.letters/numbers"), each containing fastq.gz files (2 files if paired-end sequencing). Manipulating this directory structure or directory names will cause the Sunflower_RNAseq program to not work.
+The raw data comes in directories (of the format "SampleID_PlateWell_LaneNum-ds.letters/numbers"), each containing fastq.gz files (2 files if paired-end sequencing). Manipulating this directory structure or directory names will cause the Sunflower_RNAseq program to not work properly.
 
 
 ## Step 1: Quality Assessment
@@ -34,9 +34,15 @@ And then while in the output directory containing your FASTQC results, simply ru
 This program will then output summary statistics from your FastQ results
 
 ## Step 2: Adapter Trimming
-The `Trimm.sh` handler uses Trimmomatic to trim adapter sequences from FastQ files. This program takes paired-end information into account when doing so.
+The Adapter_Trimming handler uses Trimmomatic to trim adapter sequences from FastQ files. Trimmomatic takes paired-end information into account when doing so (if applicable). This handler uses the raw fastq.gz files downloaded directly from Basespace (Directories named: "SampleID_PlateWell_LaneNum-ds.letters/numbers"). This handler will work with paired-end or single-end sequencing data.
 
-It is recommended that you re-run Quality_Assessment after adapter trimming to ensure that the program eliminated any adapter contamination
+To run Adapter_Trimming, all common and handler-specific variables must be defined within the configuration file. Once the variables have been defined, Adapter_Trimming can be submitted to a job scheduler with the following command (assuming that you are in the directory containing `Sunflower_RNAseq`)
+`./Sunflower_RNAseq Adapter_Trimming Config`
+where `Config` is the full file path to the configuration file
+
+In addition to adapter trimming, Trimmomatic can also perform quality trimming. However, the Adapter_Trimming handler used here does not use Trimmomatic's quality trimming options. Many caution against quality trimming, as it is believed to be unnecessary since read mapping approaches can take quality scores into account. If you do want to use Trimmomatic's quality trimming capabilities, the `Trimm.sh` code must be modified and new variables defined in the configuration file. Read the Trimmomatic manual for more information.
+
+It is recommended that you re-run Quality_Assessment after adapter trimming to ensure that any adapter contamination was eliminated.
 
 ## Step 3: Generate a Genome Index
 
