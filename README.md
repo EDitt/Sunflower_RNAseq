@@ -1,5 +1,6 @@
 # Sunflower_RNAseq
 A pipeline for analyzing sunflower expression responses to abiotic stress
+## Inspired by the Morrell lab Sequencing Handling Pipeline
 
 ## Programs Used:  
 Trimmomatic: http://www.usadellab.org/cms/uploads/supplementary/Trimmomatic/TrimmomaticManual_V0.32.pdf  
