@@ -1,10 +1,10 @@
 #!/bin/bash
 
 #   Name this project
-PROJECT=Test
+PROJECT=
 
 #   What email should we use for job notifications?
-EMAIL=dittmare@gmail.com
+EMAIL=
 
 ############################################
 ##########   Quality_Assessment   ##########
@@ -20,13 +20,13 @@ QA_QSUB="mem=1gb,nodes=1:ppn=4,walltime=6:00:00"
 #	Directories are named in the following format:
 #	SampleID_PlateWell_LaneNum-ds.letters/numbers
 #       Include the full file path to these directories containing your raw data
-QA_INPUTDIR="/home/eld72413/SaltNut/ScriptTest/Input"
+QA_INPUTDIR=""
 
 #   Where do you want the FastQC results?
-QA_OUTPUTDIR="/home/eld72413/SaltNut/ScriptTest/Output"
+QA_OUTPUTDIR=""
 
 #	A place for FASTQC to store temporary files
-QA_TEMP="/scratch/eld72413/Tmp"
+QA_TEMP=""
 
 ############################################
 ##########    Adapter_Trimming    ##########
@@ -38,13 +38,13 @@ AT_QSUB="mem=1gb,nodes=1:ppn=4,walltime=50:00:00"
 
 #   Where are the directories?
 #       Include the full file path to the raw directories
-AT_INPUTDIR="/home/eld72413/SaltNut/ScriptTest/Input"
+AT_INPUTDIR=""
 
 #   Where do you want the Trimmed Samples to go?
-AT_OUTPUTDIR="/home/eld72413/SaltNut/ScriptTest/Output"
+AT_OUTPUTDIR=""
 
 #	What is our adapter file? Include the full file path.
-ADAPTERFILE="/home/eld72413/SaltNut/illumina_adapters.txt"
+ADAPTERFILE=""
 
 #	Where 
 LEADCUT=
