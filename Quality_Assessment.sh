@@ -1,11 +1,19 @@
 #!/bin/bash
 
-set -o pipefail
+cd $QA_INPUTDIR
 
-dir="${files[${PBS_ARRAYID}]}"
+dir=$(find $(pwd -P) -maxdepth 1 -name "*ds*" | sed -n ${PBS_ARRAYID}p)
+
+if [[ -d "$dir" ]]; then
 	for f in $dir/*.fastq.gz; do
+		if [[ -f "$f" ]]; then
 		fastqc -o $QA_OUTPUTDIR \
-		-a $ADAPTERFILE \
 		-d $QA_TEMP \
 		-t 6 $f
-	done
+	else
+		echo "$f is not a valid file"
+	fi
+done
+else
+	echo "$dir" is not a valid directory
+fi
