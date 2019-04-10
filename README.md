@@ -27,31 +27,26 @@ To run Quality_Assessment, all common and handler-specific variables must be def
 `./Sunflower_RNAseq Quality_Assessment Config`
 where `Config` is the full file path to the configuration file
 
-To get summaries for FastQC results, it is recommended MultiQC is recommended. After Quality_Assessment has finished running, load this module:
+To get summaries for FastQC results, MultiQC is recommended. After Quality_Assessment has finished running, load this module:
 `module load MultiQC/1.5-foss-2016b-Python-2.7.14`
 And then while in the output directory containing your FASTQC results, simply run
 `multiqc .`
 This program will then output summary statistics from your FastQ results
 
-## Step 2
-Copy data into working 'scratch' directory.
+## Step 2: Adapter Trimming
+The `Trimm.sh` handler uses Trimmomatic to trim adapter sequences from FastQ files. This program takes paired-end information into account when doing so.
 
-Count the number of files to make sure you have the number you expect
-`ls -1 | wc -l`
+It is recommended that you re-run Quality_Assessment after adapter trimming to ensure that the program eliminated any adapter contamination
 
-## Step 3
-Use Trimmomatic to trim adapter sequence (see script _**Trimm.sh**_)
+## Step 3: Generate a Genome Index
 
-## Step 4
-Use FASTQC to check quality of data and trimming
-
-## Step 5
 Generate genome index for mapping using STAR (only needs to be done once) (see script _**Genome_Index.sh**_)  
 You will use the contents of the output file for the next step
 
-## Step 6
+
+## Step 4: Read Mapping
 Map reads to your genome index using STAR (see script _**Read_Mapping.sh**__)
   - I mapped reads from separate lanes/runs separately - this allows me to test for batch effects after this step and then combine the bam files from the same samples before proceeding
 
-## Step 7
+## Step 5: Counting Reads
 First, prepare the reference for RSEM (see script __**RSEM_prep_ref.sh**__)
