@@ -46,9 +46,14 @@ It is recommended that you re-run Quality_Assessment after adapter trimming to e
 
 ## Step 3: Generate a Genome Index
 
-Generate genome index for mapping using STAR (only needs to be done once) (see script _**Genome_Index.sh**_)  
-You will use the contents of the output file for the next step
+This handler will generate a genome index using FASTA and GFF3 formatted annotations. This step only needs to be performed only once for each genome/annotation combination.
 
+If using a GTF file instead of a GFF3 file for genome indexing (the default file format for this step), the line `--sjdbGTFtagExonParentTranscript Parent` should be commented out of the Genome_Index.sh script.
+
+To run Genome_Index, all common and handler-specific variables must be defined within the configuration file. Once the variables have been defined, Genome_Index can be submitted to a job scheduler with the following command (assuming that you are in the directory containing `Sunflower_RNAseq`)
+`./Sunflower_RNAseq Genome_Index Config` where `Config` is the full file path to the configuration file.
+
+You will use the contents of the output (directory specified in the Config file) for the next step
 
 ## Step 4: Read Mapping
 Map reads to your genome index using STAR (see script _**Read_Mapping.sh**__)
