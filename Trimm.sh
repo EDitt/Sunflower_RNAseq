@@ -12,7 +12,6 @@ if [[ -d "$dir" ]]; then
 	for f1 in "$dir"/*${FORWARD_NAMING}; do
 		if [[ -f "$f1" ]]; then
 			if [ "$PE" == "True" ]; then
-				#f2=${f1%%1_001.fastq.gz}"2_001.fastq.gz"
 				f2=${f1%%$FORWARD_NAMING}"$REVERSE_NAMING"
 				java -jar $EBROOTTRIMMOMATIC/trimmomatic-0.36.jar PE \
 				-threads 4 \
@@ -36,5 +35,5 @@ if [[ -d "$dir" ]]; then
 		fi
 	done
 else
-	echo "${files[${PBS_ARRAYID}]} is not a valid directory"
+	echo "$dir is not a valid directory"
 fi

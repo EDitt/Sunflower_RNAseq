@@ -56,8 +56,14 @@ To run Genome_Index, all common and handler-specific variables must be defined w
 You will use the contents of the output (directory specified in the Config file) for the next step
 
 ## Step 4: Read Mapping
-Map reads to your genome index using STAR (see script _**Read_Mapping.sh**__)
-  - I mapped reads from separate lanes/runs separately - this allows me to test for batch effects after this step and then combine the bam files from the same samples before proceeding
+
+The Read_Mapping handler uses STAR to map reads to the genome indexed in step 3.
+
+To run Read_Mapping, all common and handler-specific variables must be defined within the configuration file. Once the variables have been defined, Read_Mapping can be submitted to a job scheduler with the following command (assuming that you are in the directory containing `Sunflower_RNAseq`)
+`./Sunflower_RNAseq Read_Mapping Config` where `Config` is the full file path to the configuration file.
+
+If you have sequence data from the same sample across multiple lanes/runs, the best practice is to map these separately (in order to test for batch effects), and then combine resulting bam files for each sample before proceeding to transcript quantification.
+
 
 ## Step 5: Counting Reads
 First, prepare the reference for RSEM (see script __**RSEM_prep_ref.sh**__)
