@@ -92,6 +92,41 @@ TRAILCUT=3
 MINLENGTH=20
 
 ############################################
+##########    Genome_Index        ##########
+############################################
+
+#   What are our QSub settings for Genome_Index?
+#   Below are the recommended settings
+GI_QSUB="mem=50gb,nodes=1:ppn=4,walltime=450:00:00"
+
+#   Where do you want the files for your genome index?
+#	This direcotry has to be created before program will run and needs writing permissions
+#	This directory path will also be used in the next read mapping step
+#	Include the full filepath
+GEN_DIR=""
+
+#   Where is the Genome FASTA file?
+#	Include the full filepath
+GEN_FASTA=""
+
+#   Where is the Genome .gff3 file?
+#   Include the full filepath
+GEN_GFF3=""
+
+#   Specify the length of genomic sequence to be used in constructing the splice junctions database.
+#   This length should be equal to ReadLength-1, where ReadLength is the length of reads
+#	(ex. for 2x100bp paired-end reads, the ideal value is 99)
+SPLICE_JUN=74
+
+############################################
+##########    Read_Mapping        ##########
+############################################
+
+#####IMPORTANT:
+# Make sure that the "GEN_DIR" variable is supplied above (under Genome Index)
+# This directory will also be used for read mapping
+
+############################################
 ##########      Dependencies      ##########
 ############################################
 
@@ -104,3 +139,9 @@ module load FastQC/0.11.8-Java-1.8.0_144
 
 #	Do we have Trimmomatic installed?
 module load Trimmomatic/0.36-Java-1.8.0_144
+
+#	Do we have STAR installed?
+module load STAR/2.6.1c-foss-2016b
+
+#	Do we have RSEM installed?
+module load RSEM/1.3.1-foss-2016b
