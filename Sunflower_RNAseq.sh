@@ -79,7 +79,7 @@ case "${ROUTINE}" in
                 fi
             done
         else
-            echo "Please specify in the config file whether date is PE (True/False)"
+            echo "Please specify in the config file whether data is PE (True/False)"
         fi
         Maxarray=${#files[@]}
         echo "Max array index is ${Maxarray}">&2
