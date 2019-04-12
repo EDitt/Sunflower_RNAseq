@@ -172,6 +172,10 @@ MINSCORE_READL=0.66
 #	Normalized by read length- (sum of mates' lengths for paired-end reads)
 MINMATCH_READL=0.66
 
+############################################
+##########    Prepare_Reference   ##########
+############################################
+
 
 ############################################
 ##########      Dependencies      ##########

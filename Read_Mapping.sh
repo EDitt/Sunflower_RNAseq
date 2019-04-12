@@ -20,7 +20,7 @@ if [ "$PE" == "True" ]; then
 		--outFilterScoreMinOverLread $MINSCORE_READL \
 		--outFilterMatchNminOverLread $MINMATCH_READL \
 		--outReadsUnmapped $UNMAP_F \
-		--quantMode $QUANT \
+		--quantMode $QUANT
 	else
 		echo "$f1 and $f2 are not both valid files"
 	fi
@@ -40,7 +40,7 @@ elif [ "$PE" == "False" ]; then
 		--outFilterScoreMinOverLread $MINSCORE_READL \
 		--outFilterMatchNminOverLread $MINMATCH_READL \
 		--outReadsUnmapped $UNMAP_F \
-		--quantMode $QUANT \
+		--quantMode $QUANT
 	else
 		echo "$f1 is not a valid file"
 	fi
