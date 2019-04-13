@@ -46,9 +46,9 @@ It is recommended that you re-run Quality_Assessment after adapter trimming to e
 
 ## Step 3: Generate a Genome Index
 
-This handler will generate a genome index using FASTA and GFF3 formatted annotations. This step only needs to be performed only once for each genome/annotation combination.
+This handler will generate a genome index using FASTA and GFF3 or GTF formatted annotations. This step only needs to be performed once for each genome/annotation combination.
 
-If using a GTF file instead of a GFF3 file for genome indexing (the default file format for this step), the line `--sjdbGTFtagExonParentTranscript Parent` should be commented out of the Genome_Index.sh script.
+If using a GFF3 file for genome indexing rather than the default GTF file, the option `--sjdbGTFtagExonParentTranscript Parent` is added to the script 
 
 To run Genome_Index, all common and handler-specific variables must be defined within the configuration file. Once the variables have been defined, Genome_Index can be submitted to a job scheduler with the following command (assuming that you are in the directory containing `Sunflower_RNAseq`)
 `./Sunflower_RNAseq Genome_Index Config` where `Config` is the full file path to the configuration file.
@@ -65,5 +65,10 @@ To run Read_Mapping, all common and handler-specific variables must be defined w
 If you have sequence data from the same sample across multiple lanes/runs, the best practice is to map these separately (in order to test for batch effects), and then combine resulting bam files for each sample before proceeding to transcript quantification.
 
 
-## Step 5: Counting Reads
-First, prepare the reference for RSEM (see script __**RSEM_prep_ref.sh**__)
+## Step 6: Reference Prep
+
+The Ref_Prep handler uses RSEM to prepare reference transcripts used for transcript quantification
+
+RSEM can extract reference sequences from a genome if it is provided with gene annotations in a GTF/GFF3 file. If the annotation file is in GFF3 format, RSEM will first convert it to GTF format with the file name 'reference_name.gtf'
+
+Alternatively, you can provide RSEM with transcript sequences directly in the form of fasta files. To do this the `--gtf` or `--gff3` flags should be commented out of the Ref_Prep.sh script. In this case, RSEM assumes the reference fasta files contain the reference transcripts and that the name of each sequence in the Multi-FASTA files are transcript IDs.

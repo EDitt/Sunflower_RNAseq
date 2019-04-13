@@ -2,11 +2,23 @@
 
 set -o pipefail
 
-/usr/local/apps/eb/STAR/2.6.1c-foss-2016b/bin/STAR \
---runThreadN $NTHREAD \
---runMode genomeGenerate \
---genomeDir $GEN_DIR \
---genomeFastaFiles $GEN_FASTA \
---sjdbGTFtagExonParentTranscript Parent \
---sjdbGTFfile $GEN_GFF3 \
---sjdbOverhang $SPLICE_JUN
+if [ "$ANNOTATION_FORMAT" == "GFF3" ]; then
+	/usr/local/apps/eb/STAR/2.6.1c-foss-2016b/bin/STAR \
+	--runThreadN $NTHREAD \
+	--runMode genomeGenerate \
+	--genomeDir $GEN_DIR \
+	--genomeFastaFiles $GEN_FASTA \
+	--sjdbGTFtagExonParentTranscript Parent \
+	--sjdbGTFfile $GEN_ANN \
+	--sjdbOverhang $SPLICE_JUN
+elif [ "$ANNOTATION_FORMAT" == "GTF" ]; then
+	/usr/local/apps/eb/STAR/2.6.1c-foss-2016b/bin/STAR \
+	--runThreadN $NTHREAD \
+	--runMode genomeGenerate \
+	--genomeDir $GEN_DIR \
+	--genomeFastaFiles $GEN_FASTA \
+	--sjdbGTFfile $GEN_ANN \
+	--sjdbOverhang $SPLICE_JUN
+else
+	echo "Please specify whether annotation file is in GTF or GFF3 format"
+fi
