@@ -85,9 +85,14 @@ case "${ROUTINE}" in
         echo "Max array index is ${Maxarray}">&2
         echo "source ${CONFIG} && source ${SUNFLOWER_RNASEQ}/Read_Mapping.sh" | qsub -l "${RM_QSUB}" -e "${ERROR}" -o "${ERROR}" -m abe -M "${EMAIL}" -N "${PROJECT}"_Read_Mapping -t 1-"${Maxarray}"%20
         ;;
-    5 | Reference_Prep)
+    5 | Merge_BAM)
+        echo "$(basename $0): Merging BAM files..." >&2
+        ;;
+    6 | Reference_Prep)
         echo "$(basename $0): Preparing Reference for Quantification..." >&2
         echo "source ${CONFIG} && source ${SUNFLOWER_RNASEQ}/Ref_Prep.sh" | qsub -l "${RP_QSUB}" -e "${ERROR}" -o "${ERROR}" -m abe -M "${EMAIL}" -N "${PROJECT}"_Reference_Prep
+        ;;
+    7 | Transcript_Quant)
         ;;
     * )
 esac
