@@ -64,6 +64,11 @@ To run Read_Mapping, all common and handler-specific variables must be defined w
 
 If you have sequence data from the same sample across multiple lanes/runs, the best practice is to map these separately (in order to test for batch effects), and then combine resulting bam files for each sample before proceeding to transcript quantification.
 
+## Step 5: Merge BAM (Optional)
+**** Script in-progress
+
+If you choose to map reads from different runs/lanes for the same sample (recommended), the Merge_BAM handler will merge the BAM files from the STAR output before proceeding to transcript quantification.
+
 
 ## Step 6: Reference Prep
 
@@ -72,3 +77,5 @@ The Ref_Prep handler uses RSEM to prepare reference transcripts used for transcr
 RSEM can extract reference sequences from a genome if it is provided with gene annotations in a GTF/GFF3 file. If the annotation file is in GFF3 format, RSEM will first convert it to GTF format with the file name 'reference_name.gtf'
 
 Alternatively, you can provide RSEM with transcript sequences directly in the form of fasta files. To do this the `--gtf` or `--gff3` flags should be commented out of the Ref_Prep.sh script. In this case, RSEM assumes the reference fasta files contain the reference transcripts and that the name of each sequence in the Multi-FASTA files are transcript IDs.
+
+## Step 7: Transcript Quantification
