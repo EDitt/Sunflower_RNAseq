@@ -37,7 +37,7 @@ case "${ROUTINE}" in
         Maxarray=${#files[@]}
         echo "Max array index is ${Maxarray}">&2
         #source "${SUNFLOWER_RNA}"/FASTQC.sh
-        echo "source ${CONFIG} && source ${SUNFLOWER_RNASEQ}/FASTQC.sh" | qsub -l "${QA_QSUB}" -e "${ERROR}" -o "${ERROR}" -m abe -M "${EMAIL}" -N "${PROJECT}"_Quality_Assessment -t 1-"${Maxarray}"%20
+        echo "source ${CONFIG} && source ${SUNFLOWER_RNASEQ}/Quality_Assessment.sh" | qsub -l "${QA_QSUB}" -e "${ERROR}" -o "${ERROR}" -m abe -M "${EMAIL}" -N "${PROJECT}"_Quality_Assessment -t 1-"${Maxarray}"%20
         ;;
     2 | Adapter_Trimming)
         echo "$(basename $0): Trimming Adapters..." >&2
@@ -93,6 +93,7 @@ case "${ROUTINE}" in
         echo "source ${CONFIG} && source ${SUNFLOWER_RNASEQ}/Ref_Prep.sh" | qsub -l "${RP_QSUB}" -e "${ERROR}" -o "${ERROR}" -m abe -M "${EMAIL}" -N "${PROJECT}"_Reference_Prep
         ;;
     7 | Transcript_Quant)
+        echo "$(basename $0): Quantifying Transcripts..." >&2
         ;;
     * )
 esac
