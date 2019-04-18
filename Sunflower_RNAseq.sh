@@ -87,6 +87,13 @@ case "${ROUTINE}" in
         ;;
     5 | Merge_BAM)
         echo "$(basename $0): Merging BAM files..." >&2
+        if [[ -f "$ID_NAMES" ]]; then
+            Maxarray=$(cat $ID_NAMES | wc -l)
+            echo "Max array index is ${Maxarray}" >&2
+            echo "source ${CONFIG} && source ${SUNFLOWER_RNASEQ}/Merge_BAM.sh" | qsub -l "${MB_QSUB}" -e "${ERROR}" -o "${ERROR}" -m abe -M "${EMAIL}" -N "${PROJECT}"_Merge_BAM -t 1-"${Maxarray}"%20
+        else
+            echo "Please specify a valid file containing a list of directory names in the Config file"
+        fi
         ;;
     6 | Reference_Prep)
         echo "$(basename $0): Preparing Reference for Quantification..." >&2
