@@ -223,14 +223,21 @@ ID_NAMES=""
 #	Below are the recommended settings
 RP_QSUB="mem=50gb,nodes=1:ppn=4,walltime=450:00:00"
 
+#	Where do you want to put the RSEM reference files?
+#	Include the full filepath
+RSEM_ref=""
+
 #	What do you want to call the reference that RSEM prepares?
 #	RSEM will generate several reference-related files that are prefixed by this name
-#	This name should include path information
 REF_NAME=""
 
 ############################################
 ##########    Transcript_Quant   ###########
 ############################################
+
+#####IMPORTANT:
+# The variables: 
+# "RSEM_ref", and "REF_NAME" MUST be supplied above
 
 #	What are our QSub settings for Preparing the Reference?
 #	Below are the recommended settings
@@ -242,10 +249,6 @@ TQ_INPUTDIR=""
 
 #   Where do you want your results? Include the full file path
 TQ_OUTPUTDIR=""
-
-#	Where is the RSEM reference files (generated in previous step)?
-#	Include the full filepath
-RSEM_ref=""
 
 ############################################
 ##########      Dependencies      ##########
