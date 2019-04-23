@@ -7,13 +7,13 @@ if [ "$ANNOTATION_FORMAT" == "GFF3" ]; then
 	--star  \
 	--gff3 $GEN_ANN \
 	$GEN_FASTA \
-	$REF_NAME
+	$RSEM_ref/$REF_NAME
 elif [ "$ANNOTATION_FORMAT" == "GTF" ]; then
 	rsem-prepare-reference \
 	--star  \
 	--gtf $GEN_ANN \
 	$GEN_FASTA \
-	$REF_NAME
+	$RSEM_ref/$REF_NAME
 else
 	echo "Please specify whether annotation file is in GTF or GFF3 format"
 fi
