@@ -11,5 +11,5 @@ rsem-calculate-expression \
 --paired-end \
 --forward-prob 0 \
 $f1 \
-$RSEM_ref \
+$RSEM_ref/$REF_NAME \
 $TQ_OUTPUTDIR/RSEMOut_"$name"
