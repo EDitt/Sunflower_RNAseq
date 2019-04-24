@@ -12,9 +12,9 @@ cd $PBS_O_WORKDIR
 
 module load Trimmomatic/0.36-Java-1.8.0_144
 
-INPUTDIR="/scratch/bnp34716/Sunflower/raw_files/Plate1/FASTQ_Generation_2018-12-13_14_45_49Z-143224094" #where the raw sequence data is
+INPUTDIR="/scratch/bnp34716/Sunflower/raw_files/Plate1/FASTQ_Generation_2019-03-30_14_49_16Z-171366363" #where the raw sequence data is
 
-OUTPUTDIR="/scratch/bnp34716/Sunflower/Trimmed2" #where to put the trimmed sequences
+OUTPUTDIR="/scratch/bnp34716/Sunflower/Trimmed4" #where to put the trimmed sequences
 
 ADAPTERFILE="/home/bnp34716/Scratch/Sunflower/illumina_adapters.txt" #path to adapter file
 
