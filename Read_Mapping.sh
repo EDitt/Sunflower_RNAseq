@@ -13,9 +13,9 @@ cd $PBS_O_WORKDIR
 
 module load STAR/2.6.1c-foss-2016b
 
-INPUTDIR="/scratch/bnp34716/Sunflower/Trimmed3" #where the trimmed reads are
+INPUTDIR="/scratch/bnp34716/Sunflower/Trimmed4" #where the trimmed reads are
 
-OUTPUTDIR="/scratch/bnp34716/Sunflower/Mapped3" #where to put the trimmed sequences
+OUTPUTDIR="/scratch/bnp34716/Sunflower/Mapped4" #where to put the trimmed sequences
 
 GENOMEDIR="/scratch/bnp34716/Sunflower/GenomeDirNew" #path to Genome Directory
 
