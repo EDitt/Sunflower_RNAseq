@@ -31,11 +31,12 @@ case "${ROUTINE}" in
     2 | Adapter_Trimming)
         echo "$(basename $0): Trimming Adapters..." >&2
         declare -a files #an array of directories to each sample
-        for d in $AT_INPUTDIR/*ds*; do
-            if [[ -d "$d" ]]; then
-                files=("${files[@]}" "$d")
+        #for d in $AT_INPUTDIR/*ds*; do
+        for f1 in `find $AT_INPUTDIR -name "*$FORWARD_NAMING"`; do
+            if [[ -f "$f1" ]]; then
+                files=("${files[@]}" "$f")
             else
-                echo "Please specify a path to valid directories in the config file"
+                echo "Please specify a path to valid files in the config file"
             fi
         done
         Maxarray=${#files[@]}
