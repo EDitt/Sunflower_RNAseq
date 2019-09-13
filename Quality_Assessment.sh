@@ -2,20 +2,18 @@
 
 set -o pipefail
 
-cd $QA_INPUTDIR
-
-dir=$(find $(pwd -P) -maxdepth 1 -name "*ds*" | sed -n ${PBS_ARRAYID}p)
-
-if [[ -d "$dir" ]]; then
-	for f in $dir/*.fastq.gz; do
+if [[ -d "$QA_INPUTDIR" ]]; then
+	for f in `find $QA_INPUTDIR -name "*.fastq.gz"`; do
 		if [[ -f "$f" ]]; then
-		fastqc -o $QA_OUTPUTDIR \
-		-d $QA_TEMP \
-		-t 6 $f
-	else
-		echo "$f is not a valid file"
-	fi
-done
+			echo "Checking quality of $f"
+			fastqc -o $QA_OUTPUTDIR \
+			-d $QA_TEMP \
+			-t 6 $f
+		else
+			echo "$f is not a valid file"
+		fi
+	done
+	multiqc $QA_OUTPUTDIR
 else
-	echo "$dir" is not a valid directory
+	echo "$QA_INPUTDIR is not a valid directory"
 fi

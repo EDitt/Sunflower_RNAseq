@@ -35,14 +35,11 @@ GEN_FASTA=""
 
 #   What are our QSub settings for Quality_Assessment?
 #       Below are the recommended settings
-QA_QSUB="mem=1gb,nodes=1:ppn=4,walltime=6:00:00"
+QA_QSUB="mem=1gb,nodes=1:ppn=4,walltime=12:00:00"
 
-#   Where are the directories that store your raw data?
-#	Sunflower_RNAseq is designed for use on the raw data as obtained from the GGBC
-#	There is a directory for each sample/lane run (containing 2 files if paired-end)
-#	Directories are named in the following format:
-#	SampleID_PlateWell_LaneNum-ds.letters/numbers
-#       Include the full file path to these directories containing your raw data
+#	Where is the directory containing your data to be assessed? 
+#	This can be a directory to multiple directories each containing a forward and reverse read which is the format of raw data from the GGBC
+#       Include the full file path
 QA_INPUTDIR=""
 
 #   Where do you want the FastQC results?
@@ -60,6 +57,10 @@ QA_TEMP=""
 AT_QSUB="mem=10gb,nodes=1:ppn=4,walltime=450:00:00"
 
 #   Where are the directories?
+#	Sunflower_RNAseq is designed for use on the raw data as obtained from the GGBC
+#	There is a directory for each sample/lane run (containing 2 files if paired-end)
+#	Directories are named in the following format:
+#	SampleID_PlateWell_LaneNum-ds.letters/numbers
 #   Include the full file path to the raw directories
 AT_INPUTDIR=""
 
@@ -260,6 +261,9 @@ TQ_OUTPUTDIR=""
 
 #   Do we have FastQC installed?
 module load FastQC/0.11.8-Java-1.8.0_144
+
+#   Do we have MultiQC installed?
+module load MultiQC/1.5-foss-2016b-Python-2.7.14
 
 #	Do we have Trimmomatic installed?
 module load Trimmomatic/0.36-Java-1.8.0_144 > /dev/null 2>&1
