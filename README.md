@@ -9,8 +9,8 @@ Trimmomatic: http://www.usadellab.org/cms/uploads/supplementary/Trimmomatic/Trim
 STAR: http://chagall.med.cornell.edu/RNASEQcourse/STARmanual.pdf  
 RSEM: https://deweylab.github.io/RSEM/README.html
 
-To run `Sunflower_RNAseq`, use the following command, assuming you are in the `Sunflower_RNAseq` directory:
-`./Sunflower_RNAseq.sh <handler> Config`
+To run `Sunflower_RNAseq`, use the following command, assuming you are in the `Sunflower_RNAseq` directory:  
+`./Sunflower_RNAseq.sh <handler> Config`  
 Where `<handler>` is one of the handlers listed below, and `Config` is the full file path to the configuration file
 
 ## Pre-processing
