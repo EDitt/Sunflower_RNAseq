@@ -31,13 +31,15 @@ A directory containing your files to be analyzed must be specified in the config
 After quality has been assessed for each sample, the FastQC results will be summarized using MultiQC. These summary statistics will be located in the output directory specified in the config file.
 
 ## Step 2: Adapter_Trimming
-The Adapter_Trimming handler uses Trimmomatic to trim adapter sequences from FastQ files. Trimmomatic takes paired-end information into account when doing so (if applicable). This handler uses the raw fastq.gz files downloaded directly from Basespace (Directories named: "SampleID_PlateWell_LaneNum-ds.letters/numbers"). This handler will work with paired-end or single-end sequencing data.
+The Adapter_Trimming handler uses Trimmomatic to trim adapter sequences from FastQ files. Trimmomatic takes paired-end information into account when doing so (if applicable).
 
-To run Adapter_Trimming, all common and handler-specific variables must be defined within the configuration file. Once the variables have been defined, Adapter_Trimming can be submitted to a job scheduler with the following command (assuming that you are in the directory containing `Sunflower_RNAseq`)
-`./Sunflower_RNAseq.sh Adapter_Trimming Config`
+The Adapter_Trimming handler can accept as input EITHER a directory (which can be to multiple sub-directories for each sample) or a text-file list of forward samples (it will find the reverse samples based on the naming suffix specified in the config file)
+
+To run Adapter_Trimming, all common and handler-specific variables must be defined within the configuration file. Once the variables have been defined, Adapter_Trimming can be submitted to a job scheduler with the following command (assuming that you are in the directory containing `Sunflower_RNAseq`)  
+`./Sunflower_RNAseq.sh Adapter_Trimming Config`  
 where `Config` is the full file path to the configuration file
 
-In addition to adapter trimming, Trimmomatic can also perform quality trimming. However, the Adapter_Trimming handler used here does not use Trimmomatic's quality trimming options. Many caution against quality trimming, as it is believed to be unnecessary since read mapping approaches can take quality scores into account. If you do want to use Trimmomatic's quality trimming capabilities, the `Trimm.sh` code must be modified and new variables defined in the configuration file. Read the Trimmomatic manual for more information.
+While Trimmomatic can also perform quality trimming, the Adapter_Trimming handler used here does not use Trimmomatic's quality trimming options. Many caution against quality trimming, as it is believed to be unnecessary since read mapping approaches can take quality scores into account. If you do want to use Trimmomatic's quality trimming capabilities, the `Trimm.sh` code must be modified and new variables defined in the configuration file. Read the Trimmomatic manual for more information: http://www.usadellab.org/cms/uploads/supplementary/Trimmomatic/TrimmomaticManual_V0.32.pdf  
 
 It is recommended that you re-run Quality_Assessment after adapter trimming to ensure that any adapter contamination was eliminated.
 
