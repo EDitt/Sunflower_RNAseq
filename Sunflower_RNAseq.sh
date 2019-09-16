@@ -31,6 +31,7 @@ case "${ROUTINE}" in
     2 | Adapter_Trimming)
         echo "$(basename $0): Trimming Adapters..." >&2
         if [[ -d "$AT_INPUT" ]]; then #if input is a directory
+            echo "$AT_INPUT is a directory"
             declare -a files #an array of files
             for f1 in `find $AT_INPUT -name "*$FORWARD_NAMING"`; do
                 if [[ -f "$f1" ]]; then
@@ -41,6 +42,7 @@ case "${ROUTINE}" in
             done
             Maxarray=${#files[@]}
         elif [[ -f "$AT_INPUT" ]]; then #if input is a file
+            echo "$AT_INPUT is a file"
             Maxarray=$(< $AT_INPUT wc -l)
         else
             echo "Please specify a valid directory or list in the config"
