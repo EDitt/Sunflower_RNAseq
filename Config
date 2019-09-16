@@ -56,13 +56,14 @@ QA_TEMP=""
 #   Below are the recommended settings
 AT_QSUB="mem=10gb,nodes=1:ppn=4,walltime=450:00:00"
 
-#   Where are the directories?
-#	Sunflower_RNAseq is designed for use on the raw data as obtained from the GGBC
-#	There is a directory for each sample/lane run (containing 2 files if paired-end)
-#	Directories are named in the following format:
-#	SampleID_PlateWell_LaneNum-ds.letters/numbers
-#   Include the full file path to the raw directories
-AT_INPUTDIR=""
+#   What files to trim?
+#	This handler will accept either a list of forward samples OR
+#	a directory to raw data- this can be a directory to multiple directories,
+#	each containing a forward and reverse read (such as the format of raw data from the GGBC)
+
+#	Either a text file containing a list of samples to trim (if PE, only need to list the forward reads) including the full file path, 
+#	OR a directory of input files
+AT_INPUT=""
 
 #   Where do you want the Trimmed Samples to go?
 AT_OUTPUTDIR=""

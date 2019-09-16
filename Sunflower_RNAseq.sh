@@ -30,18 +30,23 @@ case "${ROUTINE}" in
         ;;
     2 | Adapter_Trimming)
         echo "$(basename $0): Trimming Adapters..." >&2
-        declare -a files #an array of directories to each sample
-        #for d in $AT_INPUTDIR/*ds*; do
-        for f1 in `find $AT_INPUTDIR -name "*$FORWARD_NAMING"`; do
-            if [[ -f "$f1" ]]; then
-                files=("${files[@]}" "$f")
-            else
-                echo "Please specify a path to valid files in the config file"
-            fi
-        done
-        Maxarray=${#files[@]}
+        if [[ -d "$AT_INPUT" ]]; then #if input is a directory
+            declare -a files #an array of files
+            for f1 in `find $AT_INPUT -name "*$FORWARD_NAMING"`; do
+                if [[ -f "$f1" ]]; then
+                    files=("${files[@]}" "$f")
+                else
+                    echo "Please specify a path to valid files in the config file"
+                fi
+            done
+            Maxarray=${#files[@]}
+        elif [[ -f "$AT_INPUT" ]]; then #if input is a file
+            Maxarray=$(< $AT_INPUT wc -l)
+        else
+            echo "Please specify a valid directory or list in the config"
+        fi
         echo "Max array index is ${Maxarray}">&2
-        echo "source ${CONFIG} && source ${SUNFLOWER_RNASEQ}/Trimm.sh" | qsub -l "${AT_QSUB}" -e "${ERROR}" -o "${ERROR}" -m abe -M "${EMAIL}" -N "${PROJECT}"_Adapter_Trimming -t 1-"${Maxarray}"%20
+        echo "source ${CONFIG} && source ${SUNFLOWER_RNASEQ}/Trimm.sh" | qsub -l "${AT_QSUB}" -e "${ERROR}" -o "${ERROR}" -m abe -M "${EMAIL}" -N "${PROJECT}"_Adapter_Trimming -t 1-"${Maxarray}"
         ;;
     3 | Genome_Index)
         echo "$(basename $0): Generating a genome index..." >&2
