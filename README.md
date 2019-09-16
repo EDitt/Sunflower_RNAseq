@@ -16,22 +16,18 @@ Where `<handler>` is one of the handlers listed below, and `Config` is the full 
 Raw data is uploaded/stored in a project folder in the /project/jmblab/ directory
 (only accessible through the xfer node)
 
-To analyze this raw data, simply copy this data into your working scratch directory. Do not manipulate the directory structure or names of directories, as this pipeline is designed to be used on the raw data in the format it comes from BaseSpace. 
-The raw data comes in directories (of the format "SampleID_PlateWell_LaneNum-ds.letters/numbers"), each containing fastq.gz files (2 files if paired-end sequencing). Manipulating this directory structure or directory names will cause the Sunflower_RNAseq program to not work properly.
-
+To analyze this raw data, simply copy this data into your working scratch directory.
 
 ## Step 1: Quality Assessment
-Run Quality_Assessment on your raw FastQ files. The Quality_Assessment handler is designed for raw data as it comes from Basespace- i.e. directories for each sample (of the format "SampleID_PlateWell_LaneNum-ds.letters/numbers"), each containing fastq.gz files (2 files if paired-end sequencing).
+Run Quality_Assessment on your raw FastQ files. 
 
 To run Quality_Assessment, all common and handler-specific variables must be defined within the configuration file. Once the variables have been defined, Quality_Assessment can be submitted to a job scheduler with the following command (assuming that you are in the directory containing `Sunflower_RNAseq`)
 `./Sunflower_RNAseq Quality_Assessment Config`
 where `Config` is the full file path to the configuration file
 
-To get summaries for FastQC results, MultiQC is recommended. After Quality_Assessment has finished running, load this module:
-`module load MultiQC/1.5-foss-2016b-Python-2.7.14`
-And then while in the output directory containing your FASTQC results, simply run
-`multiqc .`
-This program will then output summary statistics from your FastQ results
+A directory containing your files to be analyzed must be specified in the config file. It is ok if this is a directory containing sub-directories for each sample (which is the format for raw data as it comes from Basespace).
+
+After quality has been assessed for each sample, the FastQC results will be summarized using MultiQC. These summary statistics will be located in the output directory specified in the config file.
 
 ## Step 2: Adapter Trimming
 The Adapter_Trimming handler uses Trimmomatic to trim adapter sequences from FastQ files. Trimmomatic takes paired-end information into account when doing so (if applicable). This handler uses the raw fastq.gz files downloaded directly from Basespace (Directories named: "SampleID_PlateWell_LaneNum-ds.letters/numbers"). This handler will work with paired-end or single-end sequencing data.
