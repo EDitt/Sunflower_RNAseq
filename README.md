@@ -1,5 +1,5 @@
 # Sunflower_RNAseq
-A pipeline for analyzing sunflower expression responses to abiotic stress
+A pipeline for analyzing sunflower expression responses to abiotic stress  
 Inspired by the Morrell lab Sequencing Handling Pipeline: https://github.com/MorrellLAB/sequence_handling
 
 ## Programs Used:  
