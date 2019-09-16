@@ -3,8 +3,8 @@ A pipeline for analyzing sunflower expression responses to abiotic stress
 Inspired by the Morrell lab Sequencing Handling Pipeline: https://github.com/MorrellLAB/sequence_handling
 
 ## Programs Used:  
-FASTQC: https://dnacore.missouri.edu/PDF/FastQC_Manual.pdf
-MultiQC: https://multiqc.info/
+FASTQC: https://dnacore.missouri.edu/PDF/FastQC_Manual.pdf  
+MultiQC: https://multiqc.info/  
 Trimmomatic: http://www.usadellab.org/cms/uploads/supplementary/Trimmomatic/TrimmomaticManual_V0.32.pdf  
 STAR: http://chagall.med.cornell.edu/RNASEQcourse/STARmanual.pdf  
 RSEM: https://deweylab.github.io/RSEM/README.html
