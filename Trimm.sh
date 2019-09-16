@@ -30,8 +30,8 @@ if [[ -f "$f1" ]]; then
 		-threads 4 \
 		-trimlog $AT_OUTPUTDIR/TrimLog_${name} \
 		$f1 $f2 \
-		$AT_OUTPUTDIR/${name}_R1_paired.fq.gz $AT_OUTPUTDIR/${name}_R1_unpaired.fq.gz \
-		$AT_OUTPUTDIR/${name}_R2_paired.fq.gz $AT_OUTPUTDIR/${name}_R2_unpaired.fq.gz \
+		$AT_OUTPUTDIR/${name}R1_paired.fq.gz $AT_OUTPUTDIR/${name}R1_unpaired.fq.gz \
+		$AT_OUTPUTDIR/${name}R2_paired.fq.gz $AT_OUTPUTDIR/${name}R2_unpaired.fq.gz \
 		ILLUMINACLIP:$ADAPTERFILE:$SEEDMISMATCH:$PALINDROMECLIP:$SIMPLECLIP:$MINADAPTERLEN:$KEEPREADS \
 		LEADING:$LEADCUT TRAILING:$TRAILCUT MINLEN:$MINLENGTH
 	else #if data are single-end
@@ -39,7 +39,7 @@ if [[ -f "$f1" ]]; then
 		-threads 4 \
 		-trimlog $AT_OUTPUTDIR/TrimLog_${name} \
 		$f1 \
-		$AT_OUTPUTDIR/${name}_R1.fq.gz \
+		$AT_OUTPUTDIR/${name}R1.fq.gz \
 		ILLUMINACLIP:$ADAPTERFILE:$SEEDMISMATCH:$PALINDROMECLIP:$SIMPLECLIP \
 		LEADING:$LEADCUT TRAILING:$TRAILCUT MINLEN:$MINLENGTH
 	fi
