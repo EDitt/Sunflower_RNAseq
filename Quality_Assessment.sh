@@ -3,7 +3,7 @@
 set -o pipefail
 
 if [[ -d "$QA_INPUTDIR" ]]; then
-	for f in `find $QA_INPUTDIR -name "*.fastq.gz"`; do
+	for f in `find $QA_INPUTDIR -name "*${SUFFIX}"`; do
 		if [[ -f "$f" ]]; then
 			echo "Checking quality of $f"
 			fastqc -o $QA_OUTPUTDIR \

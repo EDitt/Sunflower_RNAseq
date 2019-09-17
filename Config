@@ -37,6 +37,9 @@ GEN_FASTA=""
 #       Below are the recommended settings
 QA_QSUB="mem=1gb,nodes=1:ppn=4,walltime=12:00:00"
 
+#   What is the file name suffix for files to be assessed?
+SUFFIX=".fastq.gz"
+
 #	Where is the directory containing your data to be assessed? 
 #	This can be a directory to multiple directories each containing a forward and reverse read which is the format of raw data from the GGBC
 #       Include the full file path
