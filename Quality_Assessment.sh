@@ -13,7 +13,7 @@ if [[ -d "$QA_INPUTDIR" ]]; then
 			echo "$f is not a valid file"
 		fi
 	done
-	multiqc $QA_OUTPUTDIR
+	multiqc $QA_OUTPUTDIR -o $QA_OUTPUTDIR
 else
 	echo "$QA_INPUTDIR is not a valid directory"
 fi
