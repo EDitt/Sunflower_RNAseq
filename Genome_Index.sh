@@ -3,6 +3,7 @@
 set -o pipefail
 
 if [ "$ANNOTATION_FORMAT" == "GFF3" ]; then
+	echo "Using GFF3 annotation to generate a genome index"
 	/usr/local/apps/eb/STAR/2.6.1c-foss-2016b/bin/STAR \
 	--runThreadN $NTHREAD \
 	--runMode genomeGenerate \
@@ -12,6 +13,7 @@ if [ "$ANNOTATION_FORMAT" == "GFF3" ]; then
 	--sjdbGTFfile $GEN_ANN \
 	--sjdbOverhang $SPLICE_JUN
 elif [ "$ANNOTATION_FORMAT" == "GTF" ]; then
+	echo "Using GTF annotation to generate a genome index"
 	/usr/local/apps/eb/STAR/2.6.1c-foss-2016b/bin/STAR \
 	--runThreadN $NTHREAD \
 	--runMode genomeGenerate \
