@@ -58,6 +58,12 @@ You will use the contents of the output (directory specified in the Config file)
 
 The Read_Mapping handler uses STAR to map reads to the genome indexed in step 3.
 
+STAR can perform a 2-pass mapping strategy to increase mapping sensitivity around novel splice junctions. This works by running a 1st mapping pass for all samples with the "usual" parameters and then a 2nd pass mapping step is run using the junctions detected in the first pass as annotated junctions for the second pass. These junctions will be added to the genome annotations in the genome index.
+
+This 2-pass mapping strategy is recommended by GATK and ENCODE best-practices for better alignments around novel splice junctions.
+
+While STAR can perform 2-pass mapping on a per-sample basis, in a study with multiple samples, it is recommended to collect 1st pass junctions from all samples. Therefore, the Read_Mapping handler here will run in either "first" pass or "second" pass mode (separately). In second-pass mode, all junctions from all samples collected in the first pass will be used to map reads for each sample. The `RM_JUNCTIONDIR=` variable (the directory containing the "SJ.out.tab" files) must be specified if running in second pass mode.
+
 To run Read_Mapping, all common and handler-specific variables must be defined within the configuration file. Once the variables have been defined, Read_Mapping can be submitted to a job scheduler with the following command (assuming that you are in the directory containing `Sunflower_RNAseq`)
 `./Sunflower_RNAseq.sh Read_Mapping Config` where `Config` is the full file path to the configuration file.
 

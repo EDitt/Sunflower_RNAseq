@@ -125,7 +125,8 @@ MINLENGTH=20
 # "ANNOTATION_FORMAT", "GEN_ANN" and "GEN_FASTA"
 # MUST also be supplied (above, under 'reference genome info')
 
-#   What are our QSub settings for Genome_Index?
+#   What are our QSub settings for Genome_Index? 
+#	note that STAR needs at least 30gb of memory to run
 #   Below are the recommended settings
 GI_QSUB="mem=50gb,nodes=1:ppn=4,walltime=450:00:00"
 
@@ -154,7 +155,13 @@ SPLICE_JUN=74
 
 #	What are our QSub settings for Read_Mapping?
 #	Below are the recommended settings
+#	Note that STAR needs at least 30gb of memory to run
 RM_QSUB="mem=50gb,nodes=1:ppn=16,walltime=450:00:00"
+
+#	Is this the first or second-pass for read-mapping?
+#	STAR can be run in 2-pass mode, where it uses splice junctions detected in the first pass
+#	as "annotated" junctions for the 2nd pass mapping. (either "first" or "second")
+RM_PASS="first"
 
 #   Where are the trimmed files? Include the full file path
 #   This may be the same as your output directory defined in adapter trimming (AT_OUTPUTDIR)
@@ -162,6 +169,11 @@ RM_INPUTDIR=""
 
 #   Where do you want your output files to go? Include the full file path
 RM_OUTPUTDIR=""
+
+#	Where are the "SJ.out.tab" files from the 1st mapping pass? 
+#	These are used as annotated junctions for the 2nd mapping pass
+#	If RM_PASS="first" this variable can be left blank
+RM_JUNCTIONDIR=
 
 #	Define the number of threads to be used. 
 #	This must be set to the number of available cores on the server node

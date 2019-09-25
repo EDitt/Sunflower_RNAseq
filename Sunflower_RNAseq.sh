@@ -76,11 +76,26 @@ case "${ROUTINE}" in
                 fi
             done
         else
-            echo "Please specify in the config file whether data is PE (True/False)"
+            echo "Please specify in the config file whether data is PE (True/False), exiting..."
+            exit 1
         fi
         Maxarray=${#files[@]}
-        echo "Max array index is ${Maxarray}">&2
-        echo "source ${CONFIG} && source ${SUNFLOWER_RNASEQ}/Read_Mapping.sh" | qsub -l "${RM_QSUB}" -e "${ERROR}" -o "${ERROR}" -m abe -M "${EMAIL}" -N "${PROJECT}"_Read_Mapping -t 1-"${Maxarray}"
+        if [ "$RM_PASS" == "first" ]; then
+            echo "In first-pass mode"
+            echo "Max array index is ${Maxarray}">&2
+            echo "source ${CONFIG} && source ${SUNFLOWER_RNASEQ}/Read_Mapping.sh" | qsub -l "${RM_QSUB}" -e "${ERROR}" -o "${ERROR}" -m abe -M "${EMAIL}" -N "${PROJECT}"_Read_Mapping -t 1-"${Maxarray}"
+        elif [ "$RM_PASS" == "second" ]; then
+            declare -a junctions ### make an array of SJ.out.tab files
+            for sj in `find $RM_JUNCTIONDIR -name "*SJ.out.tab"`; do
+                junctions=("${junctions[@]}" "$sj")
+            done
+            echo "In second-pass mode using ${#junctions[@]} junction files"
+            echo "Max array index is ${Maxarray}">&2
+            echo "source ${CONFIG} && source ${SUNFLOWER_RNASEQ}/Read_Mapping.sh" | qsub -l "${RM_QSUB}" -e "${ERROR}" -o "${ERROR}" -m abe -M "${EMAIL}" -N "${PROJECT}"_Read_Mapping -t 1-"${Maxarray}" -v JUNCTIONS="${junctions[@]}"
+        else
+            echo "Please specify whether mapping is first or second pass, exiting..."
+            exit 1
+        fi
         ;;
     5 | Merge_BAM)
         echo "$(basename $0): Merging BAM files..." >&2
