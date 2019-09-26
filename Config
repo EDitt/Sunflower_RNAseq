@@ -173,7 +173,7 @@ RM_OUTPUTDIR=""
 #	Where are the "SJ.out.tab" files from the 1st mapping pass? 
 #	These are used as annotated junctions for the 2nd mapping pass
 #	If RM_PASS="first" this variable can be left blank
-RM_JUNCTIONDIR=
+RM_JUNCTIONDIR=""
 
 #	Define the number of threads to be used. 
 #	This must be set to the number of available cores on the server node

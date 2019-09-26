@@ -49,8 +49,9 @@ This handler will generate a genome index using FASTA and GFF3 or GTF formatted 
 
 If using a GFF3 file for genome indexing rather than the default GTF file, the option `--sjdbGTFtagExonParentTranscript Parent` is added to the script 
 
-To run Genome_Index, all common and handler-specific variables must be defined within the configuration file. Once the variables have been defined, Genome_Index can be submitted to a job scheduler with the following command (assuming that you are in the directory containing `Sunflower_RNAseq`)
-`./Sunflower_RNAseq.sh Genome_Index Config` where `Config` is the full file path to the configuration file.
+To run Genome_Index, all common and handler-specific variables must be defined within the configuration file. Once the variables have been defined, Genome_Index can be submitted to a job scheduler with the following command (assuming that you are in the directory containing `Sunflower_RNAseq`)  
+`./Sunflower_RNAseq.sh Genome_Index Config`  
+where `Config` is the full file path to the configuration file.
 
 You will use the contents of the output (directory specified in the Config file) for the next step
 
@@ -64,8 +65,9 @@ This 2-pass mapping strategy is recommended by GATK and ENCODE best-practices fo
 
 While STAR can perform 2-pass mapping on a per-sample basis, in a study with multiple samples, it is recommended to collect 1st pass junctions from all samples. Therefore, the Read_Mapping handler here will run in either "first" pass or "second" pass mode (separately). In second-pass mode, all junctions from all samples collected in the first pass will be used to map reads for each sample. The `RM_JUNCTIONDIR=` variable (the directory containing the "SJ.out.tab" files) must be specified if running in second pass mode.
 
-To run Read_Mapping, all common and handler-specific variables must be defined within the configuration file. Once the variables have been defined, Read_Mapping can be submitted to a job scheduler with the following command (assuming that you are in the directory containing `Sunflower_RNAseq`)
-`./Sunflower_RNAseq.sh Read_Mapping Config` where `Config` is the full file path to the configuration file.
+To run Read_Mapping, all common and handler-specific variables must be defined within the configuration file. Once the variables have been defined, Read_Mapping can be submitted to a job scheduler with the following command (assuming that you are in the directory containing `Sunflower_RNAseq`)  
+`./Sunflower_RNAseq.sh Read_Mapping Config`   
+where `Config` is the full file path to the configuration file.
 
 If you have sequence data from the same sample across multiple lanes/runs, the best practice is to map these separately (in order to test for batch effects), and then combine resulting bam files for each sample before proceeding to transcript quantification.
 
