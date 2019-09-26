@@ -88,7 +88,7 @@ case "${ROUTINE}" in
             declare -a junctions ### make an array of SJ.out.tab files
             for sj in `find $RM_JUNCTIONDIR -name "*SJ.out.tab"`; do
                 junctions=("${junctions[@]}" "$sj")
-                #export JUNCTIONS="${junctions[@]}"
+                export JUNCTIONS="${junctions[@]}"
             done
             echo "In second-pass mode using ${#junctions[@]} junction files"
             echo "Max array index is ${Maxarray}">&2
