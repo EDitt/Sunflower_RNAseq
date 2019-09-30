@@ -55,31 +55,39 @@ case "${ROUTINE}" in
         echo "source ${CONFIG} && source ${SUNFLOWER_RNASEQ}/Genome_Index.sh" | qsub -l "${GI_QSUB}" -e "${ERROR}" -o "${ERROR}" -m abe -M "${EMAIL}" -N "${PROJECT}"_Genome_Index
         ;;
     4 | Read_Mapping)
-        if [ "$PE" == "True" ]; then
-            echo "$(basename $0): Mapping PE Reads..." >&2
-            declare -a files
-            for f in $RM_INPUTDIR/*R1_paired.fq.gz; do
-                if [[ -f "$f" ]]; then
-                    files=("${files[@]}" "$f")
-                else
-                    echo "$f is not a file"
-                fi
-            done
-        elif [ "$PE" == "False" ]; then
-            echo "$(basename $0): Mapping SE Reads..." >&2
-            declare -a files
-            for f in $RM_INPUTDIR/*R1.fq.gz; do
-                if [[ -f "$f" ]]; then
-                    files=("${files[@]}" "$f")
-                else
-                    echo "$f is not a file"
-                fi
-            done
+        declare -a files #an array of files
+        if [[ -d "$RM_INPUTDIR" ]]; then #if input is a directory
+            echo "$RM_INPUTDIR is a directory"
+            if [ "$PE" == "True" ]; then
+                echo "$(basename $0): Mapping PE Reads..." >&2
+                for f in $RM_INPUTDIR/*R1_paired.fq.gz; do
+                    if [[ -f "$f" ]]; then
+                        files=("${files[@]}" "$f")
+                    else
+                        echo "$f is not a file"
+                    fi
+                done
+            elif [ "$PE" == "False" ]; then
+                echo "$(basename $0): Mapping SE Reads..." >&2
+                for f in $RM_INPUTDIR/*R1.fq.gz; do
+                    if [[ -f "$f" ]]; then
+                        files=("${files[@]}" "$f")
+                    else
+                        echo "$f is not a file"
+                    fi
+                done
+            else
+                echo "Please specify in the config file whether data is PE (True/False), exiting..."
+                exit 1
+            fi
+            Maxarray=${#files[@]}
+        elif [[ -f "$RM_INPUTDIR" ]]; then #if input is a file
+            echo "$RM_INPUTDIR is a file"
+            Maxarray=$(< $RM_INPUTDIR wc -l)
         else
-            echo "Please specify in the config file whether data is PE (True/False), exiting..."
+            echo "Please specify a valid directory or list in the config"
             exit 1
         fi
-        Maxarray=${#files[@]}
         if [ "$RM_PASS" == "first" ]; then
             echo "In first-pass mode"
             echo "Max array index is ${Maxarray}">&2

@@ -2,9 +2,15 @@
 
 set -o pipefail
 
+if [[ -d "$RM_INPUTDIR" ]]; then #if input is a DIRECTORY
+	f1=$(find $RM_INPUTDIR $(pwd -P) -maxdepth 1 -name "*R1*.fq.gz" | sed -n ${PBS_ARRAYID}p)
+elif [[ -f "$RM_INPUTDIR" ]]; then #if input is a FILE
+	f1=$(sed -n ${PBS_ARRAYID}p $RM_INPUTDIR)
+else
+	echo "Please specify a valid directory or list of files in the config"
+fi
 if [ "$RM_PASS" == "first" ]; then   ###first pass mode
 	if [ "$PE" == "True" ]; then
-		f1=$(find $RM_INPUTDIR $(pwd -P) -maxdepth 1 -name "*R1_paired.fq.gz" | sed -n ${PBS_ARRAYID}p)
 		name=$(basename ${f1%%_R1_paired.fq.gz}"_")
 		f2=${f1%%1_paired.fq.gz}"2_paired.fq.gz"
 		if [[ -f $f1 && -f $f2 ]]; then
@@ -25,7 +31,6 @@ if [ "$RM_PASS" == "first" ]; then   ###first pass mode
 			echo "$f1 and $f2 are not both valid files"
 		fi
 	elif [ "$PE" == "False" ]; then
-		f1=$(find $RM_INPUTDIR $(pwd -P) -maxdepth 1 -name "*R1.fq.gz" | sed -n ${PBS_ARRAYID}p)
 		name=$(basename ${f1%%_R1.fq.gz}"_")
 		if [[ -f $f1 ]]; then
 			echo "Mapping SE reads for sample $name in first pass mode"
@@ -49,7 +54,6 @@ if [ "$RM_PASS" == "first" ]; then   ###first pass mode
 	fi
 elif [ "$RM_PASS" == "second" ]; then   ### second pass mode
 	if [ "$PE" == "True" ]; then
-		f1=$(find $RM_INPUTDIR $(pwd -P) -maxdepth 1 -name "*R1_paired.fq.gz" | sed -n ${PBS_ARRAYID}p)
 		name=$(basename ${f1%%_R1_paired.fq.gz}"_")
 		f2=${f1%%1_paired.fq.gz}"2_paired.fq.gz"
 		if [[ -f $f1 && -f $f2 ]]; then
@@ -71,7 +75,6 @@ elif [ "$RM_PASS" == "second" ]; then   ### second pass mode
 			echo "$f1 and $f2 are not both valid files"
 		fi
 	elif [ "$PE" == "False" ]; then
-		f1=$(find $RM_INPUTDIR $(pwd -P) -maxdepth 1 -name "*R1.fq.gz" | sed -n ${PBS_ARRAYID}p)
 		name=$(basename ${f1%%_R1.fq.gz}"_")
 		if [[ -f $f1 ]]; then
 			echo "Mapping SE reads for sample $name in second pass mode using ${#junctions[@]} junction files"
