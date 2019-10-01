@@ -163,8 +163,8 @@ RM_QSUB="mem=50gb,nodes=1:ppn=16,walltime=450:00:00"
 #	as "annotated" junctions for the 2nd pass mapping. (either "first" or "second")
 RM_PASS="first"
 
-#   Where are the trimmed files? Include the full file path
-#   This may be the same as your output directory defined in adapter trimming (AT_OUTPUTDIR)
+#   Where are the trimmed files? This handler will accept EITHER a text file list of forward samples to map (include the full file path for each sample) OR
+#	a directory of input files (include the full file path). This may be the same as your output directory defined in adapter trimming (AT_OUTPUTDIR)
 RM_INPUT=""
 
 #   What shared suffix do the forward samples have?

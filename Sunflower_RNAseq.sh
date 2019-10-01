@@ -90,8 +90,9 @@ case "${ROUTINE}" in
             for sj in `find $RM_JUNCTIONDIR -name "*SJ.out.tab"`; do
                 junctions=("${junctions[@]}" "$sj")
                 export JUNCTIONS="${junctions[@]}"
+                export NUM_JUNCTIONS="${#junctions[@]}"
             done
-            echo "In second-pass mode using ${#junctions[@]} junction files"
+            echo "In second-pass mode using ${NUM_JUNCTIONS} junction files"
             echo "Max array index is ${Maxarray}">&2
             echo "source ${CONFIG} && source ${SUNFLOWER_RNASEQ}/Read_Mapping.sh" | qsub -l "${RM_QSUB}" -e "${ERROR}" -o "${ERROR}" -m abe -M "${EMAIL}" -N "${PROJECT}"_Read_Mapping  -V -t 1-"${Maxarray}"
         else

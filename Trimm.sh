@@ -2,18 +2,6 @@
 
 set -o pipefail
 
-#cd $AT_INPUTDIR
-
-#dir=$(find $(pwd -P) -maxdepth 1 -name "*ds*" | sed -n ${PBS_ARRAYID}p)
-
-#if [[ -d "$dir" ]]; then
-#	name=$(basename ${dir%%-ds.*}"")
-#	echo "Trimming $name reads"
-#	for f1 in "$dir"/*${FORWARD_NAMING}; do
-#		if [[ -f "$f1" ]]; then
-#			if [ "$PE" == "True" ]; then
-#				f2=${f1%%$FORWARD_NAMING}"$REVERSE_NAMING"
-####new
 if [[ -d "$AT_INPUT" ]]; then #if input is a DIRECTORY
 	f1=$(find $AT_INPUT -name "*$FORWARD_NAMING" | sed -n ${PBS_ARRAYID}p) #find the forward reads
 elif [[ -f "$AT_INPUT" ]]; then #if input is a FILE
