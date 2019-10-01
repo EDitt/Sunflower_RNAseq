@@ -53,7 +53,7 @@ elif [[ "$RM_PASS" == "first" && "$PE" == "False" ]]; then ###first pass mode, s
 	fi
 elif [[ "$RM_PASS" == "second" && "$PE" == "True" ]]; then ###second pass mode, paired-end
 	if [[ -f $f1 && -f $f2 ]]; then
-		echo "Mapping PE reads for sample $name in second pass mode using ${#junctions[@]} junction files"
+		echo "Mapping PE reads for sample $name in second pass mode using ${NUM_JUNCTIONS} junction files"
 		/usr/local/apps/eb/STAR/2.6.1c-foss-2016b/bin/STAR \
 		--runThreadN $RM_NTHREAD \
 		--genomeDir $GEN_DIR \
@@ -73,7 +73,7 @@ elif [[ "$RM_PASS" == "second" && "$PE" == "True" ]]; then ###second pass mode, 
 	fi
 elif [[ "$RM_PASS" == "second" && "$PE" == "False" ]]; then ###second pass mode, single-end
 	if [[ -f $f1 ]]; then
-		echo "Mapping SE reads for sample $name in second pass mode using ${#junctions[@]} junction files"
+		echo "Mapping SE reads for sample $name in second pass mode using ${NUM_JUNCTIONS} junction files"
 		/usr/local/apps/eb/STAR/2.6.1c-foss-2016b/bin/STAR \
 		--runThreadN $RM_NTHREAD \
 		--genomeDir $GEN_DIR \
