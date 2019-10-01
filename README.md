@@ -71,7 +71,7 @@ To run Read_Mapping, all common and handler-specific variables must be defined w
 `./Sunflower_RNAseq.sh Read_Mapping Config`   
 where `Config` is the full file path to the configuration file.
 
-If you have sequence data from the same sample across multiple lanes/runs, the best practice is to map these separately (in order to test for batch effects), and then combine resulting bam files for each sample before proceeding to transcript quantification.
+If you have sequence data from the same sample across multiple lanes/runs, the best practice is to map these separately (in order to test for batch effects), and then combine resulting bam files (step 5) for each sample before proceeding to transcript quantification.
 
 ## Step 5: Merge_BAM (Optional)
 

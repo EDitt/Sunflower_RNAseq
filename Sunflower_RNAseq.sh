@@ -107,7 +107,7 @@ case "${ROUTINE}" in
             echo "Max array index is ${Maxarray}" >&2
             echo "source ${CONFIG} && source ${SUNFLOWER_RNASEQ}/Merge_BAM.sh" | qsub -l "${MB_QSUB}" -e "${ERROR}" -o "${ERROR}" -m abe -M "${EMAIL}" -N "${PROJECT}"_Merge_BAM -t 1-"${Maxarray}"
         else
-            echo "Please specify a valid file containing a list of directory names in the Config file"
+            echo "Please specify a valid file containing a list of ID names in the Config file"
         fi
         ;;
     6 | Reference_Prep)
