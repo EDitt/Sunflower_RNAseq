@@ -56,36 +56,29 @@ case "${ROUTINE}" in
         ;;
     4 | Read_Mapping)
         declare -a files #an array of files
-        if [[ -d "$RM_INPUTDIR" ]]; then #if input is a directory
-            echo "$RM_INPUTDIR is a directory"
-            if [ "$PE" == "True" ]; then
-                echo "$(basename $0): Mapping PE Reads..." >&2
-                for f in $RM_INPUTDIR/*R1_paired.fq.gz; do
-                    if [[ -f "$f" ]]; then
-                        files=("${files[@]}" "$f")
-                    else
-                        echo "$f is not a file"
-                    fi
-                done
-            elif [ "$PE" == "False" ]; then
-                echo "$(basename $0): Mapping SE Reads..." >&2
-                for f in $RM_INPUTDIR/*R1.fq.gz; do
-                    if [[ -f "$f" ]]; then
-                        files=("${files[@]}" "$f")
-                    else
-                        echo "$f is not a file"
-                    fi
-                done
-            else
-                echo "Please specify in the config file whether data is PE (True/False), exiting..."
-                exit 1
-            fi
+        if [[ -d "$RM_INPUT" ]]; then #if input is a directory
+            echo "$RM_INPUT is a directory"
+            for f in `find $RM_INPUT -name "*$FORWARD"`; do
+                if [[ -f "$f" ]]; then
+                    files=("${files[@]}" "$f")
+                else
+                    echo "$f is not a file"
+                fi
+            done
             Maxarray=${#files[@]}
-        elif [[ -f "$RM_INPUTDIR" ]]; then #if input is a file
-            echo "$RM_INPUTDIR is a file"
-            Maxarray=$(< $RM_INPUTDIR wc -l)
+        elif [[ -f "$RM_INPUT" ]]; then #if input is a file
+            echo "$RM_INPUT is a file"
+            Maxarray=$(< $RM_INPUT wc -l)
         else
             echo "Please specify a valid directory or list in the config"
+            exit 1
+        fi
+        if [ "$PE" == "True" ]; then
+            echo "$(basename $0): Mapping PE Reads..." >&2
+        elif [ "$PE" == "False" ]; then
+            echo "$(basename $0): Mapping SE Reads..." >&2
+        else
+            echo "Please specify in the config file whether data is PE (True/False), exiting..."
             exit 1
         fi
         if [ "$RM_PASS" == "first" ]; then

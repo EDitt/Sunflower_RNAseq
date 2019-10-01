@@ -165,7 +165,15 @@ RM_PASS="first"
 
 #   Where are the trimmed files? Include the full file path
 #   This may be the same as your output directory defined in adapter trimming (AT_OUTPUTDIR)
-RM_INPUTDIR=""
+RM_INPUT=""
+
+#   What shared suffix do the forward samples have?
+#       Example: _R1_paired.fq.gz
+FORWARD="_R1_paired.fq.gz"
+
+#   What shared suffix do the reverse samples have? (leave blank if single-end)
+#       Example: _R2_paired.fq.gz
+REVERSE="_R2_paired.fq.gz"
 
 #   Where do you want your output files to go? Include the full file path
 RM_OUTPUTDIR=""
