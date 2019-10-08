@@ -75,7 +75,14 @@ If you have sequence data from the same sample across multiple lanes/runs, the b
 
 ## Step 5: Merge_BAM (Optional)
 
-If you choose to map reads from different runs/lanes for the same sample (recommended), the Merge_BAM handler will merge the BAM files from the STAR output before proceeding to transcript quantification.
+If you choose to map reads from different runs/lanes for the same sample (recommended), the Merge_BAM handler will merge the BAM files from the STAR output (the "Aligned.toTranscriptome.out.bam" files) using samtools before proceeding to transcript quantification.
+
+In addition to specifying input and output directories where these files are located, this handler requires a .txt file listing all of the sample ID names. These should correspond to the leading sample ID name in your input BAM files.
+
+Example: the sample ID for files 145-2068-L001_Aligned.toTranscriptome.out.bam and 145-2068-2_L003_Aligned.toTranscriptome.out.bam is 145.
+
+To run Merge_BAM, all common and handler-specific variables must be defined within the configuration file. Once the variables have been defined, Merge_BAM can be submitted to a job scheduler with the following command (assuming that you are in the directory containing `Sunflower_RNAseq`)
+`./Sunflower_RNAseq.sh Merge_BAM Config`
 
 ## Step 6: Ref_Prep
 
