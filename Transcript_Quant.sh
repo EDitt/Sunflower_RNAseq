@@ -15,7 +15,16 @@ if [ "$PE" == "True" ]; then
 	$f1 \
 	$RSEM_ref/$REF_NAME \
 	$TQ_OUTPUTDIR/RSEMOut_"$name"
-#elif [[ "$PE" == "False" ]]; then
+elif [[ "$PE" == "False" ]]; then
+	file=$(find $TQ_INPUTDIR $(pwd -P) -maxdepth 1 -name "*bam" | sed -n ${PBS_ARRAYID}p)	
+	rsem-calculate-expression \
+	-p 8 \
+	--bam \
+	--no-bam-output \
+	--single-end \
+	$file \
+	$RSEM_ref/$REF_NAME \
+	$TQ_OUTPUTDIR/RSEMOut_$file
 else
 	echo "Code not written for single end data...yet"
 fi
