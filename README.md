@@ -84,13 +84,16 @@ Example: the sample ID for files 145-2068-L001_Aligned.toTranscriptome.out.bam a
 To run Merge_BAM, all common and handler-specific variables must be defined within the configuration file. Once the variables have been defined, Merge_BAM can be submitted to a job scheduler with the following command (assuming that you are in the directory containing `Sunflower_RNAseq`)
 `./Sunflower_RNAseq.sh Merge_BAM Config`
 
-## Step 6: Ref_Prep
+## Step 6: Reference_Prep
 
-The Ref_Prep handler uses RSEM to prepare reference transcripts used for transcript quantification
+The Reference_Prep handler uses RSEM to prepare reference transcripts used for transcript quantification
 
 RSEM can extract reference sequences from a genome if it is provided with gene annotations in a GTF/GFF3 file. If the annotation file is in GFF3 format, RSEM will first convert it to GTF format with the file name 'reference_name.gtf'
 
 Alternatively, you can provide RSEM with transcript sequences directly in the form of fasta files. To do this the `--gtf` or `--gff3` flags should be commented out of the Ref_Prep.sh script. In this case, RSEM assumes the reference fasta files contain the reference transcripts and that the name of each sequence in the Multi-FASTA files are transcript IDs.
+
+To run Reference_Prep, all common and handler-specific variables must be defined within the configuration file. Once the variables have been defined, Reference_Prep can be submitted to a job scheduler with the following command (assuming that you are in the directory containing `Sunflower_RNAseq`)
+`./Sunflower_RNAseq.sh Reference_Prep Config`
 
 ## Step 7: Transcript_Quant
 
