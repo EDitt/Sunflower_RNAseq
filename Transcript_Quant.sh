@@ -17,7 +17,7 @@ if [ "$PE" == "True" ]; then
 	$TQ_OUTPUTDIR/RSEMOut_"$name"
 elif [[ "$PE" == "False" ]]; then
 	file=$(find $TQ_INPUTDIR $(pwd -P) -maxdepth 1 -name "*bam" | sed -n ${PBS_ARRAYID}p)	
-        name=$(basename ${%%.merged.bam}"_")
+        name=$(basename ${file%%.merged.bam}"_")
         echo "Calculating expression for sample $name"	
 	rsem-calculate-expression \
 	-p 8 \
