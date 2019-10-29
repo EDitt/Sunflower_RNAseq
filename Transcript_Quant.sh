@@ -26,7 +26,7 @@ elif [[ "$PE" == "False" ]]; then
 	--single-end \
 	$file \
 	$RSEM_ref/$REF_NAME \
-	$TQ_OUTPUTDIR/RSEMOut_$file
+	$TQ_OUTPUTDIR/RSEMOut_"$name"
 
 fi
 
