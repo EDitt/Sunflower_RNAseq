@@ -97,4 +97,8 @@ To run Reference_Prep, all common and handler-specific variables must be defined
 
 ## Step 7: Transcript_Quant
 
-The Transcript_Quant handler uses RSEM to calculate expression
+The Transcript_Quant handler uses RSEM to calculate expression using the reference prepared in the previous "Reference Prep" step. When running this handler, make sure that the variables `RSEM_ref` and `REF_NAME` are supplied (under Reference_Prep) in addition to the handler-specific variables. Sunflower_RNAseq uses RSEM's `--bam` option to allow input files to be in BAM format. 
+
+The strandedness of the RNA-seq reads must be defined in the config file.
+
+If data are from single-end reads, providing a fragment-length mean and fragment-length standard deviation is important for the accuracy of expression levels and you should fill out these variables in the config. If data are paired-end, these variables are ignored.

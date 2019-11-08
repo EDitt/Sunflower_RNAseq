@@ -270,12 +270,26 @@ REF_NAME=""
 #	Below are the recommended settings
 TQ_QSUB="mem=50gb,nodes=1:ppn=8,walltime=450:00:00"
 
+#	Define the number of threads to be used. 
+#	This must be set to the number of available cores on the server node
+TQ_NTHREAD=8
+
 #   Where are the merged BAM files? Include the full file path
 #   Make sure that all input files are in the same directory
 TQ_INPUTDIR=""
 
 #   Where do you want your results? Include the full file path
 TQ_OUTPUTDIR=""
+
+#	Define the strandedness of your RNA-Seq reads. Either 'none' (non-strand-specific), 
+#	'forward' (all upstream reads derived from forward strand), or 'reverse' (all upstream reads derived from reverse strand).
+STRAND="reverse"
+
+#### Below are options to fill out ONLY if the data are single-end (these variables are ignored if paired-end)
+
+FRAG_MEAN_LEN=""
+
+FRAG_MEAN_SD=""
 
 ############################################
 ##########      Dependencies      ##########
