@@ -281,14 +281,12 @@ TQ_INPUTDIR=""
 #   Where do you want your results? Include the full file path
 TQ_OUTPUTDIR=""
 
-#	Define the strandedness of your RNA-Seq reads. Either 'none' (non-strand-specific), 
-#	'forward' (all upstream reads derived from forward strand), or 'reverse' (all upstream reads derived from reverse strand).
-STRAND="reverse"
-
 #### Below are options to fill out ONLY if the data are single-end (these variables are ignored if paired-end)
 
+#	What is the mean of the fragment length distribution?
 FRAG_MEAN_LEN=""
 
+#	What is the standard deviation of the fragment length distribution?
 FRAG_MEAN_SD=""
 
 ############################################

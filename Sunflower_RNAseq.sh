@@ -117,21 +117,22 @@ case "${ROUTINE}" in
     7 | Transcript_Quant)
         if [ "$PE" == "True" ]; then
             echo "$(basename $0): Quantifying Transcripts for PE data..." >&2
-            for f in $TQ_INPUTDIR/*.bam; do
-                if [[ -f "$f" ]]; then
-                    files=("${files[@]}" "$f")
-                else
-                    echo "$f is not a file"
-                fi
-            done
-            Maxarray=${#files[@]}
-            echo "Max array index is ${Maxarray}">&2
-            echo "source ${CONFIG} && source ${SUNFLOWER_RNASEQ}/Transcript_Quant.sh" | qsub -l "${TQ_QSUB}" -e "${ERROR}" -o "${ERROR}" -m abe -M "${EMAIL}" -N "${PROJECT}"_Transcript_Quant -t 1-"${Maxarray}"
-        #elif [ "$PE" == "False" ]; then
+        elif [ "$PE" == "False" ]; then
+            echo "$(basename $0): Quantifying Transcripts for SE data..." >&2
         else
-            echo "Code not developed for SE reads...yet" >&2
+            echo "Please specify whether data are paired-end or single-end" >&2
             exit 1
         fi
+        for f in $TQ_INPUTDIR/*.bam; do
+            if [[ -f "$f" ]]; then
+                files=("${files[@]}" "$f")
+            else
+                echo "$f is not a file"
+            fi
+        done
+        Maxarray=${#files[@]}
+        echo "Max array index is ${Maxarray}">&2
+        echo "source ${CONFIG} && source ${SUNFLOWER_RNASEQ}/Transcript_Quant.sh" | qsub -l "${TQ_QSUB}" -e "${ERROR}" -o "${ERROR}" -m abe -M "${EMAIL}" -N "${PROJECT}"_Transcript_Quant -t 1-"${Maxarray}"
         ;;
     * )
 esac

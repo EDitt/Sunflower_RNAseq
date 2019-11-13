@@ -7,12 +7,10 @@ if [ "$PE" == "True" ]; then
 	name=$(basename ${f1%%.bam}"_")
 	echo "Calculating expression for sample $name"
 	rsem-calculate-expression \
-	-p 8 \
+	-p $TQ_NTHREAD \
 	--bam \
 	--no-bam-output \
 	--paired-end \
-	--strandedness $STRAND \
-	--forward-prob 0 \
 	$f1 \
 	$RSEM_ref/$REF_NAME \
 	$TQ_OUTPUTDIR/RSEMOut_"$name"
@@ -24,10 +22,8 @@ elif [[ "$PE" == "False" ]]; then
 	-p $TQ_NTHREAD \
 	--bam \
 	--no-bam-output \
-	--strandedness $STRAND \
-	--forward-prob 0 \
-	--fragment-length-mean \
-	--fragment-length-sd \
+	--fragment-length-mean $FRAG_MEAN_LEN \
+	--fragment-length-sd $FRAG_MEAN_SD \
 	$f1 \
 	$RSEM_ref/$REF_NAME \
 	$TQ_OUTPUTDIR/RSEMOut_"$name"

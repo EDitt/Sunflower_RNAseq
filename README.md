@@ -97,8 +97,15 @@ To run Reference_Prep, all common and handler-specific variables must be defined
 
 ## Step 7: Transcript_Quant
 
-The Transcript_Quant handler uses RSEM to calculate expression using the reference prepared in the previous "Reference Prep" step. When running this handler, make sure that the variables `RSEM_ref` and `REF_NAME` are supplied (under Reference_Prep) in addition to the handler-specific variables. Sunflower_RNAseq uses RSEM's `--bam` option to allow input files to be in BAM format. 
+The Transcript_Quant handler uses RSEM to calculate expression using the reference prepared in the previous "Reference Prep" step. When running this handler, make sure that the variables `RSEM_ref` and `REF_NAME` are supplied (under Reference_Prep) in addition to the handler-specific variables. Sunflower_RNAseq uses RSEM's `--bam` option to allow input files to be in BAM format. The Transcript_Quant handler assumes that data are from STAR alignments.
 
-The strandedness of the RNA-seq reads must be defined in the config file.
+If data are from single-end reads, providing a fragment-length mean and fragment-length standard deviation is important for the accuracy of expression levels and you should fill out these variables in the config file. If data are paired-end, these variables are ignored (RSEM will automatically learn a fragment length distribution from the data).
 
-If data are from single-end reads, providing a fragment-length mean and fragment-length standard deviation is important for the accuracy of expression levels and you should fill out these variables in the config. If data are paired-end, these variables are ignored.
+## Step 8: Make a data matrix
+
+Once you have output from the transcript quantification step, you can make a data matrix of your expression results using the `rsem-generate-data-matrix` script. Example code is below: 
+
+`module load RSEM/1.3.1-foss-2016b` 
+`rsem-generate-data-matrix InputDir/*.genes.results > OutputDir/name.matrix` 
+
+You can now load this matrix into R to begin differential expression analysis!
