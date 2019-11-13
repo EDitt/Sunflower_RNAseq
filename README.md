@@ -105,7 +105,7 @@ If data are from single-end reads, providing a fragment-length mean and fragment
 
 Once you have output from the transcript quantification step, you can make a data matrix of your expression results using the `rsem-generate-data-matrix` script. Example code is below: 
 
-`module load RSEM/1.3.1-foss-2016b` 
+`module load RSEM/1.3.1-foss-2016b`  
 `rsem-generate-data-matrix InputDir/*.genes.results > OutputDir/name.matrix` 
 
 You can now load this matrix into R to begin differential expression analysis!
