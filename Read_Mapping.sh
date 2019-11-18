@@ -27,6 +27,7 @@ if [[ "$RM_PASS" == "first" && "$PE" == "True" ]]; then ###first pass mode, pair
 		--outFilterScoreMinOverLread $MINSCORE_READL \
 		--outFilterMatchNminOverLread $MINMATCH_READL \
 		--outReadsUnmapped $UNMAP_F \
+		--outSAMtype BAM SortedByCoordinate \
 		--quantMode $QUANT
 	else
 		echo "$f1 and $f2 are not both valid files"
@@ -46,6 +47,7 @@ elif [[ "$RM_PASS" == "first" && "$PE" == "False" ]]; then ###first pass mode, s
 		--outFilterScoreMinOverLread $MINSCORE_READL \
 		--outFilterMatchNminOverLread $MINMATCH_READL \
 		--outReadsUnmapped $UNMAP_F \
+		--outSAMtype BAM SortedByCoordinate \
 		--quantMode $QUANT
 	else
 		echo "$f1 is not a valid file"
@@ -66,6 +68,7 @@ elif [[ "$RM_PASS" == "second" && "$PE" == "True" ]]; then ###second pass mode, 
 		--outFilterScoreMinOverLread $MINSCORE_READL \
 		--outFilterMatchNminOverLread $MINMATCH_READL \
 		--outReadsUnmapped $UNMAP_F \
+		--outSAMtype BAM SortedByCoordinate \
 		--quantMode $QUANT \
 		--sjdbFileChrStartEnd $JUNCTIONS
 	else
@@ -86,6 +89,7 @@ elif [[ "$RM_PASS" == "second" && "$PE" == "False" ]]; then ###second pass mode,
 		--outFilterScoreMinOverLread $MINSCORE_READL \
 		--outFilterMatchNminOverLread $MINMATCH_READL \
 		--outReadsUnmapped $UNMAP_F \
+		--outSAMtype BAM SortedByCoordinate \
 		--quantMode $QUANT \
 		--sjdbFileChrStartEnd $JUNCTIONS
 	else

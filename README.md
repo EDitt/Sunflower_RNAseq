@@ -73,6 +73,8 @@ where `Config` is the full file path to the configuration file.
 
 If you have sequence data from the same sample across multiple lanes/runs, the best practice is to map these separately (in order to test for batch effects), and then combine resulting bam files (step 5) for each sample before proceeding to transcript quantification.
 
+The Read_Mapping handler used here outputs .bam files that are sorted by (genomic) coordinates "*Aligned.sortedByCoord.out.bam", as well as .bam file alignments that are translated into transcript coordinates "*Aligned.toTranscriptome.out.bam" for use with transcript quantification programs (such as RSEM, step 7)
+
 ## Step 5: Merge_BAM (Optional)
 
 If you choose to map reads from different runs/lanes for the same sample (recommended), the Merge_BAM handler will merge the BAM files from the STAR output (the "Aligned.toTranscriptome.out.bam" files) using samtools before proceeding to transcript quantification.
