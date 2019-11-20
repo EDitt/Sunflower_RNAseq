@@ -231,11 +231,8 @@ MINMATCH_READL=0.66
 #	Below are the recommended settings
 MB_QSUB="mem=10gb,nodes=1:ppn=4,walltime=50:00:00"
 
-#   Are you merging the transcript coordinate aligned bam files (for RSEM) or
-#   genomic coordinates (for SNP calling)? Either "transcript" or "genomic"
-#	If "genomic", an additional sort (after files are merged) will be performed 
-#	to allow compatibility with downstream read-mapping programs
-MB_FILETYPE=""
+#   What is the file name suffix for the files you are merging? 
+MB_SUFFIX="Aligned.toTranscriptome.out.bam"
 
 #   Where are the BAM files? Include the full file path
 #   Make sure that all input files are in the same directory
