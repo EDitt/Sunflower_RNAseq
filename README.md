@@ -59,13 +59,7 @@ You will use the contents of the output (directory specified in the Config file)
 
 The Read_Mapping handler uses STAR to map reads to the genome indexed in step 3.
 
-STAR can perform a 2-pass mapping strategy to increase mapping sensitivity around novel splice junctions. This works by running a 1st mapping pass for all samples with the "usual" parameters and then a 2nd pass mapping step is run using the junctions detected in the first pass as annotations for the second pass. These junctions will be added to the genome annotations in the genome index.
-
-This 2-pass mapping strategy is recommended by GATK and ENCODE best-practices for better alignments around novel splice junctions.
-
-While STAR can perform 2-pass mapping on a per-sample basis, in a study with multiple samples, it is recommended to collect 1st pass junctions from all samples. Therefore, the Read_Mapping handler here will run in either "first" pass or "second" pass mode (separately). In second-pass mode, all junctions from all samples collected in the first pass will be used to map reads for each sample. The `RM_JUNCTIONDIR=` variable (the directory containing the "SJ.out.tab" files) must be specified if running in second pass mode.
-
-The Read_Mapping handler can accept as input EITHER a directory or a text-file list of forward samples (it will find the reverse samples based on the naming suffix specified in the config file)
+This handler can accept as input EITHER a directory or a text-file list of forward samples (it will find the reverse samples based on the naming suffix specified in the config file)
 
 To run Read_Mapping, all common and handler-specific variables must be defined within the configuration file. Once the variables have been defined, Read_Mapping can be submitted to a job scheduler with the following command (assuming that you are in the directory containing `Sunflower_RNAseq`)  
 `./Sunflower_RNAseq.sh Read_Mapping Config`   
@@ -73,7 +67,16 @@ where `Config` is the full file path to the configuration file.
 
 If you have sequence data from the same sample across multiple lanes/runs, the best practice is to map these separately (in order to test for batch effects), and then combine resulting bam files (step 5) for each sample before proceeding to transcript quantification.
 
-The Read_Mapping handler used here outputs .bam files that are sorted by (genomic) coordinates "*Aligned.sortedByCoord.out.bam", as well as .bam file alignments that are translated into transcript coordinates "*Aligned.toTranscriptome.out.bam" for use with transcript quantification programs (such as RSEM, step 7)
+#### 2-pass mapping
+STAR can perform a 2-pass mapping strategy to increase mapping sensitivity around novel splice junctions. This works by running a 1st mapping pass for all samples with the "usual" parameters and then a 2nd pass mapping step is run using the junctions detected in the first pass as annotations for the second pass. These junctions will be added to the genome annotations in the genome index.
+
+This 2-pass mapping strategy is recommended by GATK and ENCODE best-practices for better alignments around novel splice junctions.
+
+While STAR can perform 2-pass mapping on a per-sample basis, in a study with multiple samples, it is recommended to collect 1st pass junctions from all samples. Therefore, the Read_Mapping handler here will run in either "first" pass or "second" pass mode (separately). In second-pass mode, all junctions from all samples collected in the first pass will be used to map reads for each sample. The `RM_JUNCTIONDIR=` variable (the directory containing the "SJ.out.tab" files) must be specified if running in second pass mode.
+
+#### Alignment File Output
+
+Two alignment files are output from STAR with this handler - one alignment file in genomic coordinates and one translated into transcript coordinates (e.g.`*Aligned.toTranscriptome.out.bam`). The latter is needed for transcript quantification with RSEM (step 7). The default format of the former is as an unsorted SAM file. If you plan on using the genomic coordinate alignments for SNP calling, you have the option of getting these output as coordinate-sorted BAM files (similar to the `samtools sort` command) by putting a "yes" for the `GENOMIC_COORDINATE_BAMSORTED` variable in the config. Note that this will add significant computational time and memory.
 
 ## Step 5: Merge_BAM (Optional)
 

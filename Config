@@ -165,6 +165,12 @@ RM_QSUB="mem=50gb,nodes=1:ppn=16,walltime=450:00:00"
 #	as "annotated" junctions for the 2nd pass mapping. (either "first" or "second")
 RM_PASS="first"
 
+#	STAR outputs alignment in genome coordinates as well as transcript coordinates. The latter is used for
+#	RSEM (step 7). If you plan on using the genomic coordinate alignment files for SNP calling, you will need 
+#	sorted BAM files. If you want STAR to output genome alignments as sorted BAM files, put "yes" here. Note that this
+#	increases the time it takes for read mapping to run. If "no", the genome alignment file will be an unsorted SAM.
+GENOMIC_COORDINATE_BAMSORTED="no"
+
 #   Where are the trimmed files? This handler will accept EITHER a text file list of forward samples to map (include the full file path for each sample) OR
 #	a directory of input files (include the full file path). This may be the same as your output directory defined in adapter trimming (AT_OUTPUTDIR)
 RM_INPUT=""

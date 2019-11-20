@@ -13,6 +13,16 @@ fi
 name=$(basename ${f1%%$FORWARD}"")
 f2=${f1%%$FORWARD}"$REVERSE"
 
+###Genomic Coordinate Output
+if [[ "$GENOMIC_COORDINATE_BAMSORTED" == "yes" ]]; then #If genomic alignments should be output as sorted BAM files
+	FORMAT="BAM SortedByCoordinate"
+	echo "Output Genomic Alignments will be sorted BAM files"
+else
+	FORMAT="SAM"
+	echo "Output Genomic Alignments will be unsorted SAM files"
+fi
+
+###STAR mapping
 if [[ "$RM_PASS" == "first" && "$PE" == "True" ]]; then ###first pass mode, paired-end
 	if [[ -f $f1 && -f $f2 ]]; then
 		echo "Mapping PE reads for sample $name in first pass mode"
@@ -27,7 +37,7 @@ if [[ "$RM_PASS" == "first" && "$PE" == "True" ]]; then ###first pass mode, pair
 		--outFilterScoreMinOverLread $MINSCORE_READL \
 		--outFilterMatchNminOverLread $MINMATCH_READL \
 		--outReadsUnmapped $UNMAP_F \
-		--outSAMtype BAM SortedByCoordinate \
+		--outSAMtype $FORMAT \
 		--quantMode $QUANT
 	else
 		echo "$f1 and $f2 are not both valid files"
@@ -47,7 +57,7 @@ elif [[ "$RM_PASS" == "first" && "$PE" == "False" ]]; then ###first pass mode, s
 		--outFilterScoreMinOverLread $MINSCORE_READL \
 		--outFilterMatchNminOverLread $MINMATCH_READL \
 		--outReadsUnmapped $UNMAP_F \
-		--outSAMtype BAM SortedByCoordinate \
+		--outSAMtype $FORMAT \
 		--quantMode $QUANT
 	else
 		echo "$f1 is not a valid file"
@@ -68,7 +78,7 @@ elif [[ "$RM_PASS" == "second" && "$PE" == "True" ]]; then ###second pass mode, 
 		--outFilterScoreMinOverLread $MINSCORE_READL \
 		--outFilterMatchNminOverLread $MINMATCH_READL \
 		--outReadsUnmapped $UNMAP_F \
-		--outSAMtype BAM SortedByCoordinate \
+		--outSAMtype $FORMAT \
 		--quantMode $QUANT \
 		--sjdbFileChrStartEnd $JUNCTIONS
 	else
@@ -89,7 +99,7 @@ elif [[ "$RM_PASS" == "second" && "$PE" == "False" ]]; then ###second pass mode,
 		--outFilterScoreMinOverLread $MINSCORE_READL \
 		--outFilterMatchNminOverLread $MINMATCH_READL \
 		--outReadsUnmapped $UNMAP_F \
-		--outSAMtype BAM SortedByCoordinate \
+		--outSAMtype $FORMAT \
 		--quantMode $QUANT \
 		--sjdbFileChrStartEnd $JUNCTIONS
 	else
