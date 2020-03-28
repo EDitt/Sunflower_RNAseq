@@ -36,7 +36,7 @@ fi
 LANE_NUM=$(grep -o "L00[1-4]" <<< $name | cut -c 4) #Obtain Lane #
 SAMPLE_NAME=${name%%[!0-9]*}
 ID="${SAMPLE_NAME}:${FLOWCELL_NAME}.${LANE_NUM}"
-echo "File name indicates the lane number is ${LANE_NUM} and the sample name is ${SAMPLE_NAME}"
+echo "File name indicates the sample name is ${SAMPLE_NAME} and the lane number is ${LANE_NUM}"
 echo "The read group ID field will be ${ID}"
 
 ###Genomic Coordinate Output
@@ -64,7 +64,7 @@ if [[ "$RM_PASS" == "first" ]]; then ###first pass mode
 	--outReadsUnmapped $UNMAP_F \
 	--outSAMtype $FORMAT \
 	--quantMode $QUANT \
-	--outSAMattrRGline ID:${ID} PU:${ID} LB:${SAMPLE_NAME} PL:${PLATFORM} SM:${SAMPLE_NAME}
+	--outSAMattrRGline ID:${ID} LB:${SAMPLE_NAME} PL:${PLATFORM} SM:${SAMPLE_NAME} PU:${ID}
 elif [[ "$RM_PASS" == "second" ]]; then ###second pass mode
 	echo "In second pass mode using $NUM_JUNCTIONS junction files"
 	echo "Junctions are as follows: $JUNCTIONS"
@@ -81,7 +81,7 @@ elif [[ "$RM_PASS" == "second" ]]; then ###second pass mode
 	--outReadsUnmapped $UNMAP_F \
 	--outSAMtype $FORMAT \
 	--quantMode $QUANT \
-	--outSAMattrRGline ID:${ID} PU:${ID} LB:${SAMPLE_NAME} PL:${PLATFORM} SM:${SAMPLE_NAME} \
+	--outSAMattrRGline ID:${ID} LB:${SAMPLE_NAME} PL:${PLATFORM} SM:${SAMPLE_NAME} PU:${ID} \
 	--sjdbFileChrStartEnd $JUNCTIONS
 else
 	echo "Please specify in the config file whether this is first or second pass mode"
