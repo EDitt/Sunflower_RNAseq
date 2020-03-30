@@ -222,6 +222,14 @@ MINSCORE_READL=0.66
 #	Normalized by read length- (sum of mates' lengths for paired-end reads)
 MINMATCH_READL=0.66
 
+#####	For adding read group (@RG) tags to mapped sequence:
+#	This information is useful for differentiating reads coming from different runs/lanes even after merging
+
+#	Name of Flowcell (or other name that differentiates a particular run, e.g. "Run1")
+FLOWCELL_NAME=""
+
+# sequencing platform used
+PLATFORM="ILLUMINA"
 
 ############################################
 ##############    Merge_BAM   ##############
