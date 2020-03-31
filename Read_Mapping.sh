@@ -64,7 +64,9 @@ if [[ "$RM_PASS" == "first" ]]; then ###first pass mode
 	--outReadsUnmapped $UNMAP_F \
 	--outSAMtype $FORMAT \
 	--quantMode $QUANT \
-	--outSAMattrRGline ID:${ID} LB:${SAMPLE_NAME} PL:${PLATFORM} SM:${SAMPLE_NAME} PU:${ID}
+	--outSAMattrRGline ID:${ID} LB:${SAMPLE_NAME} PL:${PLATFORM} SM:${SAMPLE_NAME} PU:${ID} \
+	--outFilterType BySJout \
+	--outSJfilterReads Unique
 elif [[ "$RM_PASS" == "second" ]]; then ###second pass mode
 	echo "In second pass mode using $NUM_JUNCTIONS junction files"
 	echo "Junctions are as follows: $JUNCTIONS"
@@ -82,7 +84,7 @@ elif [[ "$RM_PASS" == "second" ]]; then ###second pass mode
 	--outSAMtype $FORMAT \
 	--quantMode $QUANT \
 	--outSAMattrRGline ID:${ID} LB:${SAMPLE_NAME} PL:${PLATFORM} SM:${SAMPLE_NAME} PU:${ID} \
-	--sjdbFileChrStartEnd $JUNCTIONS
+	--outFilterType BySJout
 else
 	echo "Please specify in the config file whether this is first or second pass mode"
 	exit 1
