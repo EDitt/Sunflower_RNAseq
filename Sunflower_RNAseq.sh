@@ -93,7 +93,11 @@ case "${ROUTINE}" in
         echo "Max array index is ${Maxarray}">&2
         echo "source ${CONFIG} && source ${SUNFLOWER_RNASEQ}/Read_Mapping.sh" | qsub -l "${RM_QSUB}" -e "${ERROR}" -o "${ERROR}" -m abe -M "${EMAIL}" -N "${PROJECT}"_Collect_Junctions  -V -t 1-"${Maxarray}"
         ;;
-    5 | Read_Mapping)
+    5 | Filter_Junctions)
+        echo "$(basename $0): Filtering and concatenating junctions for mapping..." >&2
+        echo "source ${CONFIG} && source ${SUNFLOWER_RNASEQ}/Filter_Junctions.sh" | qsub -l "${FJ_QSUB}" -e "${ERROR}" -o "${ERROR}" -m abe -M "${EMAIL}" -N "${PROJECT}"_Filter_Junctions
+        ;;
+    6 | Read_Mapping)
         if [[ ! -d "$GEN_DIR" ]]; then #if genome directory is not specified
             echo "Please specify a valid filepath to the genome directory, exiting..."
             exit 1
@@ -144,7 +148,7 @@ case "${ROUTINE}" in
             exit 1
         fi
         ;;
-    6 | Merge_BAM)
+    7 | Merge_BAM)
         echo "$(basename $0): Merging BAM files..." >&2
         if [[ -f "$ID_NAMES" ]]; then
             Maxarray=$(cat $ID_NAMES | wc -l)
@@ -154,11 +158,11 @@ case "${ROUTINE}" in
             echo "Please specify a valid file containing a list of ID names in the Config file"
         fi
         ;;
-    7 | Reference_Prep)
+    8 | Reference_Prep)
         echo "$(basename $0): Preparing Reference for Quantification..." >&2
         echo "source ${CONFIG} && source ${SUNFLOWER_RNASEQ}/Ref_Prep.sh" | qsub -l "${RP_QSUB}" -e "${ERROR}" -o "${ERROR}" -m abe -M "${EMAIL}" -N "${PROJECT}"_Reference_Prep
         ;;
-    8 | Transcript_Quant)
+    9 | Transcript_Quant)
         if [ "$PE" == "True" ]; then
             echo "$(basename $0): Quantifying Transcripts for PE data..." >&2
         elif [ "$PE" == "False" ]; then
