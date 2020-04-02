@@ -49,43 +49,26 @@ else
 fi
 
 ###STAR mapping
-if [[ "$RM_PASS" == "first" ]]; then ###first pass mode
-	echo "In first pass Mode"
-	/usr/local/apps/eb/STAR/2.6.1c-foss-2016b/bin/STAR \
-	--runThreadN $RM_NTHREAD \
-	--genomeDir $GEN_DIR \
-	--readFilesIn $f1 $f2 \
-	--readFilesCommand gunzip -c \
-	--outFileNamePrefix $CJ_OUTPUTDIR/"$name" \
-	--outFilterMismatchNmax $MAX_MIS \
-	--outFilterMultimapNmax $MAX_N \
-	--outFilterScoreMinOverLread $MINSCORE_READL \
-	--outFilterMatchNminOverLread $MINMATCH_READL \
-	--outReadsUnmapped $UNMAP_F \
-	--outSAMtype SAM \
-	--quantMode - \
-	--outSAMattrRGline ID:${ID} LB:${SAMPLE_NAME} PL:${PLATFORM} SM:${SAMPLE_NAME} PU:${ID} \
-	--outFilterType BySJout \
-	--outSJfilterReads Unique ## could change later to be a filtering step
-elif [[ "$RM_PASS" == "second" ]]; then ###second pass mode
-	echo "In second pass mode using $NUM_JUNCTIONS junction files"
-	echo "Junctions are as follows: $JUNCTIONS"
-	/usr/local/apps/eb/STAR/2.6.1c-foss-2016b/bin/STAR \
-	--runThreadN $RM_NTHREAD \
-	--genomeDir $GEN_DIR \
-	--readFilesIn $f1 $f2 \
-	--readFilesCommand gunzip -c \
-	--outFileNamePrefix $RM_OUTPUTDIR/"$name" \
-	--outFilterMismatchNmax $MAX_MIS \
-	--outFilterMultimapNmax $MAX_N \
-	--outFilterScoreMinOverLread $MINSCORE_READL \
-	--outFilterMatchNminOverLread $MINMATCH_READL \
-	--outReadsUnmapped $UNMAP_F \
-	--outSAMtype $FORMAT \
-	--quantMode $QUANT \
-	--outSAMattrRGline ID:${ID} LB:${SAMPLE_NAME} PL:${PLATFORM} SM:${SAMPLE_NAME} PU:${ID} \
-	--outFilterType BySJout
-else
-	echo "Please specify in the config file whether this is first or second pass mode"
-	exit 1
-fi
+
+echo "Mapping reads"
+echo "Junctions are as follows: $JUNCTIONS"
+/usr/local/apps/eb/STAR/2.7.1a-foss-2016bbin/STAR \
+--runThreadN $RM_NTHREAD \
+--genomeDir $GEN_DIR \
+--readFilesIn $f1 $f2 \
+--readFilesCommand gunzip -c \
+--outFileNamePrefix $RM_OUTPUTDIR/"$name" \
+--outFilterMismatchNmax $MAX_MIS \
+--outFilterMultimapNmax $MAX_N \
+--outFilterScoreMinOverLread $MINSCORE_READL \
+--outFilterMatchNminOverLread $MINMATCH_READL \
+--outReadsUnmapped $UNMAP_F \
+--outSAMtype $FORMAT \
+--quantMode $QUANT \
+--outSAMattrRGline ID:${ID} LB:${SAMPLE_NAME} PL:${PLATFORM} SM:${SAMPLE_NAME} PU:${ID} \
+--outFilterType BySJout \
+--outSAMattributes NH HI AS nM vG vA \
+--varVCFfile $VCF \
+--waspOutputMode SAMtag \
+--sjdbFileChrStartEnd $JUNCTIONS
+
