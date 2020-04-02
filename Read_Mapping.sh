@@ -56,17 +56,17 @@ if [[ "$RM_PASS" == "first" ]]; then ###first pass mode
 	--genomeDir $GEN_DIR \
 	--readFilesIn $f1 $f2 \
 	--readFilesCommand gunzip -c \
-	--outFileNamePrefix $RM_OUTPUTDIR/"$name" \
+	--outFileNamePrefix $CJ_OUTPUTDIR/"$name" \
 	--outFilterMismatchNmax $MAX_MIS \
 	--outFilterMultimapNmax $MAX_N \
 	--outFilterScoreMinOverLread $MINSCORE_READL \
 	--outFilterMatchNminOverLread $MINMATCH_READL \
 	--outReadsUnmapped $UNMAP_F \
-	--outSAMtype $FORMAT \
-	--quantMode $QUANT \
+	--outSAMtype SAM \
+	--quantMode - \
 	--outSAMattrRGline ID:${ID} LB:${SAMPLE_NAME} PL:${PLATFORM} SM:${SAMPLE_NAME} PU:${ID} \
 	--outFilterType BySJout \
-	--outSJfilterReads Unique
+	--outSJfilterReads Unique ## could change later to be a filtering step
 elif [[ "$RM_PASS" == "second" ]]; then ###second pass mode
 	echo "In second pass mode using $NUM_JUNCTIONS junction files"
 	echo "Junctions are as follows: $JUNCTIONS"
