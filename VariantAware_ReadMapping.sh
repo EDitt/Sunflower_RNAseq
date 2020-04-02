@@ -84,8 +84,7 @@ elif [[ "$RM_PASS" == "second" ]]; then ###second pass mode
 	--outSAMtype $FORMAT \
 	--quantMode $QUANT \
 	--outSAMattrRGline ID:${ID} LB:${SAMPLE_NAME} PL:${PLATFORM} SM:${SAMPLE_NAME} PU:${ID} \
-	--outFilterType BySJout \
-	--sjdbFileChrStartEnd $JUNCTIONS
+	--outFilterType BySJout
 else
 	echo "Please specify in the config file whether this is first or second pass mode"
 	exit 1
