@@ -45,6 +45,10 @@ PARENT_B=""
 #	Note that STAR needs at least 30gb of memory to run
 RM_QSUB="mem=50gb,nodes=1:ppn=16,walltime=450:00:00"
 
+#   Where are the genome index files?
+#	Include the full filepath
+GEN_DIR=""
+
 #   Where are the trimmed files? This handler will accept EITHER a text file list of forward samples to map (include the full file path for each sample) OR
 #	a directory of input files (include the full file path). This may be the same as your output directory defined in adapter trimming (AT_OUTPUTDIR)
 RM_INPUT=""
@@ -117,8 +121,38 @@ FILTERED_JUNC_LIST=
 #####	VARIANT-AWARE MAPPING
 # To perform variant-aware approaches, you need to supply a VCF file as input
 # This will automatically perform WASP filtering on reads
-VARIANT-AWARE="yes"
+VARIANT_AWARE="yes"
 
 # Full filepath to VCF
 VCF=""
 
+############################################
+##########      Dependencies      ##########
+############################################
+
+#   This section defines installations to
+#   various dependencies for Sunflower_RNAseq
+#   With module paths specific to the Georgia Advanced Computing Resource Center (GACRC)
+
+#   Do we have FastQC installed?
+module load FastQC/0.11.8-Java-1.8.0_144
+
+#   Do we have MultiQC installed?
+module load MultiQC/1.5-foss-2016b-Python-2.7.14
+
+#	Do we have Trimmomatic installed?
+module load Trimmomatic/0.36-Java-1.8.0_144 > /dev/null 2>&1
+
+#	Do we have STAR installed?
+module load STAR/2.7.1a-foss-2016b
+
+#	Do we have RSEM installed?
+module load RSEM/1.3.1-foss-2016b
+
+#	Do we have Samtools installed?
+module load SAMtools/1.9-foss-2016b
+
+#module load picard/2.16.0-Java-1.8.0_144  
+
+#	Path to the Java Jar file
+#java -jar $EBROOTPICARD/picard.jar
