@@ -77,7 +77,21 @@ case "${ROUTINE}" in
             echo "Please specify a valid file containing a list of ID names in the Config file"
         fi
         ;;
-    4 | Read_Counter)
+    4 | Mark_Duplicates)
+        echo "$(basename $0): Marking Duplicates..." >&2
+        declare -a files #an array of files
+        for f in `find $MD_INPUTDIR -name "*$MD_SUFFIX"`; do
+            if [[ -f "$f" ]]; then
+                files=("${files[@]}" "$f")
+            else
+                echo "$f is not a file"
+            fi
+        done
+        Maxarray=${#files[@]}
+        echo "Max array index is ${Maxarray}">&2
+        echo "source ${CONFIG} && source ${SUNFLOWER_RNASEQ}/Mark_Duplicates.sh" | qsub -l "${MD_QSUB}" -e "${ERROR}" -o "${ERROR}" -m abe -M "${EMAIL}" -N "${PROJECT}"_Mark_Duplicates -t 1-"${Maxarray}"
+        ;;
+    5 | Read_Counter)
 		;;
 	* )
 esac

@@ -149,6 +149,23 @@ MB_OUTPUTDIR=""
 ID_NAMES=""
 
 ############################################
+###########   Mark Duplicates    ###########
+############################################
+
+#	What are our QSub settings for Mark_Duplicates?
+#	Below are the recommended settings
+MD_QSUB="mem=22gb,nodes=1:ppn=4,walltime=5:00:00"
+
+#   Where are the BAM files? Include the full file path
+MD_INPUTDIR=""
+
+#   What is the file name suffix for the files you are marking duplicates on? 
+MD_SUFFIX="merged.bam"
+
+#   Where do you want the bam files with duplicates marked to go? Include the full file path
+MD_OUTPUTDIR=""
+
+############################################
 ##########      Dependencies      ##########
 ############################################
 
