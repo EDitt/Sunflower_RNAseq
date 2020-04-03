@@ -67,7 +67,17 @@ case "${ROUTINE}" in
         echo "Max array index is ${Maxarray}">&2
         echo "source ${CONFIG} && source ${SUNFLOWER_RNASEQ}/VariantAware_ReadMapping.sh" | qsub -l "${RM_QSUB}" -e "${ERROR}" -o "${ERROR}" -m abe -M "${EMAIL}" -N "${PROJECT}"_Read_Mapping  -V -t 1-"${Maxarray}"
         ;;
-    3 | Read_Counter)
+    3 | Merge_BAM)
+        echo "$(basename $0): Merging BAM files..." >&2
+        if [[ -f "$ID_NAMES" ]]; then
+            Maxarray=$(cat $ID_NAMES | wc -l)
+            echo "Max array index is ${Maxarray}" >&2
+            echo "source ${CONFIG} && source ${SUNFLOWER_RNASEQ}/Merge_BAM_Picard.sh" | qsub -l "${MB_QSUB}" -e "${ERROR}" -o "${ERROR}" -m abe -M "${EMAIL}" -N "${PROJECT}"_Merge_BAM -t 1-"${Maxarray}"
+        else
+            echo "Please specify a valid file containing a list of ID names in the Config file"
+        fi
+        ;;
+    4 | Read_Counter)
 		;;
 	* )
 esac
