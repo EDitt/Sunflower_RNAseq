@@ -65,7 +65,7 @@ case "${ROUTINE}" in
         export NUM_JUNCTIONS="${#junctions[@]}"
         echo "Variant-Aware read mapping using ${NUM_JUNCTIONS} junction files"
         echo "Max array index is ${Maxarray}">&2
-        echo "source ${ASE_CONFIG} && source ${SUNFLOWER_RNASEQ}/VariantAware_Read_Mapping.sh" | qsub -l "${RM_QSUB}" -e "${ERROR}" -o "${ERROR}" -m abe -M "${EMAIL}" -N "${PROJECT}"_Read_Mapping  -V -t 1-"${Maxarray}"
+        echo "source ${CONFIG} && source ${SUNFLOWER_RNASEQ}/VariantAware_Read_Mapping.sh" | qsub -l "${RM_QSUB}" -e "${ERROR}" -o "${ERROR}" -m abe -M "${EMAIL}" -N "${PROJECT}"_Read_Mapping  -V -t 1-"${Maxarray}"
         ;;
     3 | Read_Counter)
 		;;
