@@ -52,7 +52,7 @@ fi
 
 echo "Mapping reads"
 echo "Junctions are as follows: $JUNCTIONS"
-/usr/local/apps/eb/STAR/2.7.1a-foss-2016b/bin/STAR \
+/usr/local/apps/eb/STAR/2.6.1c-foss-2016b/bin/STAR \
 --runThreadN $RM_NTHREAD \
 --genomeDir $GEN_DIR \
 --readFilesIn $f1 $f2 \
