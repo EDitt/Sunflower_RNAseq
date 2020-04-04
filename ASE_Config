@@ -9,6 +9,14 @@ EMAIL=
 #	Is data paired-end? ("True" or "False")
 PE=True
 
+#   Where is the Genome FASTA file?
+#	Include the full filepath
+#	This variable will be used in the 'Split N-Cigar Reads' and 'ASE Read Counter' steps
+GEN_FASTA=""
+
+#	Specify a temporary directory to use for GATK
+TEMP_DIR=""
+
 ############################################
 ###########   SELECT_VARIANTS    ###########
 ############################################
@@ -164,6 +172,21 @@ MD_SUFFIX="merged.bam"
 
 #   Where do you want the bam files with duplicates marked to go? Include the full file path
 MD_OUTPUTDIR=""
+
+############################################
+#########   Split N-Cigar Reads    ##########
+############################################
+
+SN_QSUB="mem=22gb,nodes=1:ppn=4,walltime=5:00:00"
+
+#   Where are the BAM files to use? Include the full file path
+SN_INPUTDIR=""
+
+#   What is the file name suffix for the files you are marking duplicates on? 
+SN_SUFFIX="duplicates.bam"
+
+#   Where do you want the output bam files o go? Include the full file path
+SN_OUTPUTDIR=""
 
 ############################################
 ##########      Dependencies      ##########
