@@ -12,3 +12,4 @@ gatk SplitNCigarReads \
     -I ${file} \
     -O $SN_OUTPUTDIR/${name}_split.bam \
     --tmp-dir ${TEMP_DIR}
+    
