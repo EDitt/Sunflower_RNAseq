@@ -148,11 +148,6 @@ GEN_DIR=""
 SPLICE_JUN=74
 
 
-
-
-#- unique - only junctions that have unique reads
-
-
 ############################################
 ########    Collect_Junctions        #######
 ############################################
@@ -187,7 +182,7 @@ SJ_LISTNAME=""
 ## FILTERS:
 
 #  Remove junctions identified in scaffold sequences?
-### If yes, what string denotes non-chromosomal sequences? (Otherwise, NA)
+### If yes, what string denotes non-chromosomal sequences, eg "Chr00"? (Otherwise, put NA)
 SCAFFOLD_STRING="NA"
 
 ### Filter out non-canonical junctions? (yes or no)
@@ -258,7 +253,6 @@ FLOWCELL_NAME=""
 
 # sequencing platform used
 PLATFORM="ILLUMINA"
-
 
 ### Variables not shared with Collect_Junctions handler:
 
