@@ -91,7 +91,21 @@ case "${ROUTINE}" in
         echo "Max array index is ${Maxarray}">&2
         echo "source ${CONFIG} && source ${SUNFLOWER_RNASEQ}/Mark_Duplicates.sh" | qsub -l "${MD_QSUB}" -e "${ERROR}" -o "${ERROR}" -m abe -M "${EMAIL}" -N "${PROJECT}"_Mark_Duplicates -t 1-"${Maxarray}"
         ;;
-    5 | Read_Counter)
+    5 | Split_N)
+        echo "$(basename $0): Splitting N-Cigar Reads..." >&2
+        declare -a files #an array of files
+        for f in `find $SN_INPUTDIR -name "*$SN_SUFFIX"`; do
+            if [[ -f "$f" ]]; then
+                files=("${files[@]}" "$f")
+            else
+                echo "$f is not a file"
+            fi
+        done
+        Maxarray=${#files[@]}
+        echo "Max array index is ${Maxarray}">&2
+        echo "source ${CONFIG} && source ${SUNFLOWER_RNASEQ}/Split_NCigar.sh" | qsub -l "${SN_QSUB}" -e "${ERROR}" -o "${ERROR}" -m abe -M "${EMAIL}" -N "${PROJECT}"_Split_NCigar -t 1-"${Maxarray}"
+        ;;
+    6 | Read_Counter)
 		;;
 	* )
 esac
