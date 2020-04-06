@@ -183,7 +183,7 @@ SN_QSUB="mem=22gb,nodes=1:ppn=4,walltime=5:00:00"
 SN_INPUTDIR=""
 
 #   What is the file name suffix for the files you are marking duplicates on? 
-SN_SUFFIX="duplicates.bam"
+SN_SUFFIX="DupsMarked.bam"
 
 #   Where do you want the output bam files o go? Include the full file path
 SN_OUTPUTDIR=""

@@ -9,5 +9,5 @@ echo "Marking Duplicates for sample $name"
 
 java -jar ${PICARD_JAR} MarkDuplicates \
 	I=${file} \
-    O=$MD_OUTPUTDIR/${name}marked_duplicates.bam \
-    M=$MD_OUTPUTDIR/${name}marked_dup_metrics.txt
+    O=$MD_OUTPUTDIR/${name}DupsMarked.bam \
+    M=$MD_OUTPUTDIR/${name}DupsMarked_metrics.txt

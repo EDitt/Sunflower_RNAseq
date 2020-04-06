@@ -10,6 +10,6 @@ echo "Splitting N-Cigar Reads for sample $name"
 gatk SplitNCigarReads \
     -R ${GEN_FASTA} \
     -I ${file} \
-    -O $SN_OUTPUTDIR/${name}_split.bam \
+    -O $SN_OUTPUTDIR/${name}Split.bam \
     --tmp-dir ${TEMP_DIR}
     
