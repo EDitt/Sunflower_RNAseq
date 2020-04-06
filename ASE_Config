@@ -196,14 +196,6 @@ SN_OUTPUTDIR=""
 #   various dependencies for Sunflower_RNAseq
 #   With module paths specific to the Georgia Advanced Computing Resource Center (GACRC)
 
-#   Do we have FastQC installed?
-module load FastQC/0.11.8-Java-1.8.0_144
-
-#   Do we have MultiQC installed?
-module load MultiQC/1.5-foss-2016b-Python-2.7.14
-
-#	Do we have Trimmomatic installed?
-module load Trimmomatic/0.36-Java-1.8.0_144 > /dev/null 2>&1
 
 #	Do we have STAR installed?
 module load STAR/2.7.1a-foss-2016b
