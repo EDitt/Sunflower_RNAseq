@@ -7,7 +7,7 @@ name=$(basename ${file%%$SN_SUFFIX}"") #sample ID
 
 echo "Splitting N-Cigar Reads for sample $name"
 
-gatk SplitNCigarReads \
+gatk --java-options "Xmx22G" SplitNCigarReads \
     -R ${GEN_FASTA} \
     -I ${file} \
     -O $SN_OUTPUTDIR/${name}_split.bam \
