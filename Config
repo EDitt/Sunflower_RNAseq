@@ -271,7 +271,7 @@ QUANT=TranscriptomeSAM
 #	2nd-pass read mapping will use junctions discovered in the first pass (Collect_Junctions) 
 #	Need as input a list of all filtered junction files from samples. Include full filepath
 #	If not using additional junctions, leave blank
-FILTERED_JUNC_LIST=
+FILTERED_JUNC_LIST=""
 
 ############################################
 ##############    Merge_BAM   ##############
