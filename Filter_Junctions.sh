@@ -43,5 +43,6 @@ fi
 
 FINALNUM=$(less ${JUNCTIONDIR}/${SJ_LISTNAME}_SJ.filtered.tab | wc -l)
 #echo "Out of ${TOTREM}, ${FINALNUM} junctions were supported by at least ${UNIQUE_NUM} uniquely mapped reads"
-echo "After removing junctions supported by less than ${UNIQUE_NUM} uniquely mapped reads..."
-echo "The final filtered list of ${FINALNUM} junctions is: ${JUNCTIONDIR}/${SJ_LISTNAME}_SJ.filtered.tab and can be used for 2nd-pass read mapping"
+echo "After removing junctions supported by less than ${UNIQUE_NUM} uniquely mapped reads,"
+echo "the final filtered list contains ${FINALNUM} junctions and can be used for 2nd-pass read mapping"
+echo "This list can be found at: ${JUNCTIONDIR}/${SJ_LISTNAME}_SJ.filtered.tab"
