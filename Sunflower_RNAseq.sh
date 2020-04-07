@@ -91,7 +91,7 @@ case "${ROUTINE}" in
             exit 1
         fi
         echo "Max array index is ${Maxarray}">&2
-        echo "source ${CONFIG} && source ${SUNFLOWER_RNASEQ}/Read_Mapping.sh" | qsub -l "${RM_QSUB}" -e "${ERROR}" -o "${ERROR}" -m abe -M "${EMAIL}" -N "${PROJECT}"_Collect_Junctions  -V -t 1-"${Maxarray}"
+        echo "source ${CONFIG} && source ${SUNFLOWER_RNASEQ}/Read_Mapping.sh" | qsub -l "${RM_QSUB}" -e "${ERROR}" -o "${ERROR}" -m abe -M "${EMAIL}" -N "${PROJECT}"_Collect_Junctions -V -t 1-"${Maxarray}"
         ;;
     5 | Filter_Junctions)
         echo "$(basename $0): Filtering and concatenating junctions for mapping..." >&2
