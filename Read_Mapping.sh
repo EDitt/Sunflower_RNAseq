@@ -68,24 +68,44 @@ if [[ "$RM_PASS" == "first" ]]; then ###first pass mode
 	--outFilterType BySJout \
 	--outSJfilterReads Unique ## could change later to be a filtering step
 elif [[ "$RM_PASS" == "second" ]]; then ###second pass mode
-	echo "In second pass mode using $NUM_JUNCTIONS junction files"
-	echo "Junctions are as follows: $JUNCTIONS"
-	/usr/local/apps/eb/STAR/2.6.1c-foss-2016b/bin/STAR \
-	--runThreadN $RM_NTHREAD \
-	--genomeDir $GEN_DIR \
-	--readFilesIn $f1 $f2 \
-	--readFilesCommand gunzip -c \
-	--outFileNamePrefix $RM_OUTPUTDIR/"$name" \
-	--outFilterMismatchNmax $MAX_MIS \
-	--outFilterMultimapNmax $MAX_N \
-	--outFilterScoreMinOverLread $MINSCORE_READL \
-	--outFilterMatchNminOverLread $MINMATCH_READL \
-	--outReadsUnmapped $UNMAP_F \
-	--outSAMtype $FORMAT \
-	--quantMode $QUANT \
-	--outSAMattrRGline ID:${ID} LB:${SAMPLE_NAME} PL:${PLATFORM} SM:${SAMPLE_NAME} PU:${ID} \
-	--outFilterType BySJout
+	if [[ ! -z "$JUNCTIONS" ]]; then ### if using junctions
+		echo "In second pass mode using $NUM_JUNCTIONS junction files"
+		echo "Junctions are as follows: $JUNCTIONS"
+		/usr/local/apps/eb/STAR/2.6.1c-foss-2016b/bin/STAR \
+		--runThreadN $RM_NTHREAD \
+		--genomeDir $GEN_DIR \
+		--readFilesIn $f1 $f2 \
+		--readFilesCommand gunzip -c \
+		--outFileNamePrefix $RM_OUTPUTDIR/"$name" \
+		--outFilterMismatchNmax $MAX_MIS \
+		--outFilterMultimapNmax $MAX_N \
+		--outFilterScoreMinOverLread $MINSCORE_READL \
+		--outFilterMatchNminOverLread $MINMATCH_READL \
+		--outReadsUnmapped $UNMAP_F \
+		--outSAMtype $FORMAT \
+		--quantMode $QUANT \
+		--outSAMattrRGline ID:${ID} LB:${SAMPLE_NAME} PL:${PLATFORM} SM:${SAMPLE_NAME} PU:${ID} \
+		--outFilterType BySJout \
+		--sjdbFileChrStartEnd $JUNCTIONS
+	else
+		echo "Mapping without incorporating un-annotated junctions"
+		/usr/local/apps/eb/STAR/2.6.1c-foss-2016b/bin/STAR \
+		--runThreadN $RM_NTHREAD \
+		--genomeDir $GEN_DIR \
+		--readFilesIn $f1 $f2 \
+		--readFilesCommand gunzip -c \
+		--outFileNamePrefix $RM_OUTPUTDIR/"$name" \
+		--outFilterMismatchNmax $MAX_MIS \
+		--outFilterMultimapNmax $MAX_N \
+		--outFilterScoreMinOverLread $MINSCORE_READL \
+		--outFilterMatchNminOverLread $MINMATCH_READL \
+		--outReadsUnmapped $UNMAP_F \
+		--outSAMtype $FORMAT \
+		--quantMode $QUANT \
+		--outSAMattrRGline ID:${ID} LB:${SAMPLE_NAME} PL:${PLATFORM} SM:${SAMPLE_NAME} PU:${ID} \
+		--outFilterType BySJout
+	fi
 else
-	echo "Please specify in the config file whether this is first or second pass mode"
+	echo "Error: Unsure of whether first or second pass mode, exiting..."
 	exit 1
 fi

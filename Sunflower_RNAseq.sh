@@ -118,7 +118,7 @@ case "${ROUTINE}" in
             echo "$RM_INPUT is a file"
             Maxarray=$(< $RM_INPUT wc -l)
         else
-            echo "Please specify a valid directory or list in the config"
+            echo "Please specify a valid directory or list of input files in the config"
             exit 1
         fi
         if [ "$PE" == "True" ]; then
@@ -129,13 +129,17 @@ case "${ROUTINE}" in
             echo "Please specify in the config file whether data is PE (True/False), exiting..."
             exit 1
         fi
-        declare -a junctions ### make an array of filtered junction files
-        while read line; do
-            junctions=("${junctions[@]}" "$line")
-        done < $FILTERED_JUNC_LIST
-        export JUNCTIONS="${junctions[@]}"
-        export NUM_JUNCTIONS="${#junctions[@]}"
-        echo "In second-pass mode using ${NUM_JUNCTIONS} junction files"
+        if [[ -f "$FILTERED_JUNC_LIST" ]]; then
+            declare -a junctions ### make an array of filtered junction files
+            while read line; do
+                junctions=("${junctions[@]}" "$line")
+            done < $FILTERED_JUNC_LIST
+            export JUNCTIONS="${junctions[@]}"
+            export NUM_JUNCTIONS="${#junctions[@]}"
+            echo "In second-pass mode using ${NUM_JUNCTIONS} junction files"
+        else
+            echo "Read Mapping without incorporating un-annotated junctions"
+        fi
         echo "Max array index is ${Maxarray}">&2
         echo "source ${CONFIG} && source ${SUNFLOWER_RNASEQ}/Read_Mapping.sh" | qsub -l "${RM_QSUB}" -e "${ERROR}" -o "${ERROR}" -m abe -M "${EMAIL}" -N "${PROJECT}"_Read_Mapping  -V -t 1-"${Maxarray}"
         ;;
