@@ -129,19 +129,28 @@ case "${ROUTINE}" in
             echo "Please specify in the config file whether data is PE (True/False), exiting..."
             exit 1
         fi
-        if [[ -f "$FILTERED_JUNC_LIST" ]]; then
-            declare -a junctions ### make an array of filtered junction files
-            while read line; do
-                junctions=("${junctions[@]}" "$line")
-            done < $FILTERED_JUNC_LIST
-            export JUNCTIONS="${junctions[@]}"
-            export NUM_JUNCTIONS="${#junctions[@]}"
+        if [[ -f "$FILTERED_JUNC_LIST" ]]; then #if junction list variable is set as a file
+            file_content=$(head -1 ${FILTERED_JUNC_LIST})
+            if [[ -f "${file_content}" ]]; then #if first line is a file
+                declare -a junctions ### make an array of filtered junction files
+                while read line; do
+                    junctions=("${junctions[@]}" "$line")
+                done < $FILTERED_JUNC_LIST
+                export JUNCTIONS="${junctions[@]}"
+                export NUM_JUNCTIONS="${#junctions[@]}"
+            else #if file input is not a list of files, but list of junctions
+                export JUNCTIONS="${FILTERED_JUNC_LIST}"
+                export NUM_JUNCTIONS="one"
+            fi
             echo "In second-pass mode using ${NUM_JUNCTIONS} junction files"
-        else
+        elif [[ -z "$FILTERED_JUNC_LIST" ]]; then #if no input here
             echo "Read Mapping without incorporating un-annotated junctions"
+        else
+            echo "A junction list is specified in config but is not a valid file, exiting..."
+            exit 1
         fi
         echo "Max array index is ${Maxarray}">&2
-        echo "source ${CONFIG} && source ${SUNFLOWER_RNASEQ}/Read_Mapping.sh" | qsub -l "${RM_QSUB}" -e "${ERROR}" -o "${ERROR}" -m abe -M "${EMAIL}" -N "${PROJECT}"_Read_Mapping  -V -t 1-"${Maxarray}"
+        echo "source ${CONFIG} && source ${SUNFLOWER_RNASEQ}/Read_Mapping.sh" | qsub -l "${RM_QSUB}" -e "${ERROR}" -o "${ERROR}" -m abe -M "${EMAIL}" -N "${PROJECT}"_Read_Mapping -V -t 1-"${Maxarray}"
         ;;
     7 | Merge_BAM)
         echo "$(basename $0): Merging BAM files..." >&2

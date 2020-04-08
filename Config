@@ -268,8 +268,11 @@ GENOMIC_COORDINATE_BAMSORTED="no"
 #	Can also put "-" for none
 QUANT=TranscriptomeSAM
 
-#	2nd-pass read mapping will use junctions discovered in the first pass (Collect_Junctions) 
-#	Need as input a list of all filtered junction files from samples. Include full filepath
+#	2nd-pass read mapping will use junctions discovered in the first pass (Collect_Junctions)
+#	This variable can be one of two options:
+#		1.) The filtered junction list output from Collect_Junctions handler, OR
+#		2.) If you have more than one filtered junction list (if Collect_Junctions was run with multiple sample groups),
+#			this variable can be a text file listing the full file paths for each junction file you want included	
 #	If not using additional junctions, leave blank
 FILTERED_JUNC_LIST=""
 

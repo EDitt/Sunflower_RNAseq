@@ -74,19 +74,20 @@ Once the variables have been defined, Collect_Junctions can be submitted to a jo
 where `Config` is the full file path to the configuration file.
 
 #### Step 4b: Filter_Junctions
-This step will concatenate the junction files discovered in Step 4a across samples, and then filter them based on user-defined parameters in the config file. This step is not required, as STAR will automatically concatenate the "SJ.out.tab" files before mapping. If you want to skip this step, you can instead just pass a list of all the "SJ.out.tab" files for all samples from Step 4a directly into the `FILTERED_JUNC_LIST` variable for Read_Mapping. (In fact, this is the 2-pass mapping procedure describe in the STAR manual). However, filtering junctions is recommended when you have large numbers of samples, and there are several reasons we have implemented this intermediate filtering step: 
+This step will concatenate the junction files discovered in Step 4a across samples, and then filter them based on user-defined parameters in the config file. This step is not required, as STAR will automatically concatenate the "SJ.out.tab" files before mapping. If you want to skip this step, you can instead just pass a list of all the "SJ.out.tab" files for all samples from Step 4a directly into the `FILTERED_JUNC_LIST` variable for Read_Mapping. (In fact, this is the 2-pass mapping procedure described in the STAR manual). However, filtering junctions is recommended when you have large numbers of samples, and there are several reasons we have implemented this intermediate filtering step: 
 1.) Spurious junctions may increase the number of reads that map to multiple places in the genome   
 2.) Filtering and concatenating junction files before mapping speeds up the mapping step in 4c - both because of the smaller number of junctions and because STAR then doesn't need to perform the concatenation across large numbers of samples for each sample separately.  
-3.) These lists can be more easily saved in case one wants to redo the mapping  
+3.) This list or lists can be more easily saved in case one wants to redo the mapping  
 
 Once the variables in the configuration file have been defined, Filter_Junctions can be submitted to a job scheduler with the following command (assuming that you are in the directory containing `Sunflower_RNAseq`)  
 `./Sunflower_RNAseq.sh Filter_Junctions Config`   
 where `Config` is the full file path to the configuration file.
 
 #### Step 4c: Read_Mapping  
-This step will take all of the novel junctions discovered in the first pass and use them to re-map reads for each sample (in addition to the already-annotated junctions from your annotation file). A .txt file with a list of all junction files needs to be specified in the config file for the `FILTERED_JUNC_LIST` variable. As mentioned previously, this can be a list of un-filtered, un-concatenated "SJ.out.tab" files from all samples (if skipping step 4b) or the names of the filtered junction lists output from step 4b. 
+This step will take all of the novel junctions discovered in the first pass and use them to re-map reads for each sample (in addition to the already-annotated junctions from your annotation file). 
 
-Because we often process samples in batches (based on flow cell run), we have multiple outputs from step 4b, and simply make a list of these as input for the `FILTERED_JUNC_LIST` variable. As mentioned previously, STAR can handle multiple junction files as input (and will concatenate before mapping).
+The `FILTERED_JUNC_LIST` variable can be one of two things: 1.) The filepath to the filtered junctions file output from the "Filter_Junctions" handler. Alternatively, if you have multiple outputs from "Filter_Junctions" (if you process samples in batches like we do); this variable can be 2.) A .txt file with a list of the full filepaths to all filtered junction files to be included. STAR can handle multiple junction files as input (and will concatenate before mapping).
+As mentioned previously, this list could also just be a list of filepaths to the un-filtered, un-concatenated "SJ.out.tab" files from all samples (if skipping the "Filter_Junctions" step).
 
 To run Read_Mapping, all common and handler-specific variables must be defined within the configuration file. Once the variables have been defined, Read_Mapping can be submitted to a job scheduler with the following command (assuming that you are in the directory containing `Sunflower_RNAseq`)  
 `./Sunflower_RNAseq.sh Read_Mapping Config`   
@@ -99,10 +100,10 @@ where `Config` is the full file path to the configuration file.
 
 ### Final Notes:  
 #### Read groups  
-If you have sequence data from the same sample across multiple lanes/runs, the best practice is to map these separately (in order to test for batch effects), and then combine resulting bam files (step 5) for each sample before proceeding to transcript quantification. The read mapping step will add read groups (@RG) headers during mapping based upon file names and variables specified in the config file to differentiate separate read groups after merging.
+If you have sequence data from the same sample across multiple lanes/runs, the best practice is to map these separately (in order to test for batch effects), and then combine resulting bam files (step 5) for each sample before proceeding to transcript quantification. The "Read_Mapping" handler will add read group (@RG) information during mapping based upon file names and variables specified in the config file to differentiate separate read groups after merging.
 
 #### Alignment File Output  
-Two alignment files are output from STAR with this handler - one alignment file in genomic coordinates and one translated into transcript coordinates (e.g.`*Aligned.toTranscriptome.out.bam`). The latter is needed for transcript quantification with RSEM (step 7). The default format of the former is as an unsorted SAM file. If you plan on using the genomic coordinate alignments for SNP calling, you have the option of getting these output as coordinate-sorted BAM files (similar to the `samtools sort` command) by putting a "yes" for the `GENOMIC_COORDINATE_BAMSORTED` variable in the config. Note that this will add significant computational time and memory.
+Two alignment files are output from STAR with this handler - one alignment file in genomic coordinates and one translated into transcript coordinates (e.g.`*Aligned.toTranscriptome.out.bam`). The latter is needed for transcript quantification with RSEM (step 7). The default format of the former is an unsorted SAM file. If you plan on using the genomic coordinate alignments for SNP calling, you have the option of getting these output as coordinate-sorted BAM files (similar to the `samtools sort` command) by putting a "yes" for the `GENOMIC_COORDINATE_BAMSORTED` variable in the config. Note that this will add significant computational time and memory.
 
 ## Step 5: Merge_BAM (Optional)
 
