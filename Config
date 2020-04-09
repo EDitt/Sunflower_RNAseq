@@ -147,6 +147,12 @@ GEN_DIR=""
 #	(ex. for 2x100bp paired-end reads, the ideal value is 99)
 SPLICE_JUN=74
 
+#	What tag name should be used as the exons' gene-parents (in GTF files this defaults to "gene_id")
+#	You only need to fill this out if: 1.) you are used a .gff3 file for annotations AND 
+#										2.) you want GeneCounts output from read mapping
+#	(The tag name used for transcript-parents for a .gff3 file is 'Parent')
+#	This variable will be ignored if annotation file is GTF format
+GENE_PARENT=""
 
 ############################################
 ########    Collect_Junctions        #######
