@@ -51,7 +51,7 @@ fi
 ###STAR mapping
 if [[ "$RM_PASS" == "first" ]]; then ###first pass mode
 	echo "In first pass Mode"
-	/usr/local/apps/eb/STAR/2.6.1c-foss-2016b/bin/STAR \
+	${STAR_FILE} \
 	--runThreadN $RM_NTHREAD \
 	--genomeDir $GEN_DIR \
 	--readFilesIn $f1 $f2 \
@@ -71,7 +71,7 @@ elif [[ "$RM_PASS" == "second" ]]; then ###second pass mode
 	if [[ ! -z "$JUNCTIONS" ]]; then ### if using junctions
 		echo "In second pass mode using $NUM_JUNCTIONS junction files"
 		echo "Junctions are as follows: $JUNCTIONS"
-		/usr/local/apps/eb/STAR/2.6.1c-foss-2016b/bin/STAR \
+		${STAR_FILE} \
 		--runThreadN $RM_NTHREAD \
 		--genomeDir $GEN_DIR \
 		--readFilesIn $f1 $f2 \
@@ -89,7 +89,7 @@ elif [[ "$RM_PASS" == "second" ]]; then ###second pass mode
 		--sjdbFileChrStartEnd $JUNCTIONS
 	else
 		echo "Mapping without incorporating un-annotated junctions"
-		/usr/local/apps/eb/STAR/2.6.1c-foss-2016b/bin/STAR \
+		${STAR_FILE} \
 		--runThreadN $RM_NTHREAD \
 		--genomeDir $GEN_DIR \
 		--readFilesIn $f1 $f2 \
