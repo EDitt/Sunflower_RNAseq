@@ -37,9 +37,6 @@ PARENT_A=""
 PARENT_B=""
 
 
-
-#--exclude-non-variants true?
-
 ############################################
 ######   Variant-Aware Read_Mapping    #####
 ############################################
@@ -185,8 +182,38 @@ SN_INPUTDIR=""
 #   What is the file name suffix for the files you are marking duplicates on? 
 SN_SUFFIX="DupsMarked.bam"
 
-#   Where do you want the output bam files o go? Include the full file path
+#   Where do you want the output bam files to go? Include the full file path
 SN_OUTPUTDIR=""
+
+############################################
+#############   Process BAM    #############
+############################################
+
+PB_QSUB="mem=22gb,nodes=1:ppn=4,walltime=5:00:00"
+
+#   Where are the BAM files to use? Include the full file path
+PB_INPUTDIR=""
+
+#   What is the file name suffix for the files you are processing? 
+PB_SUFFIX="merged.bam"
+
+#   Where do you want the output bam files to go? Include the full file path
+PB_OUTPUTDIR=""
+
+############################################
+############   Validate BAMs    ############
+############################################
+
+VB_QSUB="mem=22gb,nodes=1:ppn=4,walltime=5:00:00"
+
+#   Where are the BAM files to use? Include the full file path
+VB_INPUTDIR=""
+
+#   What is the file name suffix for the files you are processing? 
+VB_SUFFIX="processed.bam"
+
+#   Where do you want the output file to go? Include the full file path
+VB_OUTPUTDIR=""
 
 ############################################
 ##########      Dependencies      ##########
