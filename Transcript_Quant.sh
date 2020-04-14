@@ -8,7 +8,7 @@ if [ "$PE" == "True" ]; then
 	echo "Calculating expression for sample $name"
 	rsem-calculate-expression \
 	-p $TQ_NTHREAD \
-	--bam \
+	--alignments \
 	--no-bam-output \
 	--paired-end \
 	$f1 \
@@ -20,7 +20,7 @@ elif [[ "$PE" == "False" ]]; then
 	echo "Calculating expression for sample $name"
 	rsem-calculate-expression \
 	-p $TQ_NTHREAD \
-	--bam \
+	--alignments \
 	--no-bam-output \
 	--fragment-length-mean $FRAG_MEAN_LEN \
 	--fragment-length-sd $FRAG_MEAN_SD \
