@@ -83,6 +83,7 @@ elif [[ "$RM_PASS" == "second" ]]; then ###second pass mode
 		--outFilterMatchNminOverLread $MINMATCH_READL \
 		--outReadsUnmapped $UNMAP_F \
 		--outSAMtype $FORMAT \
+		--outSAMattributes NH HI AS nM NM MD \
 		--quantMode $QUANT \
 		--outSAMattrRGline ID:${ID} LB:${SAMPLE_NAME} PL:${PLATFORM} SM:${SAMPLE_NAME} PU:${ID} \
 		--outFilterType BySJout \
@@ -101,6 +102,7 @@ elif [[ "$RM_PASS" == "second" ]]; then ###second pass mode
 		--outFilterMatchNminOverLread $MINMATCH_READL \
 		--outReadsUnmapped $UNMAP_F \
 		--outSAMtype $FORMAT \
+		--outSAMattributes NH HI AS nM NM MD \
 		--quantMode $QUANT \
 		--outSAMattrRGline ID:${ID} LB:${SAMPLE_NAME} PL:${PLATFORM} SM:${SAMPLE_NAME} PU:${ID} \
 		--outFilterType BySJout
