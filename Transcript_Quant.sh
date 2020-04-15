@@ -2,10 +2,25 @@
 
 set -o pipefail
 
+# Get sample information
+f1=$(find $TQ_INPUTDIR $(pwd -P) -maxdepth 1 -name "*bam" | sed -n ${PBS_ARRAYID}p)
+name=$(basename ${f1%%.bam}"_")
+
+# Make sure sample is valid for RSEM
+validate=$(rsem-sam-validator ${f1})
+if [[ "$validate" =~ "is not valid" ]]; then
+	echo "File $name is not valid for RSEM:"
+	echo "$validate"
+	echo "exiting..."
+	exit 1
+else
+	message=${validate#"........................."}
+	echo "RSEM says: $message ...proceeding to quantification"
+fi
+
+# RSEM quantification
+echo "Calculating expression for sample $name"
 if [ "$PE" == "True" ]; then
-	f1=$(find $TQ_INPUTDIR $(pwd -P) -maxdepth 1 -name "*bam" | sed -n ${PBS_ARRAYID}p)
-	name=$(basename ${f1%%.bam}"_")
-	echo "Calculating expression for sample $name"
 	rsem-calculate-expression \
 	-p $TQ_NTHREAD \
 	--alignments \
@@ -17,9 +32,6 @@ if [ "$PE" == "True" ]; then
 	$RSEM_ref/$REF_NAME \
 	$TQ_OUTPUTDIR/RSEMOut_"$name"
 elif [[ "$PE" == "False" ]]; then
-	f1=$(find $TQ_INPUTDIR $(pwd -P) -maxdepth 1 -name "*bam" | sed -n ${PBS_ARRAYID}p)
-	name=$(basename ${f1%%.bam}"_")
-	echo "Calculating expression for sample $name"
 	rsem-calculate-expression \
 	-p $TQ_NTHREAD \
 	--alignments \
@@ -33,5 +45,6 @@ elif [[ "$PE" == "False" ]]; then
 	$TQ_OUTPUTDIR/RSEMOut_"$name"
 else
 	echo "specify whether data are PE or SE"
+	exit 1
 fi
 
