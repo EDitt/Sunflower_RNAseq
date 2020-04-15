@@ -11,6 +11,8 @@ if [ "$PE" == "True" ]; then
 	--alignments \
 	--no-bam-output \
 	--paired-end \
+	--strandedness $STRANDEDNESS \
+	--estimate-rspd \
 	$f1 \
 	$RSEM_ref/$REF_NAME \
 	$TQ_OUTPUTDIR/RSEMOut_"$name"
@@ -22,6 +24,8 @@ elif [[ "$PE" == "False" ]]; then
 	-p $TQ_NTHREAD \
 	--alignments \
 	--no-bam-output \
+	--strandedness $STRANDEDNESS \
+	--estimate-rspd \
 	--fragment-length-mean $FRAG_MEAN_LEN \
 	--fragment-length-sd $FRAG_MEAN_SD \
 	$f1 \

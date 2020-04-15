@@ -349,6 +349,12 @@ TQ_INPUTDIR=""
 #   Where do you want your results? Include the full file path
 TQ_OUTPUTDIR=""
 
+#   What is the strandedness of the RNA-Seq reads?
+# 	Either "none" for a non-strand-specific protocol, "forward" if all upstream reads are
+#	derived from the forward strand, or "reverse" if all upstream reads are derived from the 
+#	reverse strand. Use "reverse" for Illumina TruSeq Stranded protocols.
+STRANDEDNESS="reverse"
+
 #### Below are options to fill out ONLY if the data are single-end (these variables are ignored if paired-end)
 
 #	What is the mean of the fragment length distribution?
