@@ -13,4 +13,5 @@ echo "Merging ${#NEW_BAM_LIST[@]} bam files for Sample #${ID}"
 
 java -jar ${PICARD_JAR} MergeSamFiles \
 ${NEW_BAM_LIST[*]} \
-O=${MB_OUTPUTDIR}/${ID}_merged.bam
+O=${MB_OUTPUTDIR}/${ID}_merged.bam \
+TMP_DIR=${TEMP_DIR}
