@@ -14,8 +14,8 @@ if [[ "$validate" =~ "is not valid" ]]; then
 	echo "exiting..."
 	exit 1
 else
-	message=${validate#"........................."}
-	echo "RSEM says: $message ...proceeding to quantification"
+	#message=${validate#"........................."}
+	echo "RSEM says: $validate ...proceeding to quantification"
 fi
 
 # RSEM quantification
