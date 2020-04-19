@@ -1,0 +1,87 @@
+#!/bin/bash
+
+#   Name this project
+PROJECT=
+
+#   What email should we use for job notifications?
+EMAIL=
+
+#	Is data paired-end? ("True" or "False")
+PE=True
+
+#   Where is the Genome FASTA file?
+#	Include the full filepath
+#	This variable will be used in the 'Split N-Cigar Reads' and 'ASE Read Counter' steps
+GEN_FASTA=""
+
+#	Specify a temporary directory
+TEMP_DIR=""
+
+############################################
+##############    Merge_BAM   ##############
+############################################
+
+#	What are our QSub settings for Merge_BAM?
+#	Below are the recommended settings
+MB_QSUB="mem=10gb,nodes=1:ppn=4,walltime=5:00:00"
+
+#   What is the file name suffix for the files you are merging? 
+MB_SUFFIX="Aligned.sortedByCoord.out.bam"
+
+#   Where are the BAM files? Include the full file path
+#   Make sure that all input files are in the same directory
+MB_INPUTDIR=""
+
+#   Where do you want your merged bam files to go? Include the whole directory
+MB_OUTPUTDIR=""
+
+#   You will need a .txt file with a list of ID's for each sample (1 per line)
+#	What is this file called? (Include the full directory path)
+ID_NAMES=""
+
+############################################
+#############   Process_BAM    #############
+############################################
+
+PB_QSUB="mem=22gb,nodes=1:ppn=4,walltime=5:00:00"
+
+#   Where are the BAM files to use? Include the full file path
+PB_INPUTDIR=""
+
+#   What is the file name suffix for the files you are processing? 
+PB_SUFFIX="merged.bam"
+
+#   Where do you want the output bam files to go? Include the full file path
+PB_OUTPUTDIR=""
+
+############################################
+############   Validate_BAM    #############
+############################################
+
+VB_QSUB="mem=22gb,nodes=1:ppn=4,walltime=5:00:00"
+
+#   Where are the BAM files to use? Include the full file path
+VB_INPUTDIR=""
+
+#   What is the file name suffix for the files you are processing? 
+VB_SUFFIX="processed.bam"
+
+#   Where do you want the output file to go? Include the full file path
+VB_OUTPUTDIR=""
+
+############################################
+##########      Dependencies      ##########
+############################################
+
+#   This section defines installations to
+#   various dependencies for Sunflower_RNAseq
+#   With module paths specific to the Georgia Advanced Computing Resource Center (GACRC)
+
+#	Do we have Samtools installed?
+module load SAMtools/1.9-foss-2016b
+
+module load GATK/4.1.2.0-GCCcore-8.2.0-Java-1.8
+GATK_JAR=/usr/local/apps/eb/GATK/4.1.2.0-GCCcore-8.2.0-Java-1.8/gatk
+
+module load picard/2.21.6-Java-11
+PICARD_JAR=/usr/local/apps/eb/picard/2.21.6-Java-11/picard.jar
