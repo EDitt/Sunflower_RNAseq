@@ -107,5 +107,19 @@ case "${ROUTINE}" in
         ;;
     6 | Read_Counter)
 		;;
+    7 | Process_BAM)
+        echo "$(basename $0): Processing BAMs..." >&2
+        declare -a files #an array of files
+        for f in `find $PB_INPUTDIR -name "*$PB_SUFFIX"`; do
+            if [[ -f "$f" ]]; then
+                files=("${files[@]}" "$f")
+            else
+                echo "$f is not a file"
+            fi
+        done
+        Maxarray=${#files[@]}
+        echo "Max array index is ${Maxarray}">&2
+        echo "source ${CONFIG} && source ${SUNFLOWER_RNASEQ}/Process_BAM.sh" | qsub -l "${PB_QSUB}" -e "${ERROR}" -o "${ERROR}" -m abe -M "${EMAIL}" -N "${PROJECT}"_Process_BAM -t 1-"${Maxarray}"
+        ;;
 	* )
 esac
