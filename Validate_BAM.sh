@@ -8,5 +8,6 @@ for file in `find $VB_INPUTDIR -name "*${VB_SUFFIX}"`; do
 	java -jar ${PICARD_JAR} ValidateSamFile \
 	I=${file} \
 	MODE=SUMMARY \
-	O=$VB_OUTPUTDIR/BAMStats #does this append in a loop?
+	O=$VB_OUTPUTDIR/${name}_BAMStats #does this append in a loop?
+	awk -v var="$name" '{print var, ":", $0}' $VB_OUTPUTDIR/${name}_BAMStats >> ValidateSummary.txt
 done
