@@ -20,9 +20,9 @@ java -jar ${PICARD_JAR} MarkDuplicates \
 echo "Splitting N-Cigar Reads for sample $name"
 
 gatk SplitNCigarReads \
-    -R ${GEN_FASTA} \
-    -I $TEMP_DIR/${name}DupsMarked.bam \
-    -O $PB_OUTPUTDIR/${name}processed.bam \
-    --tmp-dir ${TEMP_DIR}
+	-R ${GEN_FASTA} \
+	-I $TEMP_DIR/${name}DupsMarked.bam \
+	-O $PB_OUTPUTDIR/${name}processed.bam \
+	--tmp-dir ${TEMP_DIR}
 
 rm $TEMP_DIR/${name}DupsMarked.bam

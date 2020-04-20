@@ -35,7 +35,7 @@ case "${ROUTINE}" in
         fi
         ;;
     2 | Process_BAM)
-        echo "$(basename $0): Processing BAMs..." >&2
+        echo "$(basename $0): Processing BAM files..." >&2
         declare -a files #an array of files
         for f in `find $PB_INPUTDIR -name "*$PB_SUFFIX"`; do
             if [[ -f "$f" ]]; then
@@ -47,6 +47,10 @@ case "${ROUTINE}" in
         Maxarray=${#files[@]}
         echo "Max array index is ${Maxarray}">&2
         echo "source ${CONFIG} && source ${SUNFLOWER_RNASEQ}/Process_BAM.sh" | qsub -l "${PB_QSUB}" -e "${ERROR}" -o "${ERROR}" -m abe -M "${EMAIL}" -N "${PROJECT}"_Process_BAM -t 1-"${Maxarray}"
+        ;;
+    3 | Validate_BAM)
+        echo "$(basename $0): Validating BAM files..." >&2
+        echo "source ${CONFIG} && source ${SUNFLOWER_RNASEQ}/Validate_BAM.sh" | qsub -l "${VB_QSUB}" -e "${ERROR}" -o "${ERROR}" -m abe -M "${EMAIL}" -N "${PROJECT}"_Validate_BAM
         ;;
 	* )
 esac
