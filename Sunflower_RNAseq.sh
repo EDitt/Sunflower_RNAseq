@@ -51,12 +51,8 @@ case "${ROUTINE}" in
         echo "source ${CONFIG} && source ${SUNFLOWER_RNASEQ}/Trimm.sh" | qsub -l "${AT_QSUB}" -e "${ERROR}" -o "${ERROR}" -m abe -M "${EMAIL}" -N "${PROJECT}"_Adapter_Trimming -t 1-"${Maxarray}"
         ;;
     3 | Genome_Index)
-        if [[ -f "$JUNCTIONS" ]]; then #if regenerating genome index from novel junctions
-            echo "$(basename $0): Regenerating genome index with novel junctions discovered in first mapping pass"
-        else
-            echo "$(basename $0): Generating a genome index from ${ANNOTATION_FORMAT} annotation..." >&2
-            echo "source ${CONFIG} && source ${SUNFLOWER_RNASEQ}/Genome_Index.sh" | qsub -l "${GI_QSUB}" -e "${ERROR}" -o "${ERROR}" -m abe -M "${EMAIL}" -N "${PROJECT}"_Genome_Index
-        fi
+        echo "$(basename $0): Generating a genome index from ${ANNOTATION_FORMAT} annotation..." >&2
+        echo "source ${CONFIG} && source ${SUNFLOWER_RNASEQ}/Genome_Index.sh" | qsub -l "${GI_QSUB}" -e "${ERROR}" -o "${ERROR}" -m abe -M "${EMAIL}" -N "${PROJECT}"_Genome_Index
         ;;
     4 | Collect_Junctions)
         if [[ ! -d "$GEN_DIR" ]]; then #if genome directory is not specified
