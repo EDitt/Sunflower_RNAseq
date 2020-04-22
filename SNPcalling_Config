@@ -73,6 +73,21 @@ VB_SUFFIX="processed.bam"
 VB_OUTPUTDIR=""
 
 ############################################
+##########   Haplotype_Caller    ###########
+############################################
+
+HC_QSUB="mem=22gb,nodes=1:ppn=4,walltime=5:00:00"
+
+#   Where are the BAM files to use? Include the full file path
+HC_INPUTDIR=""
+
+#   Where do you want the output file to go? Include the full file path
+HC_OUTPUTDIR=""
+
+#	What is the sample heterozygosity?
+HETEROZYGOSITY=
+
+############################################
 ##########      Dependencies      ##########
 ############################################
 

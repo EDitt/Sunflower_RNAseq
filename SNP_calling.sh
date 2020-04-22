@@ -52,5 +52,8 @@ case "${ROUTINE}" in
         echo "$(basename $0): Validating BAM files..." >&2
         echo "source ${CONFIG} && source ${SUNFLOWER_RNASEQ}/Validate_BAM.sh" | qsub -l "${VB_QSUB}" -e "${ERROR}" -o "${ERROR}" -m abe -M "${EMAIL}" -N "${PROJECT}"_Validate_BAM
         ;;
+    4 | Haplotype_Caller)
+        echo "$(basename $0): Identifying variants using GATK's Haplotype Caller..." >&2
+        ;;
 	* )
 esac
