@@ -3,7 +3,7 @@
 set -o pipefail
 
 # Get sample information
-f1=$(find $TQ_INPUTDIR $(pwd -P) -maxdepth 1 -name "*bam" | sed -n ${PBS_ARRAYID}p)
+f1=$(find $TQ_INPUTDIR -maxdepth 1 -name "*bam" | sed -n ${PBS_ARRAYID}p)
 name=$(basename ${f1%%.bam}"_")
 
 # Make sure sample is valid for RSEM

@@ -4,7 +4,7 @@ set -o pipefail
 
 # Get input file (from directory or list)
 if [[ -d "$RM_INPUT" ]]; then #if input is a DIRECTORY
-	f1=$(find $RM_INPUT $(pwd -P) -maxdepth 1 -name "*$FORWARD" | sed -n ${PBS_ARRAYID}p)
+	f1=$(find $RM_INPUT -maxdepth 1 -name "*$FORWARD" | sed -n ${PBS_ARRAYID}p)
 elif [[ -f "$RM_INPUT" ]]; then #if input is a FILE
 	f1=$(sed -n ${PBS_ARRAYID}p $RM_INPUT)
 else
