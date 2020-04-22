@@ -54,6 +54,13 @@ case "${ROUTINE}" in
         ;;
     4 | Haplotype_Caller)
         echo "$(basename $0): Identifying variants using GATK's Haplotype Caller..." >&2
+        if [[ -f "$HC_INPUT" ]]; then
+            Maxarray=$(cat $HC_INPUT | wc -l)
+            echo "Max array index is ${Maxarray}" >&2
+            echo "source ${CONFIG} && source ${SUNFLOWER_RNASEQ}/Haplotype_Caller.sh" | qsub -l "${HC_QSUB}" -e "${ERROR}" -o "${ERROR}" -m abe -M "${EMAIL}" -N "${PROJECT}"_Haplotype_Caller -t 1-"${Maxarray}"
+        else
+            echo "Please specify a valid input file"
+        fi
         ;;
 	* )
 esac

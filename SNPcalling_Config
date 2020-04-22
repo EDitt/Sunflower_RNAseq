@@ -76,16 +76,26 @@ VB_OUTPUTDIR=""
 ##########   Haplotype_Caller    ###########
 ############################################
 
-HC_QSUB="mem=22gb,nodes=1:ppn=4,walltime=5:00:00"
+HC_QSUB="mem=250gb,nodes=1:ppn=24,walltime=150:00:00"
 
-#   Where are the BAM files to use? Include the full file path
-HC_INPUTDIR=""
+#   Which queue are we submitting the job to?
+HC_QUEUE=highmem_q
+
+#   Where are the BAM files? Include a text file with the full filepaths for each .bam file
+#	If there are multiple biological replicates per genotype, instead of a .bam file
+#	each line can be a file list of the replicate .bam files for each genotype
+HC_INPUT=""
 
 #   Where do you want the output file to go? Include the full file path
 HC_OUTPUTDIR=""
 
+#   List of genic intervals to process
+#	format one per line: chr1:100-200
+HC_INTERVALS=""
+
 #	What is the sample heterozygosity?
 HETEROZYGOSITY=
+
 
 ############################################
 ##########      Dependencies      ##########
