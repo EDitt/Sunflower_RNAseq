@@ -57,7 +57,7 @@ case "${ROUTINE}" in
         if [[ -f "$HC_INPUT" ]]; then
             Maxarray=$(cat $HC_INPUT | wc -l)
             echo "Max array index is ${Maxarray}" >&2
-            echo "source ${CONFIG} && source ${SUNFLOWER_RNASEQ}/Haplotype_Caller.sh" | qsub -l "${HC_QSUB}" -e "${ERROR}" -o "${ERROR}" -m abe -M "${EMAIL}" -N "${PROJECT}"_Haplotype_Caller -t 1-"${Maxarray}"
+            echo "source ${CONFIG} && source ${SUNFLOWER_RNASEQ}/Haplotype_Caller.sh" | qsub  -q "${HC_QUEUE}" -l "${HC_QSUB}" -e "${ERROR}" -o "${ERROR}" -m abe -M "${EMAIL}" -N "${PROJECT}"_Haplotype_Caller -t 1-"${Maxarray}"
         else
             echo "Please specify a valid input file"
         fi
