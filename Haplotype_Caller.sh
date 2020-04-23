@@ -33,4 +33,5 @@ gatk --java-options "-Xmx${memory}" \
         --heterozygosity "${HETEROZYGOSITY}" \
         --native-pair-hmm-threads "${threads}" \
         --emit-ref-confidence GVCF \
-        --interval-padding 150
+        --interval-padding 150 \
+        --tmp-dir "${TEMP_DIR}"
