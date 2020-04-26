@@ -21,7 +21,8 @@ else #if this is a list of lists
         java -jar ${PICARD_JAR} MergeSamFiles \
         ${BAM_LIST[*]} \
         O=${HC_OUTPUTDIR}/${name}_merged.bam \
-        TMP_DIR=${TEMP_DIR}
+        TMP_DIR=${TEMP_DIR} \
+        CREATE_INDEX=true
         INPUT="${HC_OUTPUTDIR}/${name}_merged.bam"
         echo "Running Haplotype caller on merged file $INPUT"
 fi
