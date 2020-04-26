@@ -6,17 +6,24 @@ set -o pipefail
 BAMs=$(sed -n ${PBS_ARRAYID}p $HC_INPUT)
 name=$(basename ${BAMs%%.*}"")
 
-# Is input a list of bams or list of lists?
-line1=$(sed -n 1p $HC_INPUT)
-line1_ext=$(basename ${line1##*.})
+# Is input a bam file or list of bams?
+line_ext=$(basename ${BAMs##*.})
 
-if [[ "$line1_ext" == "bam" ]]; then #if this is a list of .bam files
-	INPUT="-I $BAMs"
+if [[ "$line_ext" == "bam" ]]; then #if this is a list of .bam files
+	INPUT="$BAMs"
+        echo "Running Haplotype Caller on file $INPUT"
 else #if this is a list of lists
-	declare -a INPUT
+	declare -a BAM_LIST
 	while read line; do
-		INPUT=("${INPUT[@]}" "-I ${line}")
+		BAM_LIST=("${BAM_LIST[@]}" "I=${line}")
 	done < $BAMs
+        echo "Merging ${#BAM_LIST[@]} bam files for sample $name"
+        java -jar ${PICARD_JAR} MergeSamFiles \
+        ${BAM_LIST[*]} \
+        O=${HC_OUTPUTDIR}/${name}_merged.bam \
+        TMP_DIR=${TEMP_DIR}
+        INPUT="${HC_OUTPUTDIR}/${name}_merged.bam"
+        echo "Running Haplotype caller on merged file $INPUT"
 fi
 
 #get number of threads
@@ -27,7 +34,7 @@ memory="$(echo "${HC_QSUB}" | grep -oE 'mem=[[:digit:]]+' | cut -f 2 -d '=')G" #
 gatk --java-options "-Xmx${memory}" \
         HaplotypeCaller \
         -R "${GEN_FASTA}" \
-        ${INPUT} \
+        -I "${INPUT}" \
         -O "${HC_OUTPUTDIR}/${name}_Raw.g.vcf" \
         -L "${HC_INTERVALS}" \
         --heterozygosity "${HETEROZYGOSITY}" \
