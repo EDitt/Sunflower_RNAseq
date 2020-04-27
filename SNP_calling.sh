@@ -114,7 +114,7 @@ case "${ROUTINE}" in
             Maxarray="$IntNum"
         fi
         echo "Max array index is ${Maxarray}" >&2
-        echo "source ${CONFIG} && source ${SUNFLOWER_RNASEQ}/Genomics_DB_Import.sh" | qsub  -q "${GD_QSUB}" -l "${GD_QSUB}" -e "${ERROR}" -o "${ERROR}" -m abe -M "${EMAIL}" -N "${PROJECT}"_Genomics_DB_Import -V -t 1-"${Maxarray}"
+        echo "source ${CONFIG} && source ${SUNFLOWER_RNASEQ}/Genomics_DB_Import.sh" | qsub  -q "${GD_QUEUE}" -l "${GD_QSUB}" -e "${ERROR}" -o "${ERROR}" -m abe -M "${EMAIL}" -N "${PROJECT}"_Genomics_DB_Import -V -t 1-"${Maxarray}"
         ;;
 	* )
 esac
