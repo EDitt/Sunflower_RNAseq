@@ -96,6 +96,43 @@ HC_INTERVALS=""
 #	What is the sample heterozygosity?
 HETEROZYGOSITY=
 
+############################################
+#########   Genomics_DB_Import    ##########
+############################################
+
+GD_QSUB="mem=250gb,nodes=1:ppn=24,walltime=150:00:00"
+
+#   Which queue are we submitting the job to?
+GD_QUEUE=highmem_q
+
+#	Where are the g.vcf files? (Can be a list or a directory)
+GD_INPUT=""
+
+#   Where do you want the output database to go? Include the full file path
+GD_OUTPUTDIR=""
+
+#   List of genic intervals to process (Intervals will be parallelized)
+#	Accepts GATK, Picard-style or .bed format interval lists
+GD_INTERVALS=""
+
+#	Are there scaffolds not covered by the list above? If not, put "false"
+#	If yes, put the file filepath to a list of scaffold regions
+#	Accepts GATK, Picard-style or .bed format interval lists
+GD_SCAFFOLDS="false"
+
+############################################
+###########   Genotype_GVCFs    ############
+############################################
+
+
+############################################
+###########   Filter_Variants    ###########
+############################################
+
+FV_QSUB="mem=50gb,nodes=1:ppn=8,walltime=150:00:00"
+
+
+
 
 ############################################
 ##########      Dependencies      ##########

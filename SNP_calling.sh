@@ -62,5 +62,59 @@ case "${ROUTINE}" in
             echo "Please specify a valid input file"
         fi
         ;;
+    4 | Genomics_DB_Import)
+        echo "$(basename $0): Running Genomics DB Import..." >&2
+        if [[ -d "$GD_INPUT" ]]; then #if input is a directory
+            echo "$GD_INPUT is a directory"
+            declare -a samples #an array of files
+            for f1 in `find $GD_INPUT -name "*g.vcf"`; do
+                if [[ -f "$f1" ]]; then
+                    samples=("${samples[@]}" "-V $f1")
+                else
+                    echo "Please specify a path to valid files in the config file"
+                fi
+            done
+        elif [[ -f "$GD_INPUT" ]]; then #if input is a file
+            echo "$GD_INPUT is a file"
+            declare -a samples
+            while read line; do
+                samples=("${samples[@]}" "-V $line")
+            done < $GD_INPUT
+        else
+            echo "Please specify a valid directory or list of input files in the config"
+        fi
+        export INPUT="${samples[*]}"
+        int_ext=$(basename ${GD_INTERVALS##*.}) # is interval file .bed format?
+        if [[ "$int_ext" == "bed" ]]; then # if interval extension is .bed convert to Picard interval list
+            GEN_DICT="${GEN_FASTA%%fasta}dict"
+            if [[ -f "$GEN_DICT" ]]; then # if reference dictionary exists
+                echo "Converting .bed file interval format to 1-based coordinate system"
+                int_name=$(basename ${GD_INTERVALS%%.bed})
+                java -jar ${PICARD_JAR} BedToIntervalList \
+                I=${GD_INTERVALS} \
+                O=${GD_OUTPUTDIR}/${int_name}.interval_list \
+                SD=${GEN_DICT}
+                export IntList="${GD_OUTPUTDIR}/${int_name}.interval_list"
+            else
+                echo "No sequence dictionary file (.dict) detected in the $(dirname "${GEN_FASTA}") directory"
+                echo "Please generate this file and re-run, exiting..."
+                exit 1
+            fi
+        else
+            echo "Detected 1-based coordinate interval list"
+            export IntList="${GD_INTERVALS}"
+            #IntNum=$(< $IntList wc -l)
+        fi
+        IntNum=$(grep -v "^@" $IntList | wc -l)
+        if [[ "$GD_SCAFFOLDS" != "false" ]]; then #if scaffold sequence added
+            echo "Adding scaffold regions to process in addition to $IntNum chromosomal regions"
+            export Maxarray=$(($IntNum + 1))
+        else
+            echo "No scaffold regions specified in config"
+            Maxarray="$IntNum"
+        fi
+        echo "Max array index is ${Maxarray}" >&2
+        echo "source ${CONFIG} && source ${SUNFLOWER_RNASEQ}/Genomics_DB_Import.sh" | qsub  -q "${GD_QSUB}" -l "${GD_QSUB}" -e "${ERROR}" -o "${ERROR}" -m abe -M "${EMAIL}" -N "${PROJECT}"_Genomics_DB_Import -V -t 1-"${Maxarray}"
+        ;;
 	* )
 esac
