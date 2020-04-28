@@ -138,5 +138,8 @@ case "${ROUTINE}" in
         echo "Max array index is ${Maxarray}" >&2
         echo "source ${CONFIG} && source ${SUNFLOWER_RNASEQ}/Genotype_GVCFs.sh" | qsub  -l "${GV_QSUB}" -e "${ERROR}" -o "${ERROR}" -m abe -M "${EMAIL}" -N "${PROJECT}"_Genotype_GVCFs -V -t 1-"${Maxarray}"
         ;;
+    6 | Combine_VCFs)
+        echo "$(basename $0): Combining VCFs and filtering variants..." >&2
+        ;;
 	* )
 esac

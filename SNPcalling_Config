@@ -133,12 +133,21 @@ GV_QSUB="mem=22gb,nodes=1:ppn=8,walltime=24:00:00"
 GV_OUTPUTDIR=""
 
 ############################################
-###########   Filter_Variants    ###########
+############   Combine_VCFs    #############
 ############################################
 
-FV_QSUB="mem=50gb,nodes=1:ppn=8,walltime=150:00:00"
 
+CV_QSUB="mem=50gb,nodes=1:ppn=8,walltime=150:00:00"
 
+#	Where are the input vcf files? Include the full filepath
+#	This can be either a directory (such as the one specified in GV_OUTPUTDIR)
+#	or a .txt file with a list of all VCFs and their filepaths
+#	Chromosome parts must be in the correct order in the list,
+#		if a directory, will be ordered by sort -V
+CV_INPUT=""
+
+#	Where do you want your final filtered VCF file to go? Include the full filepath
+CV_OUTPUTDIR=""
 
 
 ############################################
@@ -157,3 +166,8 @@ GATK_JAR=/usr/local/apps/eb/GATK/4.1.2.0-GCCcore-8.2.0-Java-1.8/gatk
 
 module load picard/2.16.0-Java-1.8.0_144
 PICARD_JAR=/usr/local/apps/eb/picard/2.16.0-Java-1.8.0_144/picard.jar
+
+module load BCFtools/1.9-foss-2016b
+
+module load VCFtools/0.1.15-foss-2016b-Perl-5.24.1
+
