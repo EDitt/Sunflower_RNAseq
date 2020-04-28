@@ -7,10 +7,18 @@ if [ "$GD_SCAFFOLDS" != "false" ] && [ $PBS_ARRAYID -eq $Maxarray ]; then #if sc
 	echo "Processing Scaffolds"
 	INTERVAL="${GD_SCAFFOLDS}"
 	name="ScaffoldSeq"
+	NumScaffolds=$(< $INTERVAL wc -l)
+	if [[ "$NumScaffolds" -gt 100 ]]; then
+		MergeRule="true"
+		echo "More than 100 Scaffolds, using merge-input-intervals flag"
+	else
+		MergeRule="false"
+	fi
 else
 	INTERVAL=$(grep -v "^@" $IntList | awk '{print $1":"$2"-"$3}' | sed -n ${PBS_ARRAYID}p)
 	echo "Processing chromosomal sequence $INTERVAL"
 	name="$(echo "${INTERVAL}" | tr -s ':' '_')"
+	MergeRule="false"
 fi
 
 #get memory
@@ -23,4 +31,6 @@ gatk --java-options "-Xmx${mem} -Xms${mem}" GenomicsDBImport \
 	${INPUT} \
 	-L "${INTERVAL}" \
     --genomicsdb-workspace-path "${GD_OUTPUTDIR}/gendb_wksp_${name}" \
-    --tmp-dir "${TEMP_DIR}"
+    --tmp-dir "${TEMP_DIR}" \
+    --interval-padding 150 \
+    --merge-input-intervals "${MergeRule}"
