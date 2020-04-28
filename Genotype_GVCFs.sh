@@ -20,7 +20,7 @@ cd "${GD_OUTPUTDIR}"
  gatk --java-options "-Xmx${memory}" GenotypeGVCFs \
    -R "${GEN_FASTA}" \
    -L "${INTERVAL}" \
-   -V "$gendb_wksp_${name}" \
+   -V "gendb://gendb_wksp_${name}" \
    -O "${GV_OUTPUTDIR}/${name}.vcf" \
    --tmp-dir "${TEMP_DIR}" \
    --heterozygosity "${HETEROZYGOSITY}" \
