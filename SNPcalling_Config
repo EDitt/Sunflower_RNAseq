@@ -124,6 +124,13 @@ GD_SCAFFOLDS="false"
 ###########   Genotype_GVCFs    ############
 ############################################
 
+#### IMPORTANT: This handler shares variables with Genomics_DB_Import
+####			It also uses the "HETEROZYGOSITY" variable specified in Haplotype_Caller
+
+GV_QSUB="mem=22gb,nodes=1:ppn=8,walltime=24:00:00"
+
+#   Where do you want the VCF files to go? Include the full file path
+GV_OUTPUTDIR=""
 
 ############################################
 ###########   Filter_Variants    ###########

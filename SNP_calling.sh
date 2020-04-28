@@ -116,5 +116,27 @@ case "${ROUTINE}" in
         echo "Max array index is ${Maxarray}" >&2
         echo "source ${CONFIG} && source ${SUNFLOWER_RNASEQ}/Genomics_DB_Import.sh" | qsub  -q "${GD_QUEUE}" -l "${GD_QSUB}" -e "${ERROR}" -o "${ERROR}" -m abe -M "${EMAIL}" -N "${PROJECT}"_Genomics_DB_Import -V -t 1-"${Maxarray}"
         ;;
+    5 | Genotype_GVCFs)
+        echo "$(basename $0): Genotyping GVCFs using workspace created by Genomics_DB_Import..." >&2
+        int_ext=$(basename ${GD_INTERVALS##*.})
+        if [[ "$int_ext" == "bed" ]]; then # if interval extension is .bed then use created Picard interval list
+            echo "Using Picard interval list created in previous step"
+            int_name=$(basename ${GD_INTERVALS%%.bed})
+            export IntList="${GD_OUTPUTDIR}/${int_name}.interval_list"
+        else
+            echo "Using input interval list"
+            export IntList="${GD_INTERVALS}"
+        fi
+        IntNum=$(grep -v "^@" $IntList | wc -l)
+        if [[ "$GD_SCAFFOLDS" != "false" ]]; then #if scaffold sequence added
+            echo "Adding scaffold regions to process in addition to $IntNum chromosomal regions"
+            export Maxarray=$(($IntNum + 1))
+        else
+            echo "No scaffold regions specified in config"
+            Maxarray="$IntNum"
+        fi
+        echo "Max array index is ${Maxarray}" >&2
+        echo "source ${CONFIG} && source ${SUNFLOWER_RNASEQ}/Genotype_GVCFs.sh" | qsub  -l "${GV_QSUB}" -e "${ERROR}" -o "${ERROR}" -m abe -M "${EMAIL}" -N "${PROJECT}"_Genotype_GVCFs -V -t 1-"${Maxarray}"
+        ;;
 	* )
 esac
