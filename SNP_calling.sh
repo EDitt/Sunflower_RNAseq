@@ -46,18 +46,18 @@ case "${ROUTINE}" in
         done
         Maxarray=${#files[@]}
         echo "Max array index is ${Maxarray}">&2
-        echo "source ${CONFIG} && source ${SUNFLOWER_RNASEQ}/Process_BAM.sh" | qsub -l "${PB_QSUB}" -e "${ERROR}" -o "${ERROR}" -m abe -M "${EMAIL}" -N "${PROJECT}"_Process_BAM -t 1-"${Maxarray}"
+        echo "source ${CONFIG} && source ${SUNFLOWER_RNASEQ}/SNP_calling/Process_BAM.sh" | qsub -l "${PB_QSUB}" -e "${ERROR}" -o "${ERROR}" -m abe -M "${EMAIL}" -N "${PROJECT}"_Process_BAM -t 1-"${Maxarray}"
         ;;
     3 | Validate_BAM)
         echo "$(basename $0): Validating BAM files..." >&2
-        echo "source ${CONFIG} && source ${SUNFLOWER_RNASEQ}/Validate_BAM.sh" | qsub -l "${VB_QSUB}" -e "${ERROR}" -o "${ERROR}" -m abe -M "${EMAIL}" -N "${PROJECT}"_Validate_BAM
+        echo "source ${CONFIG} && source ${SUNFLOWER_RNASEQ}/SNP_calling/Validate_BAM.sh" | qsub -l "${VB_QSUB}" -e "${ERROR}" -o "${ERROR}" -m abe -M "${EMAIL}" -N "${PROJECT}"_Validate_BAM
         ;;
     4 | Haplotype_Caller)
         echo "$(basename $0): Identifying variants using GATK's Haplotype Caller..." >&2
         if [[ -f "$HC_INPUT" ]]; then
             Maxarray=$(cat $HC_INPUT | wc -l)
             echo "Max array index is ${Maxarray}" >&2
-            echo "source ${CONFIG} && source ${SUNFLOWER_RNASEQ}/Haplotype_Caller.sh" | qsub  -q "${HC_QUEUE}" -l "${HC_QSUB}" -e "${ERROR}" -o "${ERROR}" -m abe -M "${EMAIL}" -N "${PROJECT}"_Haplotype_Caller -t 1-"${Maxarray}"
+            echo "source ${CONFIG} && source ${SUNFLOWER_RNASEQ}/SNP_calling/Haplotype_Caller.sh" | qsub  -q "${HC_QUEUE}" -l "${HC_QSUB}" -e "${ERROR}" -o "${ERROR}" -m abe -M "${EMAIL}" -N "${PROJECT}"_Haplotype_Caller -t 1-"${Maxarray}"
         else
             echo "Please specify a valid input file"
         fi
@@ -114,7 +114,7 @@ case "${ROUTINE}" in
             Maxarray="$IntNum"
         fi
         echo "Max array index is ${Maxarray}" >&2
-        echo "source ${CONFIG} && source ${SUNFLOWER_RNASEQ}/Genomics_DB_Import.sh" | qsub  -q "${GD_QUEUE}" -l "${GD_QSUB}" -e "${ERROR}" -o "${ERROR}" -m abe -M "${EMAIL}" -N "${PROJECT}"_Genomics_DB_Import -V -t 1-"${Maxarray}"
+        echo "source ${CONFIG} && source ${SUNFLOWER_RNASEQ}/SNP_calling/Genomics_DB_Import.sh" | qsub  -q "${GD_QUEUE}" -l "${GD_QSUB}" -e "${ERROR}" -o "${ERROR}" -m abe -M "${EMAIL}" -N "${PROJECT}"_Genomics_DB_Import -V -t 1-"${Maxarray}"
         ;;
     5 | Genotype_GVCFs)
         echo "$(basename $0): Genotyping GVCFs using workspace created by Genomics_DB_Import..." >&2
@@ -136,7 +136,7 @@ case "${ROUTINE}" in
             Maxarray="$IntNum"
         fi
         echo "Max array index is ${Maxarray}" >&2
-        echo "source ${CONFIG} && source ${SUNFLOWER_RNASEQ}/Genotype_GVCFs.sh" | qsub  -l "${GV_QSUB}" -e "${ERROR}" -o "${ERROR}" -m abe -M "${EMAIL}" -N "${PROJECT}"_Genotype_GVCFs -V -t 1-"${Maxarray}"
+        echo "source ${CONFIG} && source ${SUNFLOWER_RNASEQ}/SNP_calling/Genotype_GVCFs.sh" | qsub  -l "${GV_QSUB}" -e "${ERROR}" -o "${ERROR}" -m abe -M "${EMAIL}" -N "${PROJECT}"_Genotype_GVCFs -V -t 1-"${Maxarray}"
         ;;
     6 | Combine_VCFs)
         echo "$(basename $0): Combining VCFs and filtering variants..." >&2
