@@ -14,16 +14,15 @@ echo "Marking Duplicates for sample $name"
 
 java -jar ${PICARD_JAR} MarkDuplicates \
 	I="${file}" \
-    O="${TEMP_DIR}/${name}DupsMarked.bam" \
-    M="${PB_OUTPUTDIR}/${name}Duplicate_metrics.txt" \
-    MAX_RECORDS_IN_RAM=1000
+    O="${PB_OUTPUTDIR}/${name}DupsMarked.bam" \
+    M="${PB_OUTPUTDIR}/${name}Duplicate_metrics.txt"
 
-echo "Splitting N-Cigar Reads for sample $name"
+#echo "Splitting N-Cigar Reads for sample $name"
 
-gatk SplitNCigarReads \
-	-R "${GEN_FASTA}" \
-	-I "${TEMP_DIR}/${name}DupsMarked.bam" \
-	-O "${PB_OUTPUTDIR}/${name}processed.bam" \
-	--tmp-dir "${TEMP_DIR}"
+#gatk SplitNCigarReads \
+#	-R "${GEN_FASTA}" \
+#	-I "${TEMP_DIR}/${name}DupsMarked.bam" \
+#	-O "${PB_OUTPUTDIR}/${name}processed.bam" \
+#	--tmp-dir "${TEMP_DIR}"
 
-rm $TEMP_DIR/${name}DupsMarked.bam
+#rm $TEMP_DIR/${name}DupsMarked.bam
