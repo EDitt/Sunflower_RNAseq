@@ -12,7 +12,7 @@ name=$(basename ${file%%$PB_SUFFIX}"") #sample ID
 
 echo "Marking Duplicates for sample $name"
 
-java -jar ${PICARD_JAR} MarkDuplicates \
+java -Xmx2g -jar ${PICARD_JAR} MarkDuplicates \
 	I="${file}" \
     O="${TEMP_DIR}/${name}DupsMarked.bam" \
     M="${PB_OUTPUTDIR}/${name}Duplicate_metrics.txt"
