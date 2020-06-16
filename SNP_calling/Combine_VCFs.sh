@@ -26,5 +26,5 @@ vcftools --vcf "${CV_OUTPUTDIR}/Intermediates/${PROJECT}_concat.vcf" \
 --out "${CV_OUTPUTDIR}/Intermediates/${PROJECT}_no_indels"
 
 ### can use gatk to count variants
-gatk CountVariants \
--V "${CV_OUTPUTDIR}/Intermediates/${PROJECT}_concat.vcf"
+#gatk CountVariants \
+#-V "${CV_OUTPUTDIR}/Intermediates/${PROJECT}_concat.vcf"

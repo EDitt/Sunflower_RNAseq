@@ -137,7 +137,7 @@ GV_OUTPUTDIR=""
 ############################################
 
 
-CV_QSUB="mem=50gb,nodes=1:ppn=8,walltime=150:00:00"
+CV_QSUB="mem=50gb,nodes=1:ppn=8,walltime=124:00:00"
 
 #	Where are the input vcf files? Include the full filepath
 #	This can be either a directory (such as the one specified in GV_OUTPUTDIR)
