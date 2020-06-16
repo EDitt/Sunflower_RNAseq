@@ -139,7 +139,7 @@ case "${ROUTINE}" in
         echo "source ${CONFIG} && source ${SUNFLOWER_RNASEQ}/SNP_calling/Genotype_GVCFs.sh" | qsub  -l "${GV_QSUB}" -e "${ERROR}" -o "${ERROR}" -m abe -M "${EMAIL}" -N "${PROJECT}"_Genotype_GVCFs -V -t 1-"${Maxarray}"
         ;;
     6 | Combine_VCFs)
-        echo "$(basename $0): Combining VCFs and filtering variants..." >&2
+        echo "$(basename $0): Combining VCFs and filtering out indels..." >&2
         echo "source ${CONFIG} && source ${SUNFLOWER_RNASEQ}/SNP_calling/Combine_VCFs.sh" | qsub  -l "${CV_QSUB}" -e "${ERROR}" -o "${ERROR}" -m abe -M "${EMAIL}" -N "${PROJECT}"_Combine_VCFs
         ;;
 	* )

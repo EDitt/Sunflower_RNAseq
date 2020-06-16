@@ -16,10 +16,10 @@ else
 fi
 
 # concatenate VCF files
-bcftools concat -f "${VCF_list}" > "${CV_OUTPUTDIR}/Intermediates/${PROJECT}_concat.vcf"
+bcftools concat -f "${VCF_list}" > "${CV_OUTPUTDIR}/Intermediates/${PROJECT}_concat_Raw.vcf"
 
 # filter out indels
-vcftools --vcf "${CV_OUTPUTDIR}/Intermediates/${PROJECT}_concat.vcf" \
+vcftools --vcf "${CV_OUTPUTDIR}/Intermediates/${PROJECT}_concat_Raw.vcf" \
 --remove-indels \
 --recode \
 --recode-INFO-all \
