@@ -146,8 +146,28 @@ CV_QSUB="mem=50gb,nodes=1:ppn=8,walltime=124:00:00"
 #		if a directory, will be ordered by sort -V
 CV_INPUT=""
 
-#	Where do you want your final filtered VCF file to go? Include the full filepath
+#	Where do you want your filtered VCF files to go? Include the full filepath
 CV_OUTPUTDIR=""
+
+############################################
+#############   Filter_VCF    ##############
+############################################
+
+# Will use the "CV_OUTPUTDIR" as output directory
+
+FV_QSUB="mem=22gb,nodes=1:ppn=8,walltime=24:00:00"
+
+#	Input VCF file. Include the whole filepath
+#	If you used "Combine_VCFs" you can leave as default
+VCF_INPUT="${CV_OUTPUTDIR}/Intermediates/${PROJECT}_no_indels.recode.vcf"
+
+#	Filters:
+#	A ".0" must be added to all numbers or GATK will error
+# Maximum Fisher Strand Value (recommended:30)
+FSV=30.0
+
+# Minimum Quality by Depth Value (recommended: 2)
+QDV=2.0
 
 
 ############################################
