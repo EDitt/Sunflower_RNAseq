@@ -1,0 +1,398 @@
+#!/bin/bash
+
+#   Name this project
+PROJECT=
+
+#   What email should we use for job notifications?
+EMAIL=
+
+#	Is data paired-end? ("True" or "False")
+PE=True
+
+############################################
+##########  Reference Genome Info ##########
+############################################
+
+####The following variables are needed for: Genome indexing, and Reference Prep
+
+#	What file format is your genome annotation file? (GTF or GFF3)
+#	This variable will be used in the 'Genome Index' and 'Reference Prep' steps
+ANNOTATION_FORMAT="GFF3"
+
+#   Where is the Genome Annotation file (GFF3 or GTF)?
+#   Include the full filepath
+#	This variable will be used in the 'Genome Index' and 'Reference Prep' steps
+GEN_ANN=""
+
+#   Where is the Genome FASTA file?
+#	Include the full filepath
+#	This variable will be used in the 'Genome Index' and 'Reference Prep' steps
+GEN_FASTA=""
+
+############################################
+##########   Quality_Assessment   ##########
+############################################
+
+#   What are our QSub settings for Quality_Assessment?
+#       Below are the recommended settings
+QA_QSUB="mem=1gb,nodes=1:ppn=4,walltime=12:00:00"
+
+#   What is the file name suffix for files to be assessed?
+SUFFIX=".fastq.gz"
+
+#	Where is the directory containing your data to be assessed? 
+#	This can be a directory to multiple directories each containing a forward and reverse read which is the format of raw data from the GGBC
+#       Include the full file path, e.g. path/to/directory (with no trailing forward slash)
+QA_INPUTDIR=""
+
+#   Where do you want the FastQC results?
+#       Include the full file path, e.g. path/to/directory (with no trailing forward slash)
+QA_OUTPUTDIR=""
+
+#	A place for FASTQC to store temporary files
+QA_TEMP=""
+
+############################################
+##########    Adapter_Trimming    ##########
+############################################
+
+#   What are our QSub settings for Adapter_Trimming?
+#   Below are the recommended settings
+AT_QSUB="mem=10gb,nodes=1:ppn=4,walltime=450:00:00"
+
+#   What files to trim?
+#	This handler will accept either a list of forward samples OR
+#	a directory to raw data- this can be a directory to multiple directories,
+#	each containing a forward and reverse read (such as the format of raw data from the GGBC)
+
+#	Either a text file containing a list of samples to trim (if PE, only need to list the forward reads) including the full file path, 
+#	OR a directory of input files
+AT_INPUT=""
+
+#   Where do you want the Trimmed Samples to go?
+#       Include the full file path, e.g. path/to/directory (with no trailing forward slash)
+AT_OUTPUTDIR=""
+
+#	What is our adapter file? Include the full file path.
+ADAPTERFILE=""
+
+#   What shared suffix do the forward samples have?
+#       Example: _1_sequence.txt.gz
+FORWARD_NAMING=R1_001.fastq.gz
+
+#   What shared suffix do the reverse samples have?
+#       Example: _2_sequence.txt.gz
+#	(Only relevant for paired-end data)
+REVERSE_NAMING=R2_001.fastq.gz
+
+#	The maximum mismatch count allowed for the "seed" (small section of adapter),
+#	which causes the entire alignment between the read and adapter to be scored.
+SEEDMISMATCH=2
+
+#	The minimum alignment score threshold for clipping adapter sequence
+#	A palindroma approach is used to check for adapter 'read-through'
+#	This strategy is only used in PE data, but a value must still be supplied if SE data
+PALINDROMECLIP=30
+
+#	The minimum alignment score threshold for clipping adapter sequence
+SIMPLECLIP=10
+
+#	The minimum length of adapter sequence to be removed
+#	Only relevant for Paired-end data
+MINADAPTERLEN=1
+
+#	Whether to keep the reverse read if adapter read-through has been detected by palindrome mode
+#	the default behavior is to entirely drop the reverse read
+#	Only relevant for Paired-end data
+KEEPREADS=true
+
+#	Low quality bases are removed from the beginning of the sequence.
+#	What is the minimum quality value required to keep a base at the beginning?
+LEADCUT=3
+
+#	Low quality bases are removed from the end of the sequence.
+#	What is the minimum quality value required to keep a base at the end?
+TRAILCUT=3
+
+#	Reads below a specified minimum length are removed (dropped after other processing steps)
+#	What is the minimum length required of reads to be kept?
+MINLENGTH=20
+
+############################################
+##########    Genome_Index        ##########
+############################################
+
+#####IMPORTANT:
+# The variables: 
+# "ANNOTATION_FORMAT", "GEN_ANN" and "GEN_FASTA"
+# MUST also be supplied (above, under 'reference genome info')
+
+#   What are our QSub settings for Genome_Index? 
+#	note that STAR needs at least 30gb of memory to run
+#   Below are the recommended settings
+GI_QSUB="mem=50gb,nodes=1:ppn=4,walltime=450:00:00"
+
+#	Define the number of threads to be used. 
+#	This must be set to the number of available cores on the server node
+NTHREAD=4
+
+#   Where do you want the files for your genome index?
+#	This direcotry has to be created before program will run and needs writing permissions
+#	This directory path will also be used in the next read mapping step
+#	Include the full filepath
+GEN_DIR=""
+
+#   Specify the length of genomic sequence to be used in constructing the splice junctions database.
+#   This length should be equal to ReadLength-1, where ReadLength is the length of reads
+#	(ex. for 2x100bp paired-end reads, the ideal value is 99)
+SPLICE_JUN=74
+
+#	What tag name should be used as the exons' gene-parents (in GTF files this defaults to "gene_id")
+#	You only need to fill this out if: 1.) you are used a .gff3 file for annotations AND 
+#										2.) you want GeneCounts output from read mapping
+#	(The tag name used for transcript-parents for a .gff3 file is 'Parent')
+#	This variable will be ignored if annotation file is GTF format
+GENE_PARENT=""
+
+############################################
+########    Collect_Junctions        #######
+############################################
+
+### (Optional)
+### Run a first-pass mapping step with STAR to detect novel splice junctions
+### These novel splice junctions can be used to regenerate the genome index for better mapping sensitivity
+
+###### IMPORTANT: This step shares variables with Read-Mapping (below)
+
+#   Where do you want your output files to go? Include the full file path
+CJ_OUTPUTDIR=""
+
+############################################
+########    Filter_Junctions        ########
+############################################
+
+### Filter identified junctions for accuracy
+### Outputs a filtered list that can be added to Read Mapping to improve alignment
+
+#	What are our QSub settings for Filter_Junctions?
+#	Below are the recommended settings
+FJ_QSUB="mem=22gb,nodes=1:ppn=4,walltime=4:00:00"
+
+#	Where are the "SJ.out.tab" files? Include the full filepath
+#	This will also be where the concatenated filtered list is put
+JUNCTIONDIR=""
+
+#	Name of final list (will end in SJ.filtered.tab)
+SJ_LISTNAME=""
+
+## FILTERS:
+
+#  Remove junctions identified in scaffold sequences?
+### If yes, what string denotes non-chromosomal sequences, eg "Chr00"? (Otherwise, put NA)
+SCAFFOLD_STRING="NA"
+
+### Filter out non-canonical junctions? (yes or no)
+REMOVE_NC_JUNC="yes"
+
+### Minimum number of uniquely mapping reads needed to support junction (within or across samples)
+UNIQUE_NUM=2
+
+
+############################################
+##########    Read_Mapping        ##########
+############################################
+
+#####IMPORTANT:
+# Make sure that the "GEN_DIR" variable is supplied above (under Genome Index)
+# This directory will also be used for read mapping
+
+#	What are our QSub settings for Read_Mapping?
+#	Below are the recommended settings
+#	Note that STAR needs at least 30gb of memory to run
+RM_QSUB="mem=50gb,nodes=1:ppn=16,walltime=450:00:00"
+
+#   Where are the trimmed files? This handler will accept EITHER a text file list of forward samples to map (include the full file path for each sample) OR
+#	a directory of input files (include the full file path). This may be the same as your output directory defined in adapter trimming (AT_OUTPUTDIR)
+RM_INPUT=""
+
+#   What shared suffix do the forward samples have?
+#       Example: _R1_paired.fq.gz
+FORWARD="_R1_paired.fq.gz"
+
+#   What shared suffix do the reverse samples have? (leave blank if single-end)
+#       Example: _R2_paired.fq.gz
+REVERSE="_R2_paired.fq.gz"
+
+#   Where do you want your output files to go? Include the full file path
+RM_OUTPUTDIR=""
+
+#	Define the number of threads to be used. 
+#	This must be set to the number of available cores on the server node
+RM_NTHREAD=16
+
+#	What is the maximum number of mismatches allowed?
+#	Alignment will output only if it has no more mismatches than this value
+MAX_MIS=10
+
+#	What is the maximum number of loci the read is allowed to map to?
+#	All alignments will output only if the read maps to no more than this value
+#	If greater than this value, read counted as "mapped to too many loci"
+MAX_N=10
+
+#	Do you want unmapped or partially mapped reads to output in separate fasta/fastq files?
+#	If not, put "None", if yes, "Fastx"
+UNMAP_F=Fastx
+
+#	What is the minimum score needed for alignment?
+#	Normalized by read length- (sum of mates' lengths for paired-end reads)
+MINSCORE_READL=0.66
+
+#	What is the minimum number of matched bases needed for alignment?
+#	Normalized by read length- (sum of mates' lengths for paired-end reads)
+MINMATCH_READL=0.66
+
+#####	For adding read group (@RG) tags to mapped sequence:
+#	This information is useful for differentiating reads coming from different runs/lanes even after merging
+
+#	Name of Flowcell (or other name that differentiates a particular run, e.g. "Run1")
+FLOWCELL_NAME=""
+
+# sequencing platform used
+PLATFORM="ILLUMINA"
+
+### Variables not shared with Collect_Junctions handler:
+
+#	STAR outputs alignment in genome coordinates as well as transcript coordinates. The latter is used for
+#	RSEM (step 7). If you plan on using the genomic coordinate alignment files for SNP calling, you will need 
+#	sorted BAM files. If you want STAR to output genome alignments as sorted BAM files, put "yes" here. Note that this
+#	increases the time it takes for read mapping to run. If "no", the genome alignment file will be an unsorted SAM.
+GENOMIC_COORDINATE_BAMSORTED="no"
+
+#	The type of quantification requested
+#	Either "TranscriptomeSAM" -outputs SAM/BAM alignments to transcriptome in a separate file
+#	Or "GeneCounts" - read counts per gene
+#	Can also put "-" for none
+QUANT=TranscriptomeSAM
+
+#	2nd-pass read mapping will use junctions discovered in the first pass (Collect_Junctions)
+#	This variable can be one of two options:
+#		1.) The filtered junction list output from Collect_Junctions handler, OR
+#		2.) If you have more than one filtered junction list (if Collect_Junctions was run with multiple sample groups),
+#			this variable can be a text file listing the full file paths for each junction file you want included	
+#	If not using additional junctions, leave blank
+FILTERED_JUNC_LIST=""
+
+############################################
+##############    Merge_BAM   ##############
+############################################
+
+#	What are our QSub settings for Merge_BAM?
+#	Below are the recommended settings
+MB_QSUB="mem=10gb,nodes=1:ppn=4,walltime=50:00:00"
+
+#   What is the file name suffix for the files you are merging? 
+MB_SUFFIX="Aligned.toTranscriptome.out.bam"
+
+#   Where are the BAM files? Include the full file path
+#   Make sure that all input files are in the same directory
+MB_INPUTDIR=""
+
+#   Where do you want your merged bam files to go? Include the whole directory
+MB_OUTPUTDIR=""
+
+#   You will need a .txt file with a list of ID's for each sample (1 per line)
+#	What is this file called? (Include the full directory path)
+ID_NAMES=""
+
+
+############################################
+###########    Reference_Prep   ############
+############################################
+
+#####IMPORTANT:
+# The variables: 
+# "ANNOTATION_FORMAT", "GEN_ANN" and "GEN_FASTA"
+# MUST also be supplied (above, under 'reference genome info')
+
+#	What are our QSub settings for Preparing the Reference?
+#	Below are the recommended settings
+RP_QSUB="mem=50gb,nodes=1:ppn=4,walltime=450:00:00"
+
+#	Where do you want to put the RSEM reference files?
+#	Include the full filepath
+RSEM_ref=""
+
+#	What do you want to call the reference that RSEM prepares?
+#	RSEM will generate several reference-related files that are prefixed by this name
+REF_NAME=""
+
+############################################
+##########    Transcript_Quant   ###########
+############################################
+
+#####IMPORTANT:
+# The variables: 
+# "RSEM_ref", and "REF_NAME" MUST be supplied above
+
+#	What are our QSub settings for Preparing the Reference?
+#	Below are the recommended settings
+TQ_QSUB="mem=50gb,nodes=1:ppn=8,walltime=450:00:00"
+
+#	Define the number of threads to be used. 
+#	This must be set to the number of available cores on the server node
+TQ_NTHREAD=8
+
+#   Where are the merged BAM files? Include the full file path
+#   Make sure that all input files are in the same directory
+TQ_INPUTDIR=""
+
+#   Where do you want your results? Include the full file path
+TQ_OUTPUTDIR=""
+
+#   What is the strandedness of the RNA-Seq reads?
+# 	Either "none" for a non-strand-specific protocol, "forward" if all upstream reads are
+#	derived from the forward strand, or "reverse" if all upstream reads are derived from the 
+#	reverse strand. Use "reverse" for Illumina TruSeq Stranded protocols.
+STRANDEDNESS="reverse"
+
+#### Below are options to fill out ONLY if the data are single-end (these variables are ignored if paired-end)
+
+#	What is the mean of the fragment length distribution?
+FRAG_MEAN_LEN=""
+
+#	What is the standard deviation of the fragment length distribution?
+FRAG_MEAN_SD=""
+
+############################################
+##########      Dependencies      ##########
+############################################
+
+#   This section defines installations to
+#   various dependencies for Sunflower_RNAseq
+#   With module paths specific to the Georgia Advanced Computing Resource Center (GACRC)
+
+#   Do we have FastQC installed?
+module load FastQC/0.11.8-Java-1.8.0_144
+
+#   Do we have MultiQC installed?
+module load MultiQC/1.5-foss-2016b-Python-2.7.14
+
+#	Do we have Trimmomatic installed?
+module load Trimmomatic/0.36-Java-1.8.0_144 > /dev/null 2>&1
+
+#	Do we have STAR installed?
+module load STAR/2.7.1a-foss-2016b
+#	Where is the STAR executable file?
+STAR_FILE=/usr/local/apps/eb/STAR/2.7.1a-foss-2016b/bin/STAR
+
+#	Do we have RSEM installed?
+module load RSEM/1.3.1-foss-2016b
+
+#	Do we have Samtools installed?
+module load SAMtools/1.9-foss-2016b
+
+#module load picard/2.16.0-Java-1.8.0_144  
+
+#	Path to the Java Jar file
+#java -jar $EBROOTPICARD/picard.jar
+

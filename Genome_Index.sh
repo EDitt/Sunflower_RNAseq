@@ -1,15 +1,31 @@
-#PBS -S /bin/bash
-#PBS -q batch
-#PBS -N GenomeIndex
-#PBS -l nodes=1:ppn=4
-#PBS -l walltime=480:00:00
-#PBS -l mem=50gb
+#!/bin/bash
 
-#PBS -M dittmare@gmail.com
-#PBS -m abe
+set -o pipefail
 
-cd /scratch/eld72413/Salty_Nut
+# Define Exon Parent Gene and Transcript Tags
 
-module load STAR/2.6.1c-foss-2016b
-
-/usr/local/apps/eb/STAR/2.6.1c-foss-2016b/bin/STAR --runThreadN 4 --runMode genomeGenerate --genomeDir /scratch/eld72413/XRQ_GenomeDir/GenomeDirNew --genomeFastaFiles /scratch/eld72413/XRQ_GenomeDir/XRQ_June2018.fa --sjdbGTFtagExonParentTranscript Parent --sjdbGTFfile /scratch/eld72413/XRQ_GenomeDir/FixedXRQ_June2018.gff3 --sjdbOverhang 74
+if [ "$ANNOTATION_FORMAT" == "GFF3" ]; then
+	echo "Using GFF3 annotation to generate a genome index"
+	TRANSCRIPT_TAG="Parent"
+	if [[ ! -z "$GENE_PARENT" ]]; then
+		GENE_TAG="${GENE_PARENT}"
+	else
+		GENE_TAG="gene_id"
+	fi
+elif [ "$ANNOTATION_FORMAT" == "GTF" ]; then
+	echo "Using GTF annotation to generate a genome index"
+	TRANSCRIPT_TAG="transcript_id"
+	GENE_TAG="gene_id"
+else
+	echo "Please specify whether annotation file is in GTF or GFF3 format"
+fi
+	
+${STAR_FILE} \
+--runThreadN $NTHREAD \
+--runMode genomeGenerate \
+--genomeDir $GEN_DIR \
+--genomeFastaFiles $GEN_FASTA \
+--sjdbGTFtagExonParentTranscript $TRANSCRIPT_TAG \
+--sjdbGTFtagExonParentGene $GENE_TAG \
+--sjdbGTFfile $GEN_ANN \
+--sjdbOverhang $SPLICE_JUN
