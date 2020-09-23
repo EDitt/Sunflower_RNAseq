@@ -56,6 +56,7 @@ if [[ "$RM_PASS" == "first" ]]; then ###first pass mode
 	--genomeDir $GEN_DIR \
 	--readFilesIn $f1 $f2 \
 	--readFilesCommand gunzip -c \
+	--seedSearchStartLmax $SEEDSEARCH \
 	--outFileNamePrefix $CJ_OUTPUTDIR/"$name" \
 	--outFilterMismatchNmax $MAX_MIS \
 	--outFilterMultimapNmax $MAX_N \
@@ -76,6 +77,7 @@ elif [[ "$RM_PASS" == "second" ]]; then ###second pass mode
 		--genomeDir $GEN_DIR \
 		--readFilesIn $f1 $f2 \
 		--readFilesCommand gunzip -c \
+		--seedSearchStartLmax $SEEDSEARCH \
 		--outFileNamePrefix $RM_OUTPUTDIR/"$name" \
 		--outFilterMismatchNmax $MAX_MIS \
 		--outFilterMultimapNmax $MAX_N \
@@ -95,6 +97,7 @@ elif [[ "$RM_PASS" == "second" ]]; then ###second pass mode
 		--genomeDir $GEN_DIR \
 		--readFilesIn $f1 $f2 \
 		--readFilesCommand gunzip -c \
+		--seedSearchStartLmax $SEEDSEARCH \
 		--outFileNamePrefix $RM_OUTPUTDIR/"$name" \
 		--outFilterMismatchNmax $MAX_MIS \
 		--outFilterMultimapNmax $MAX_N \

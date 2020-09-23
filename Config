@@ -251,6 +251,10 @@ MINSCORE_READL=0.66
 #	Normalized by read length- (sum of mates' lengths for paired-end reads)
 MINMATCH_READL=0.66
 
+#	What is the maximum length of read to use for seed search start points?
+#	Reducing this parameter will increase the overall sensitivity of mapping.
+SEEDSEARCH=50
+
 #####	For adding read group (@RG) tags to mapped sequence:
 #	This information is useful for differentiating reads coming from different runs/lanes even after merging
 
