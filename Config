@@ -43,7 +43,8 @@ QA_QSUB="mem=1gb,nodes=1:ppn=4,walltime=12:00:00"
 
 #   QUEUE=Slurm: What are our sbatch settings?
 #       Below are the recommended settings
-QA_SBATCH="--nodes=1 --ntasks-per-node=4 --mem=1gb --tmp=1gb --time=06:00:00 --mail-type=ALL --mail-user=${EMAIL}"
+PARTITION="batch"
+QA_SBATCH="--nodes=1 --ntasks-per-node=4 --mem=1gb --time=06:00:00 --mail-type=BEGIN,END,FAIL --mail-user=${EMAIL} --partition=${PARTITION}"
 
 #   What is the file name suffix for files to be assessed?
 SUFFIX=".fastq.gz"
