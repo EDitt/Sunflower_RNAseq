@@ -31,7 +31,7 @@ case "${ROUTINE}" in
             echo "source ${CONFIG} && source ${SUNFLOWER_RNASEQ}/Quality_Assessment.sh" | qsub -l "${QA_QSUB}" -e "${ERROR}" -o "${ERROR}" -m abe -M "${EMAIL}" -N "${PROJECT}"_Quality_Assessment
             elif [[ "${QUEUE}" == "Slurm" ]]; then
                 echo "Slurm is our workload manager/job scheduler."
-                sbatch --job-name=${PROJECT}_Quality_Assessment ${QA_SBATCH} -o ${ERROR} -e ${ERROR} --export=QA_INPUTDIR='${QA_INPUTDIR}',SUFFIX='${SUFFIX}',QA_OUTPUTDIR='${QA_OUTPUTDIR}',QA_TEMP='${QA_TEMP}' ${SUNFLOWER_RNASEQ}/Quality_Assessment.sh
+                sbatch --job-name=${PROJECT}_Quality_Assessment ${QA_SBATCH} --output=${ERROR}/slurm-%j.out --export=QA_INPUTDIR=${QA_INPUTDIR},SUFFIX=${SUFFIX},QA_OUTPUTDIR=${QA_OUTPUTDIR},QA_TEMP=${QA_TEMP} ${SUNFLOWER_RNASEQ}/Quality_Assessment.sh
             else
                 echo "QUEUE variable in config must be set to PBS or Slurm. Please set to one of the two depending on the workload manager your cluster uses. Exiting..."
                 exit 1
