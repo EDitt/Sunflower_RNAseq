@@ -26,7 +26,16 @@ mkdir -p "${ERROR}"
 case "${ROUTINE}" in
     1 | Quality_Assessment)
         echo "$(basename $0): Assessing quality..." >&2
-        echo "source ${CONFIG} && source ${SUNFLOWER_RNASEQ}/Quality_Assessment.sh" | qsub -l "${QA_QSUB}" -e "${ERROR}" -o "${ERROR}" -m abe -M "${EMAIL}" -N "${PROJECT}"_Quality_Assessment
+        if [[ "$QUEUE" == "PBS" ]]; then
+            echo "PBS is our workload manager/job scheduler."
+            echo "source ${CONFIG} && source ${SUNFLOWER_RNASEQ}/Quality_Assessment.sh" | qsub -l "${QA_QSUB}" -e "${ERROR}" -o "${ERROR}" -m abe -M "${EMAIL}" -N "${PROJECT}"_Quality_Assessment
+            elif [[ "${QUEUE}" == "Slurm" ]]; then
+                echo "Slurm is our workload manager/job scheduler."
+                sbatch --job-name=${PROJECT}_Quality_Assessment ${QA_SBATCH} -o ${ERROR} -e ${ERROR} --export=QA_INPUTDIR='${QA_INPUTDIR}',SUFFIX='${SUFFIX}',QA_OUTPUTDIR='${QA_OUTPUTDIR}',QA_TEMP='${QA_TEMP}' ${SUNFLOWER_RNASEQ}/Quality_Assessment.sh
+            else
+                echo "QUEUE variable in config must be set to PBS or Slurm. Please set to one of the two depending on the workload manager your cluster uses. Exiting..."
+                exit 1
+        fi
         ;;
     2 | Adapter_Trimming)
         echo "$(basename $0): Trimming Adapters..." >&2
