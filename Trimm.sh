@@ -24,7 +24,7 @@ if [[ -f "$f1" ]]; then
 	echo "Trimming $name reads"
 	if [ "$PE" == "True" ]; then #if data are paired-end
 		f2=${f1%%$FORWARD_NAMING}"$REVERSE_NAMING"
-		java -jar $EBROOTTRIMMOMATIC/trimmomatic-0.36.jar PE \
+		java -jar $EBROOTTRIMMOMATIC/trimmomatic-0.39.jar PE \
 		-threads 4 \
 		-trimlog $AT_OUTPUTDIR/TrimLog_${name} \
 		$f1 $f2 \
@@ -33,7 +33,7 @@ if [[ -f "$f1" ]]; then
 		ILLUMINACLIP:$ADAPTERFILE:$SEEDMISMATCH:$PALINDROMECLIP:$SIMPLECLIP:$MINADAPTERLEN:$KEEPREADS \
 		LEADING:$LEADCUT TRAILING:$TRAILCUT MINLEN:$MINLENGTH
 	else #if data are single-end
-		java -jar $EBROOTTRIMMOMATIC/trimmomatic-0.36.jar SE \
+		java -jar $EBROOTTRIMMOMATIC/trimmomatic-0.39.jar SE \
 		-threads 4 \
 		-trimlog $AT_OUTPUTDIR/TrimLog_${name} \
 		$f1 \
