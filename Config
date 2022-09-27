@@ -43,8 +43,8 @@ QA_QSUB="mem=1gb,nodes=1:ppn=4,walltime=12:00:00"
 
 #   QUEUE=Slurm: What are our sbatch settings?
 #       Below are the recommended settings
-PARTITION="batch"
-QA_SBATCH="--nodes=1 --ntasks-per-node=4 --mem=1gb --time=06:00:00 --mail-type=BEGIN,END,FAIL --mail-user=${EMAIL} --partition=${PARTITION}"
+QA_PARTITION="batch"
+QA_SBATCH="--nodes=1 --ntasks-per-node=4 --mem=1gb --time=06:00:00 --mail-type=BEGIN,END,FAIL --mail-user=${EMAIL} --partition=${QA_PARTITION}"
 
 #   What is the file name suffix for files to be assessed?
 SUFFIX=".fastq.gz"
@@ -65,9 +65,14 @@ QA_TEMP=""
 ##########    Adapter_Trimming    ##########
 ############################################
 
-#   What are our QSub settings for Adapter_Trimming?
+#   QUEUE=PBS: What are our QSub settings for Adapter_Trimming?
 #   Below are the recommended settings
-AT_QSUB="mem=10gb,nodes=1:ppn=4,walltime=450:00:00"
+AT_QSUB="mem=10gb,nodes=1:ppn=4,walltime=12:00:00"
+
+#   QUEUE=Slurm: What are our sbatch settings?
+#       Below are the recommended settings
+AT_PARTITION="batch"
+AT_SBATCH="--nodes=1 --ntasks-per-node=4 --mem=10gb --time=12:00:00 --mail-type=BEGIN,END,FAIL --mail-user=${EMAIL} --partition=${AT_PARTITION}"
 
 #   What files to trim?
 #	This handler will accept either a list of forward samples OR
@@ -376,8 +381,12 @@ FRAG_MEAN_LEN=""
 #	What is the standard deviation of the fragment length distribution?
 FRAG_MEAN_SD=""
 
+
+#### CURRENTLY DEPRECATED: 
+#### (MODULES SPECIFIC TO HANDLERS NOW SPECIFIED IN SCRIPT FILE)
+
 ############################################
-##########      Dependencies      ##########		#### CURRENTLY DEPRECATED
+##########      Dependencies      ##########
 ############################################
 
 #   This section defines installations to

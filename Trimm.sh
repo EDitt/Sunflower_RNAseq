@@ -2,6 +2,16 @@
 
 set -o pipefail
 
+module load Trimmomatic/0.39-Java-1.8.0_144 > /dev/null 2>&1
+
+# arrayID (minimum for slurm is zero)
+if [[ "${QUEUE}" == "Slurm" ]]; then
+	PBS_ARRAYID=$((SLURM_ARRAY_TASK_ID+1))
+	echo "Processing array ${SLURM_ARRAY_TASK_ID} corresponding to line/file # ${PBS_ARRAYID}"
+else
+	echo "Processing array ${PBS_ARRAYID} through PBS queuing system"
+fi
+
 if [[ -d "$AT_INPUT" ]]; then #if input is a DIRECTORY
 	f1=$(find $AT_INPUT -name "*$FORWARD_NAMING" | sed -n ${PBS_ARRAYID}p) #find the forward reads
 elif [[ -f "$AT_INPUT" ]]; then #if input is a FILE
